@@ -88,11 +88,11 @@ export default function ModalForAddRewards({handleShowModal}){
                 <FormControl w="80%">
                     <Stack mb="5">
                         <FormControl.Label>Title</FormControl.Label>
-                        <Input p={2} placeholder="Title" p="6" borderRadius="10"/>
+                        <Input p={2} placeholder="Title"  borderRadius="10"/>
                     </Stack>
                     <Stack mb="5">
                         <FormControl.Label>URL/Link</FormControl.Label>
-                        <Input p={2} placeholder="URL/Link" p="6" borderRadius="10"/>
+                        <Input p={2} placeholder="URL/Link"  borderRadius="10"/>
                     </Stack>
 
                     <VStack mb="5">
@@ -123,7 +123,7 @@ export default function ModalForAddRewards({handleShowModal}){
 
                     <Stack mb="5">
                         <FormControl.Label>Notes</FormControl.Label>
-                        <TextArea p={2} placeholder="Instruction, Guide, Help..." p="6" borderRadius="10" height="150"/>
+                        <TextArea p={2} placeholder="Instruction, Guide, Help..." borderRadius="10" height="150"/>
                     </Stack>
                     
                     <VStack space="6" mb="70">                    
