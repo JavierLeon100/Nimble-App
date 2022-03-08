@@ -32,7 +32,7 @@ export default function ModalDetailForActivity({handleShowModal}){
         } else {
             Gyroscope.removeAllListeners()
         }
-        Gyroscope.setUpdateInterval(Platform.OS === "ios" ? 2000 : 16)
+        Gyroscope.setUpdateInterval(2000)
         setStartGyro(prev=>!prev)
         
         
