@@ -2,7 +2,7 @@ import PlusButton from "../buttons/PlusButton";
 import AllOrSuggested from "../layout/AllOrSuggested";
 import Date from "../layout/Date";
 import EachTask from "../listItems/tasks/EachTasks";
-import {Modal} from "react-native"
+import {Modal, Platform} from "react-native"
 import ModalDetailForActivity from "../modal/modalDetailForActivity";
 import { useState } from "react";
 import { Button, FlatList } from "native-base";
@@ -59,6 +59,12 @@ export default function Index({navigation}){
             navigation.navigate('ChildsView');
         }}
         >Child's View</Button>
+
+
+        {Platform.OS === "android" ? 
+        <Button onPress={()=>{setShowModal(true);}}>test modal view</Button> :
+        null}
+       
         </>
     )
 }

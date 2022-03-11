@@ -1,11 +1,21 @@
 import { Center, FormControl, Heading, HStack, Text, VStack, Input, Stack, Slider, Box, TextArea, ScrollView, Switch, Checkbox, Button } from "native-base";
 import { AntDesign } from '@expo/vector-icons'; 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { colors } from "../utilis/colors";
+import { Gyroscope } from 'expo-sensors';
+import { Platform } from "react-native";
 
 
 export default function ModalDetailForActivity({handleShowModal}){
     const [sliderValue, setSliderValue] = useState(0)
+    const [gyroValue, setGyroValue] = useState({
+        x : 0,
+        y : 0,
+        z : 0,
+    })
+    const {x, y, z} = gyroValue
+    const [startGyro, setStartGyro] = useState(false)
+    const [sub, setSub] = useState(null)
 
     const sliderOnChange = (v)=>{
             setSliderValue(Math.floor(v))
@@ -13,6 +23,25 @@ export default function ModalDetailForActivity({handleShowModal}){
 
     const sliderOnChangeEnd = (v)=>{
         setSliderValue(Math.floor(v))
+    }
+
+    const handleGyro = async ()=>{
+        await Gyroscope.isAvailableAsync()
+        if(!startGyro){
+            Gyroscope.addListener(data=>setGyroValue(data))
+        } else {
+            Gyroscope.removeAllListeners()
+        }
+        Gyroscope.setUpdateInterval(2000)
+        setStartGyro(prev=>!prev)
+        
+        
+    }
+
+
+    const roundNum = (num)=>{
+        
+        return Math.round(num * 100) / 100
     }
 
     return (
@@ -90,7 +119,8 @@ export default function ModalDetailForActivity({handleShowModal}){
                     <VStack mb="5">
                         <HStack justifyContent="space-between" alignContent="center" mb="4">
                         <Text>Focus Mode</Text>
-                        <Checkbox size="lg" />
+                        <Switch size="lg" onToggle={handleGyro} isChecked={startGyro} />
+                        <Text>{`${roundNum(x)}, ${roundNum(y)}, ${roundNum(z)}`}</Text>
                         </HStack>
 
                         <HStack justifyContent="space-between" alignContent="center" mb="4">
