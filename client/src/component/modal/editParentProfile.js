@@ -5,6 +5,7 @@ import { FontAwesome5 } from '@expo/vector-icons';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { AntDesign } from '@expo/vector-icons';
 import { FlatGrid } from "react-native-super-grid";
+import { useEffect } from "react";
 
 
 
@@ -32,6 +33,8 @@ export default function editParentProfile({showModal, changeMode}){
             Button : editButton
         }
     ]
+
+    
 
     const header = ()=>(
     <>
