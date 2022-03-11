@@ -1,9 +1,11 @@
+import "dotenv/config.js";
 import express from "express";
 import { ApolloServer } from "apollo-server-express";
 import { ApolloServerPluginDrainHttpServer } from "apollo-server-core";
 import http from "http";
-
-import { typeDefs, resolvers } from "./src/schema";
+import resolvers from "./src/resolvers";
+import typeDefs from "./src/typeDefs";
+import mongoose from "mongoose";
 
 const startApolloServer = async (typeDefs, resolvers) => {
     const app = express();
@@ -19,6 +21,10 @@ const startApolloServer = async (typeDefs, resolvers) => {
     await server.start();
 
     server.applyMiddleware({ app });
+
+    //Connect to Database
+    await mongoose.connect(process.env.DB_CONNECTION);
+    console.log("Mongoose connected");
 
     await new Promise((resolve) => httpServer.listen({ port: 4000 }, resolve));
     console.log(
