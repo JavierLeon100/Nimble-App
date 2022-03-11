@@ -17,7 +17,7 @@ import { colors } from "../utilis/colors";
 const exampleArray = [
     {
         id : 1, 
-        task  : "Weeping"
+        task  : "Sweeping"
     }, 
     {
         id : 2,
