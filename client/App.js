@@ -4,6 +4,7 @@ import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import {NativeBaseProvider} from "native-base";
 import  Index from './index'
 import ChildsView from "./ChildsView";
+import LoginScreen from "./src/component/screens/LoginScreen";
 
 const Stack = createNativeStackNavigator();
 
@@ -13,6 +14,7 @@ export default function App (){
           <NavigationContainer>  
 
           <Stack.Navigator>
+            <Stack.Screen name="Login" component={LoginScreen} />
 
             <Stack.Screen name="ParentsView" component={Index} />
 
