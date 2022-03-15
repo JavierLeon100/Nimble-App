@@ -3,21 +3,31 @@ import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { NativeBaseProvider } from "native-base";
 import Index from "./index";
 import ChildsView from "./ChildsView";
+import { ApolloClient, ApolloProvider, InMemoryCache } from "@apollo/client";
 
+const client = new ApolloClient({
+    uri: "http://localhost:4000/graphql",
+    cache: new InMemoryCache(),
+});
 const Stack = createNativeStackNavigator();
 
 export default function App() {
     return (
-        <NativeBaseProvider>
-            <NavigationContainer>
-                <Stack.Navigator>
-                    <Stack.Screen name="ParentsView" component={Index} />
+        <ApolloProvider client={client}>
+            <NativeBaseProvider>
+                <NavigationContainer>
+                    <Stack.Navigator>
+                        <Stack.Screen name="ParentsView" component={Index} />
 
-                    {/* <Index /> */}
+                        {/* <Index /> */}
 
-                    <Stack.Screen name="ChildsView" component={ChildsView} />
-                </Stack.Navigator>
-            </NavigationContainer>
-        </NativeBaseProvider>
+                        <Stack.Screen
+                            name="ChildsView"
+                            component={ChildsView}
+                        />
+                    </Stack.Navigator>
+                </NavigationContainer>
+            </NativeBaseProvider>
+        </ApolloProvider>
     );
 }
