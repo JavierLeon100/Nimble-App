@@ -12,20 +12,17 @@ const client = new ApolloClient({
 const Stack = createNativeStackNavigator();
 
 export default function App() {
+    const [isParent, setIsParent] = useState(true);
     return (
         <ApolloProvider client={client}>
             <NativeBaseProvider>
                 <NavigationContainer>
-                    <Stack.Navigator>
-                        <Stack.Screen name="ParentsView" component={Index} />
-
-                        {/* <Index /> */}
-
-                        <Stack.Screen
-                            name="ChildsView"
-                            component={ChildsView}
-                        />
-                    </Stack.Navigator>
+                    {/* <Stack.Navigator> */}
+                    {/* <Stack.Screen name="ParentsView" component={Index} /> */}
+                    {isParent ? <Index /> : <ChildsView />}
+                    {/* <Stack.Screen  name ="ChildsView" 
+              component={ChildsView} /> */}
+                    {/* </Stack.Navigator>  */}
                 </NavigationContainer>
             </NativeBaseProvider>
         </ApolloProvider>
