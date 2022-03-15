@@ -1,9 +1,22 @@
 import {React, useState, useEffect} from 'react'
 import { KeyboardAvoidingView, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native'
-import { auth } from '../../../firebase';
+// import { auth } from '../../../firebase';
 import {useNavigation} from '@react-navigation/core'
+import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword } from 'firebase/auth';
+import {initializeApp} from "firebase/app"
+// import {app, auth} from '../../../firebase'
 
 
+const firebaseConfig = {
+  apiKey: "AIzaSyBI7Lal6j6hkoOXMDRISpXlV1bAuqj3AzU",
+  authDomain: "nimble-auth-87b5f.firebaseapp.com",
+  projectId: "nimble-auth-87b5f",
+  storageBucket: "nimble-auth-87b5f.appspot.com",
+  messagingSenderId: "910642886814",
+  appId: "1:910642886814:web:0bc627705af2154416e38f"
+};
+
+initializeApp(firebaseConfig)
 const LoginScreen = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -11,6 +24,7 @@ const LoginScreen = () => {
   const navigation = useNavigation();
 
   useEffect(()=>{
+  const auth = getAuth()
   const unsubscribe = auth.onAuthStateChanged(user => {
       if (user) {
         navigation.navigate('Index')
@@ -22,8 +36,8 @@ const LoginScreen = () => {
 
 
   const handleSignUp = () => {
-    auth
-    .createUserWithEmailAndPassword(email, password)
+    const auth = getAuth()
+    createUserWithEmailAndPassword(auth, email, password)
     .then(userCredentials => {
       const user = userCredentials.user; 
       console.log('Registered with: ', user.email);
@@ -32,17 +46,14 @@ const LoginScreen = () => {
   }
 
   const handleLogin = () => {
-    auth. 
-    signInWithEmailAndPassword(email, password)
+    const auth = getAuth()
+    signInWithEmailAndPassword(auth, email, password)
     .then(userCredentials => {
       const user = userCredentials.user; 
       console.log('Logged in with: ', user.email);
     })
     .catch(error => alert(error.message))
   }
-
-  
-
 
   return (
 
