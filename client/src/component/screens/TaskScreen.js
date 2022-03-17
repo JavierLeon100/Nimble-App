@@ -2,7 +2,7 @@ import PlusButton from "../buttons/PlusButton";
 import AllOrSuggested from "../layout/AllOrSuggested";
 import Date from "../layout/Date";
 import EachTask from "../listItems/tasks/EachTasks";
-import {Modal, Platform} from "react-native"
+import {Modal, Platform, Pressable} from "react-native"
 import ModalDetailForActivity from "../modal/modalDetailForActivity";
 import { useState } from "react";
 import { Button, FlatList } from "native-base";
@@ -46,19 +46,19 @@ export default function Index({navigation}){
         <FlatList data={exampleArray} renderItem={({item})=><EachTask task={item.task} i={item.id} handleShowModal={handleShowModal} />}>
 
         </FlatList>
-        <PlusButton />
+        <PlusButton handleShowModal={handleShowModal}/>
 
         <Modal visible={showModal} presentationStyle="formSheet" animationType="slide">
-                    <ModalDetailForActivity handleShowModal={handleShowModal}/>
+            <ModalDetailForActivity handleShowModal={handleShowModal}/>
         </Modal>
 
-        <Button 
+        {/* <Button 
         title="Go to Child's View"
         onPress={()=>{
             // alert("Show Child's View!!");
             navigation.navigate('ChildsView');
         }}
-        >Child's View</Button>
+        >Child's View</Button> */}
 
 
         {Platform.OS === "android" ? 

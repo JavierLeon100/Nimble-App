@@ -1,6 +1,9 @@
 import {IconButton, AddIcon, Box} from "native-base"
 import { colors } from "../utilis/colors"
-export default function PlusButton(){
+
+
+
+export default function PlusButton({handleShowModal}){
 
     return(
         <IconButton bg={colors.gray} 
@@ -9,6 +12,7 @@ export default function PlusButton(){
         borderRadius="full"
         bottom="9"
         right="6"
+        onPress={()=>handleShowModal(true)}
         />
     )
 }
