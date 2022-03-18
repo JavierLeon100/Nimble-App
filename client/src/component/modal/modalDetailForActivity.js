@@ -9,7 +9,7 @@ import { roundNum, handleGyro } from "../utilis/gyrocope/setGyroscope";
 import { Pressable } from "react-native";
 
 
-export default function ModalDetailForActivity({handleShowModal}){
+export default function ModalDetailForActivity({handleShowModal, setTasks, editTask,  taskToEdit}){
 
     const [image, setImage] = useState();
     const [video, setVideo] = useState()
@@ -27,21 +27,32 @@ export default function ModalDetailForActivity({handleShowModal}){
     const [childArray, setChildArray] = useState([])
     const childRef = useRef(null)
 
-    const [newTask, setNewTask] = useState()
+    const {title} = taskToEdit || ""
 
     const { handleSubmit, watch, formState: { errors }, control } = useForm({
         defaultValues : {
             title : ""
         }
     });
+
+    const generateTaskID = (myStrong)=>{
+        let strong = 1000;
+        if (myStrong) strong = myStrong;
+        return new Date().getTime().toString(16)  + Math.floor(strong*Math.random()).toString(16)
+       }
+
+
     const onSubmit = data => {
         data.rewardPoints = sliderValue
         data.timer = timer
         data.urgent = urgent
         data.focus = focus
         data.child = childArray
-        setNewTask(data)
-        console.log(newTask)
+        data.taskID = generateTaskID()
+        setTasks((prev)=>[
+            ...prev,
+            data
+        ])
         handleShowModal(false)
     }
 
@@ -67,7 +78,7 @@ export default function ModalDetailForActivity({handleShowModal}){
             <VStack w="100%">
             <HStack alignItems="center" justifyContent="space-around" mt="60" mb="30">
                 <Text onPress={()=>handleShowModal(false)}>Cancel</Text>
-                <Heading>New Task</Heading>
+                <Heading>{editTask ? "Task Detail" : "New Task"}</Heading>
                 <Pressable>
                     <Text onPress={handleSubmit(onSubmit)}>Save</Text>
                 </Pressable>
@@ -80,7 +91,7 @@ export default function ModalDetailForActivity({handleShowModal}){
                         <Controller 
                         control={control}
                         render={({ field: { onChange, onBlur, value } })=>(
-                            <Input p={2} placeholder="Title" borderRadius="10" 
+                            <Input p={2} placeholder={editTask ? title : "Title"} borderRadius="10" 
                             onChangeText={onChange} value={value}/>
                         )}
                         name = "title"

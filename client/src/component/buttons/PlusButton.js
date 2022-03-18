@@ -3,7 +3,7 @@ import { colors } from "../utilis/colors"
 
 
 
-export default function PlusButton({handleShowModal}){
+export default function PlusButton({handleShowModal, setEditTask}){
 
     return(
         <IconButton bg={colors.gray} 
@@ -12,7 +12,7 @@ export default function PlusButton({handleShowModal}){
         borderRadius="full"
         bottom="9"
         right="6"
-        onPress={()=>handleShowModal(true)}
+        onPress={()=>{setEditTask(false) ,handleShowModal(true)}}
         />
     )
 }
