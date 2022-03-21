@@ -2,15 +2,16 @@ import PlusButton from "../buttons/PlusButton";
 import AllOrSuggested from "../layout/AllOrSuggested";
 import Date from "../layout/Date";
 import EachTask from "../listItems/tasks/EachTasks";
-import {Modal, Platform, Pressable} from "react-native"
+import { Platform, Animated, Dimensions, Modal} from "react-native"
 import ModalDetailForActivity from "../modal/modalDetailForActivity";
-import { useEffect, useState, useRef } from "react";
-import { Button, FlatList, HStack , Text, Center} from "native-base";
+import { useEffect, useState, useRef, createContext } from "react";
+import { Button, FlatList, HStack , Text, Center, Box, Pressable, Modal as ModalN } from "native-base";
 import ChildsProfileScreen from "./ChildsProfileScreeen";
 import { SwipeListView } from 'react-native-swipe-list-view';
 import { colors } from "../utilis/colors";
 import * as Notifications from 'expo-notifications';
 import Constants from "expo-constants";
+import DeleteModal from "../modal/deleteModal";
 
 
 Notifications.setNotificationHandler({
@@ -21,11 +22,16 @@ Notifications.setNotificationHandler({
     }),
   });
 
+export const TaskToEditContext = createContext()
+
 export default function Index({navigation}){
     const [showModal, setShowModal] = useState(false)
+    const [showDeleteModal, setShowDeleteModal] = useState(false)
     const [tasks, setTasks] = useState([])
     const [editTask, setEditTask] = useState(false)
-    const [selectedTaskID, setSelectedTaskID] = useState()
+    const [selectedTask, setSelectedTask] = useState([])
+    const [idToEdit, setIDToEdit] = useState()
+    // const valueForIdContext = editTask
     const handleShowModal = (boo)=>{
         boo ? setShowModal(true) : setShowModal(false)
     }
@@ -36,15 +42,75 @@ export default function Index({navigation}){
     // }
 
     const [childsView, setChildsView] = useState(false);
-    const openButton = <HStack justifyContent="flex-end"
-                        bg={colors.black} py="9" px="5" borderRadius="16">
-                        <Text color="white" >Open</Text>
+    const openButton = 
+                        <Pressable onPress={()=>setShowDeleteModal(true)}>
+                        <HStack
+                        bg="primary.blue" py="9" px="4" borderRadius="16" justifyContent="space-between">
+                        <Text color="white">Delete</Text>
+                        <Text color="white" ml="100">Open</Text>
                         </HStack>
+                        </Pressable>
 
-    const taskToEdit = ()=> tasks.filter(task=> task.taskID == selectedTaskID)
+    const contextValue = {
+      selectedTask,
+      setSelectedTask
+    }
 
-    //notification
-    const [expoPushToken, setExpoPushToken] = useState("");
+    const onSwipeValueChange =(swipeData=>{
+      // console.log(swipeData)
+      // setSelectedTaskID(swipeData.key)
+      const {key} = swipeData
+      if(swipeData.direction = "left"){
+        const taskToEdit =tasks.filter(task=> task.key == key)[0]
+        setSelectedTask(taskToEdit)
+      } 
+      // console.log(taskToEdit)
+    })
+
+    const updateTask = (id, taskToUpdate)=>{
+      const index = tasks.findIndex(task=>task.key == id)
+      const newTasks = [...tasks]
+      newTasks[index] = taskToUpdate
+      console.log("new task", newTasks)
+        setTasks(newTasks)
+    }
+
+    const deleteTask = (id)=>{
+        const filtered = tasks.filter(task=> task.key != id)
+        setTasks(filtered)
+        setShowDeleteModal(false)
+    }
+
+
+    //swipe to delete animation
+  //   const animationIsRunning = useRef(false)
+  //   const rowTranslateAnimatedValues = {};
+  //   tasks?.forEach((task, i)=>{
+  //     rowTranslateAnimatedValues[`${i}`] = new Animated.Value(1);
+  //   })
+  //   const onSwipeValueChangeDelete = ({key, value}) =>{
+  //     if (
+  //       value < -Dimensions.get('window').width &&
+  //       !animationIsRunning.current
+  //     ){
+  //     animationIsRunning.current = true;
+  //     Animated.timing(rowTranslateAnimatedValues[key], {
+  //         toValue: 0,
+  //         duration: 200,
+  //         useNativeDriver: false,
+  //     }).start(() => {
+  //         const newData = [...tasks];
+  //         const prevIndex = tasks.findIndex(item => item.key === key);
+  //         newData.splice(prevIndex, 1);
+  //         setTasks(newData);
+  //         animationIsRunning.current = false;
+  //     });
+  // }
+  //   }
+    
+
+//notification
+const [expoPushToken, setExpoPushToken] = useState("");
     const [notification, setNotification] = useState(false);
     const notificationListener = useRef();
     const responseListener = useRef();
@@ -57,13 +123,13 @@ export default function Index({navigation}){
         // This listener is fired whenever a notification is received while the app is foregrounded
         notificationListener.current =
             Notifications.addNotificationReceivedListener((notification) => {
-            setNotification(notification);
+              setNotification(notification);
             });
     
-        // This listener is fired whenever a user taps on or interacts with a notification (works when app is foregrounded, backgrounded, or killed)
+            // This listener is fired whenever a user taps on or interacts with a notification (works when app is foregrounded, backgrounded, or killed)
         responseListener.current =
             Notifications.addNotificationResponseReceivedListener((response) => {
-            console.log(response);
+              console.log(response);
             });
     
         return () => {
@@ -74,32 +140,52 @@ export default function Index({navigation}){
         };
     },[])
 
+  
+    
 
     return(
         <>
+        <TaskToEditContext.Provider value={contextValue}>
         <AllOrSuggested />
         <Date />
         <Center>
             <SwipeListView 
                 data={tasks} 
                 renderItem={(data, rowMap)=>
-                <Pressable>
-                    <EachTask data={data.item} handleShowModal={handleShowModal} />
-                </Pressable>}
+                  // <Animated.View style={{
+                  //   height: rowTranslateAnimatedValues[data.item.key].interpolate({
+                  //     inputRange: [0, 1],
+                  //     outputRange: [0, 50],
+                  // }),
+                  // }}>
+                    <EachTask data={data.item} handleShowModal={handleShowModal} row={rowMap}/>
+                  // </Animated.View>
+                }
                 renderHiddenItem ={(data, rowMap)=>
                     openButton
                     }
-                rightOpenValue={-75}
-                onRowDidOpen={(data)=>{setEditTask(true),setShowModal(true), console.log(data)}}
+                rightOpenValue={-Dimensions.get('window').width}
+                leftOpenValue={75}
+                rightActivationValue={100}
+                leftActionValue={100}
+                onRightAction={()=>{setEditTask(true),setShowModal(true)}}
+                // onLeftAction={()=>setShowModal(true)}
+                onSwipeValueChange={onSwipeValueChange}
             />
         </Center>
         <PlusButton handleShowModal={handleShowModal} setEditTask={setEditTask}/>
-
+        
+        {/*modal for new and edit task */}
         <Modal visible={showModal} presentationStyle="formSheet" animationType="slide">
-            <ModalDetailForActivity handleShowModal={handleShowModal} setTasks={setTasks} editTask={editTask} taskToEdit={taskToEdit[0]}/>
+            <ModalDetailForActivity handleShowModal={handleShowModal} setTasks={setTasks} editTask={editTask} updateTask={updateTask}/>
         </Modal>
-
-        <Button 
+        </TaskToEditContext.Provider>
+        
+        {/*modal for deleting task */}
+        <ModalN isOpen={showDeleteModal} size="lg" >
+            <DeleteModal setShowDeleteModal={setShowDeleteModal} deleteTask={()=>deleteTask(selectedTask.key)}/>
+        </ModalN>
+        {/* <Button 
         title="test notifications"
         position="absolute"
         onPress={async () => {
@@ -110,12 +196,7 @@ export default function Index({navigation}){
             alert(error);
           }
         }}
-        >test notification</Button>
-
-
-        {Platform.OS === "android" ? 
-        <Button onPress={()=>{setShowModal(true);}}>test modal view</Button> :
-        null}
+        >test notification</Button> */}
        
         </>
     )

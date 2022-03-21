@@ -1,15 +1,14 @@
 import { Center, FormControl, Heading, HStack, Text, VStack, Input, Stack, Slider, Box, TextArea, ScrollView, Switch, Checkbox, Button, Image, InputGroup } from "native-base";
 import { AntDesign } from '@expo/vector-icons'; 
-import { useRef, useState } from "react";
+import { useRef, useState, useContext, useEffect } from "react";
 import { colors } from "../utilis/colors";
-import { Gyroscope } from 'expo-sensors';
 import { useForm, Controller } from "react-hook-form";
 import { pickImage, takePhoto } from "../utilis/camera/pickAndTakePic";
-import { roundNum, handleGyro } from "../utilis/gyrocope/setGyroscope";
 import { Pressable } from "react-native";
+import {TaskToEditContext } from "../screens/TaskScreen";
 
 
-export default function ModalDetailForActivity({handleShowModal, setTasks, editTask,  taskToEdit}){
+export default function ModalDetailForActivity({handleShowModal, setTasks, editTask,  updateTask}){
 
     const [image, setImage] = useState();
     const [video, setVideo] = useState()
@@ -27,13 +26,36 @@ export default function ModalDetailForActivity({handleShowModal, setTasks, editT
     const [childArray, setChildArray] = useState([])
     const childRef = useRef(null)
 
-    const {title} = taskToEdit || ""
+    useEffect(()=>{
+        if(editTask){
+            setChildArray(child)
+            setSliderValue(rewardPoints)
+            setTimer(TimerToEdit)
+            setUrgent(urgentToEdit)
+            setFocus(focusToEdit)
+        }
+    },[])
 
     const { handleSubmit, watch, formState: { errors }, control } = useForm({
         defaultValues : {
             title : ""
         }
     });
+
+    const {selectedTask, setSelectedTask} = useContext(TaskToEditContext)
+    // const selectedTask = selectedTaskArry[0]
+    const {
+        title, 
+        child, 
+        date, 
+        rewardPoints, 
+        notes,
+        timer : TimerToEdit, 
+        urgent : urgentToEdit,
+        focus : focusToEdit} = selectedTask|| ""
+
+
+    const setPlaceholderForEdit = (editPlaceholder, defaultPlaceholder)=>editTask ? editPlaceholder : defaultPlaceholder
 
     const generateTaskID = (myStrong)=>{
         let strong = 1000;
@@ -48,11 +70,21 @@ export default function ModalDetailForActivity({handleShowModal, setTasks, editT
         data.urgent = urgent
         data.focus = focus
         data.child = childArray
-        data.taskID = generateTaskID()
-        setTasks((prev)=>[
-            ...prev,
-            data
-        ])
+        
+        if(editTask){
+            data.key = selectedTask.key
+            // setSelectedTask(data)
+            updateTask(selectedTask.key, data)
+            console.log("edittask")
+            console.log("form", data)
+        } else {
+            data.key = generateTaskID()
+            console.log(date)
+            setTasks((prev)=>[
+                ...prev,
+                data
+            ])          
+        }
         handleShowModal(false)
     }
 
@@ -91,7 +123,7 @@ export default function ModalDetailForActivity({handleShowModal, setTasks, editT
                         <Controller 
                         control={control}
                         render={({ field: { onChange, onBlur, value } })=>(
-                            <Input p={2} placeholder={editTask ? title : "Title"} borderRadius="10" 
+                            <Input p={2} placeholder={setPlaceholderForEdit(title, "Title")} borderRadius="10" 
                             onChangeText={onChange} value={value}/>
                         )}
                         name = "title"
@@ -112,7 +144,7 @@ export default function ModalDetailForActivity({handleShowModal, setTasks, editT
                         <Controller 
                         control={control}
                         render={({ field: { onChange, onBlur, value } })=>(
-                            <Input p={2} placeholder="Data/time"  borderRadius="10" 
+                            <Input p={2} placeholder={setPlaceholderForEdit(date, "Date/time")}  borderRadius="10" 
                             onChangeText={onChange} value={value}/>
                         )}
                         name = "date"
@@ -122,7 +154,7 @@ export default function ModalDetailForActivity({handleShowModal, setTasks, editT
                     <VStack mb="5">
                         <Text>Assigned Points</Text>
                         <Box bg={colors.gray}  mt="3"  borderRadius="10" p="5">
-                            <Slider size="lg" defaultValue={0} onChange={sliderOnChange} onChangeEnd={sliderOnChangeEnd} maxValue={100} >
+                            <Slider size="lg" defaultValue={setPlaceholderForEdit(sliderValue, 0)} onChange={sliderOnChange} onChangeEnd={sliderOnChangeEnd} maxValue={100} >
                             <Slider.Track>
                                 <Slider.FilledTrack />
                             </Slider.Track>
@@ -147,7 +179,7 @@ export default function ModalDetailForActivity({handleShowModal, setTasks, editT
                         <Controller 
                         control={control}
                         render={({ field: { onChange, onBlur, value } })=>(
-                            <TextArea p={2} placeholder="Data/time" borderRadius="10" height="150" onChangeText={onChange} value={value}/>
+                            <TextArea p={2} placeholder={setPlaceholderForEdit(notes, "Notes")} borderRadius="10" height="150" onChangeText={onChange} value={value}/>
                             
                         )}
                         name = "notes"
