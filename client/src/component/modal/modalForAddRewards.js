@@ -5,12 +5,13 @@ import * as ImagePicker from 'expo-image-picker';
 import RecordVideo from "../layout/recordVideo";
 import { Video } from "expo-av";
 import { Camera } from "expo-camera";
+import { pickImage, takePhoto } from "../utilis/camera/pickAndTakePic";
+import { startRecordVideo, stopRecordVideo} from "../utilis/camera/recordVideo";
 
 export default function ModalForAddRewards({handleShowModal}){
     const [image, setImage] = useState();
     const [video, setVideo] = useState()
     const [onRecording, setOnRecording] = useState(false)
-    const [stopRec, setStopRec] = useState(false)
     const videoRef = useRef(null)
     const [sliderValue, setSliderValue] = useState(0)
 
@@ -26,55 +27,10 @@ export default function ModalForAddRewards({handleShowModal}){
         setSliderValue(Math.floor(v))
     }
 
-    const pickImage = async () => {
-        // No permissions request is necessary for launching the image library
-        let result = await ImagePicker.launchImageLibraryAsync({
-          mediaTypes: ImagePicker.MediaTypeOptions.All,
-          allowsEditing: true,
-          aspect: [4, 3],
-          quality: 1,
-        });
-        result ? setImage(result.uri) : null
-    }
-
-    const takePhoto = async ()=>{
-        const { status } = await Camera.requestCameraPermissionsAsync();
-        setCameraPermission(status === 'granted');
-
-        // const {status} = await ImagePicker.getCameraPermissionsAsync()
-        // setCameraPermission(status === 'granted');
-        // const s = await ImagePicker.getCameraLibraryAsync().status
-        // setRecordVideoPermission(s === "granted")
-        const {uri} = await ImagePicker.launchCameraAsync()
-        setImage(uri)
-        const s = await Camera.requestCameraPermissionsAsync().status
-        setRecordVideoPermission(s === "granted")
-        const audio = await Camera.requestMicrophonePermissionsAsync().status
-        setAudioPermission(audio === "granted")
-    }
-
-    const startRecordVideo = async ()=>{
-        try {
-            const {uri} = await videoRef.current.recordAsync({ quality: '1080p'})
-            alert(uri)
-            setVideo(uri)
-        } catch (error) {
-            alert(error)
-        } 
-    }
-    const stopRecordVideo = ()=>{
-       
-        const stopRec = videoRef.current.stopRecording()
-    }
-
-    const closeVideoRecording = ()=>{
-        setOnRecording(false)
-    }
-
 
     return(
         <>
-        { onRecording ? <RecordVideo start={startRecordVideo} videoRef={videoRef} stop={stopRecordVideo} close={closeVideoRecording}/> : 
+        { onRecording ? <RecordVideo start={()=>startRecordVideo(videoRef, setVideo)} videoRef={videoRef} stop={()=>stopRecordVideo(videoRef)} close={()=>setOnRecording(false)}/> : 
         <ScrollView>
         <Center>
             <VStack w="100%">
@@ -115,7 +71,7 @@ export default function ModalForAddRewards({handleShowModal}){
                     {video ? <Video style={{ width: 200, height: 200 }}
                     source={{uri : video}} useNativeControls resizeMode="contain" 
                     /> : null}
-                    <Button onPress={takePhoto} mb="2">take an  image</Button>
+                    <Button onPress={()=>takePhoto(setCameraPermission, setAudioPermission, setRecordVideoPermission, setImage)} mb="2">take an  image</Button>
                     <Button onPress={()=>setOnRecording(true)} mb="2">record a video</Button>
                     <Button onPress={pickImage}>Pic image</Button>
                     <Button onPress={()=>alert(video)}>see url</Button>

@@ -1,32 +1,29 @@
-import { HStack, Text, Center, Button, VStack} from "native-base"
-import {colors} from "../../utilis/colors"
+import { HStack, Text, Center, Button, VStack, Pressable} from "native-base"
+import { Animated } from "react-native";
 import { AntDesign } from '@expo/vector-icons';
-
-
-export default function EachTask ({data, handleShowModal, i}) {
+export default function EachTask ({data, handleShowModal, i,row}) {
+    // console.log(data)
+    const {child} = data
+    const renderChild = child?.map(()=><AntDesign name="user" size={24} color="black" />)
+    // console.log(row)
 
     const mainTaskView = 
-                        <HStack bg={colors.gray} px="10" py="5" borderRadius="15">   
+                        
+                        <HStack bg="white" w="350" py="5" borderRadius="15" justifyContent="space-around">   
                             <VStack>           
-                                <Text fontSize="19">{data.item.task}</Text> 
-                                <Text fontSize="11" mt="2">Due: Wed Jan 26 2022 | 12:00 PM  | 1 Hour</Text>
+                                <Text fontSize="19">{data.title}</Text> 
+                                <Text fontSize="11" mt="2">Due: {data.date}</Text>
                             </VStack> 
-                            <HStack space="3" maxW="2">
-                            <AntDesign name="user" size={14} color="black" />
-                            <AntDesign name="user" size={14} color="black" />
-                            <AntDesign name="user" size={14} color="black" />
-                            <AntDesign name="user" size={14} color="black" />   
+                            <HStack>
+                            {renderChild}
                             </HStack>                
                         </HStack>
+                        
 
-
-    return (
-        <>
+    return (     
         <Center mb={3} key={i} position="relative">
-                {mainTaskView}
-            </Center>
-            </>
-        
+            {mainTaskView}
+        </Center>
     )
 }
 
