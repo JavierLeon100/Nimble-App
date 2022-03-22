@@ -6,9 +6,7 @@ import { useForm, Controller } from "react-hook-form";
 import { pickImage, takePhoto } from "../utilis/camera/pickAndTakePic";
 import { Pressable } from "react-native";
 import {TaskToEditContext } from "../screens/TaskScreen";
-import SvgUri from "react-native-svg-uri-updated";
-import * as Svg from 'react-native-svg';
-
+import { EvilIcons } from '@expo/vector-icons';
 
 export default function ModalDetailForActivity({handleShowModal, setTasks, editTask,  updateTask}){
 
@@ -173,12 +171,28 @@ export default function ModalDetailForActivity({handleShowModal, setTasks, editT
 
                     <VStack  mb="5">
                     <Text fontSize="17" opacity="0.7">Image</Text>
-                    {image ?   <Image source={{ uri: image }} style={{ width: 200, height: 200 }} alt="image"/> : null}
+                    <Center>
+                    {image ?   <Image source={{ uri: image }} style={{ width: 200, height: 200 }} alt="image" borderRadius="10"/> : null}
+                    </Center>
                     <HStack justifyContent="space-around" mt="3">
                         {/* <AntDesign name="picture" size={70} color="black" onPress={pickImage}/>
                         <AntDesign name="camera" size={70} color="black" onPress={()=>takePhoto(setAudioPermission,setCameraPermission,setRecordVideoPermission, setImage)}/> */}
-                        <SvgUri source={require("../../../assets/picIcons/GalleryIcon.svg")} />
-                        <SvgUri source={require("../../../assets/picIcons/CaptureIcon.svg")}/>
+                        {/* <SvgUri source={require("../../../assets/picIcons/GalleryIcon.svg")} />
+                        <SvgUri source={require("../../../assets/picIcons/CaptureIcon.svg")}/> */}
+                        {/* <Image source={require("../../../assets/picIcons/GalleryPng.png")} alt="Gallery" size="sm"/> */}
+                        
+                            <VStack alignItems="center" bg="white" px="50" py="5" borderRadius="15" >
+                                <EvilIcons name="image" size={40} color={colors.primary.blue} onPress={()=>pickImage(setImage)}/>
+                                <Text color="primary.blue">Gallery</Text>
+                            </VStack>
+                        
+
+                        
+                            <VStack alignItems="center" bg="white" px="50" py="5"  borderRadius="15">
+                                <EvilIcons name="camera" size={40} color={colors.primary.blue}  onPress={()=>takePhoto(setAudioPermission,setCameraPermission,setRecordVideoPermission, setImage)}/>
+                                <Text color="primary.blue">Capture</Text>
+                            </VStack>
+                        
                     </HStack>
                     <Text  color="cancelBtnGray" opacity="0.4" fontSize="11" mt="2">Add an image related to the task</Text>
                     </VStack>
