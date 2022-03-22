@@ -4,7 +4,17 @@ import { AntDesign } from '@expo/vector-icons';
 
 
 
-export default function PlusButton({handleShowModal, setEditTask}){
+export default function PlusButton(props){
+
+    const {handleShowModal ,setEditTask} = props || ""
+
+    const taskOrReward = ()=>{
+        if (!setEditTask){
+        } else {
+            setEditTask(false)
+        }
+        handleShowModal(true)
+    }
 
     return(
         <IconButton bg={colors.secondary} 
@@ -13,7 +23,7 @@ export default function PlusButton({handleShowModal, setEditTask}){
         borderRadius="full"
         bottom="9"
         right="6"
-        onPress={()=>{setEditTask(false) ,handleShowModal(true)}}    
+        onPress={()=>taskOrReward()}    
         />
     )
 }
