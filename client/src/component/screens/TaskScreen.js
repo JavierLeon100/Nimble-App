@@ -5,14 +5,13 @@ import EachTask from "../listItems/tasks/EachTasks";
 import { Platform, Animated, Dimensions, Modal} from "react-native"
 import ModalDetailForActivity from "../modal/modalDetailForActivity";
 import { useEffect, useState, useRef, createContext } from "react";
-import { Button, FlatList, HStack , Text, Center, Box, Pressable, Modal as ModalN } from "native-base";
+import { Button, FlatList, HStack , Text, Center, Box, Pressable, Modal as ModalN, Icon } from "native-base";
 import ChildsProfileScreen from "./ChildsProfileScreeen";
 import { SwipeListView } from 'react-native-swipe-list-view';
 import { colors } from "../utilis/colors";
 import * as Notifications from 'expo-notifications';
 import Constants from "expo-constants";
 import DeleteModal from "../modal/deleteModal";
-
 
 Notifications.setNotificationHandler({
     handleNotification: async () => ({
@@ -171,6 +170,7 @@ const [expoPushToken, setExpoPushToken] = useState("");
                 onRightAction={()=>{setEditTask(true),setShowModal(true)}}
                 // onLeftAction={()=>setShowModal(true)}
                 onSwipeValueChange={onSwipeValueChange}
+                style={{ marginBottom : 240}}
             />
         </Center>
         <PlusButton handleShowModal={handleShowModal} setEditTask={setEditTask}/>

@@ -6,6 +6,8 @@ import { useForm, Controller } from "react-hook-form";
 import { pickImage, takePhoto } from "../utilis/camera/pickAndTakePic";
 import { Pressable } from "react-native";
 import {TaskToEditContext } from "../screens/TaskScreen";
+import SvgUri from "react-native-svg-uri-updated";
+import * as Svg from 'react-native-svg';
 
 
 export default function ModalDetailForActivity({handleShowModal, setTasks, editTask,  updateTask}){
@@ -105,12 +107,12 @@ export default function ModalDetailForActivity({handleShowModal, setTasks, editT
     }
 
     return (
-    <ScrollView>
+    <ScrollView style={{backgroundColor : colors.backGroundModal}}>
         <Center>
             <VStack w="100%">
             <HStack alignItems="center" justifyContent="space-around" mt="60" mb="30">
-                <Text onPress={()=>handleShowModal(false)}>Cancel</Text>
-                <Heading>{editTask ? "Task Detail" : "New Task"}</Heading>
+                <Text onPress={()=>handleShowModal(false)} color="cancelBtnGray">Cancel</Text>
+                <Heading size="sm">{editTask ? "Task Detail" : "New Task"}</Heading>
                 <Pressable>
                     <Text onPress={handleSubmit(onSubmit)}>Save</Text>
                 </Pressable>
@@ -119,99 +121,109 @@ export default function ModalDetailForActivity({handleShowModal, setTasks, editT
             <Center>
                 <FormControl w="80%">
                     <Stack mb="5">
-                        <FormControl.Label>Title</FormControl.Label>
+                        <FormControl.Label>
+                            <Text fontSize="16" opacity="0.7">Title</Text>
+                        </FormControl.Label>
                         <Controller 
                         control={control}
                         render={({ field: { onChange, onBlur, value } })=>(
-                            <Input p={2} placeholder={setPlaceholderForEdit(title, "Title")} borderRadius="10" 
-                            onChangeText={onChange} value={value}/>
+                            <Input p={4} placeholder={setPlaceholderForEdit(title, "Title")} borderRadius="10" 
+                            onChangeText={onChange} value={value} bg="white"/>
                         )}
                         name = "title"
                         />
                     </Stack>
 
                     <VStack mb="5">
-                        <Text>assign to</Text>
-                        <HStack space="2">
+                        <Text fontSize="16" opacity="0.7">Assign To</Text>
+                        <HStack space="2" mt="2">
                             <Input w="260" ref={childRef}/>
                             <Button onPress={handleChildArray}>Assign</Button>
                         </HStack>
-                        {childArray.map((c,i)=><Text key={i} color={colors.black}>{c}</Text>)}
+                        {childArray.map((c,i)=><Text key={i} color="black">{c}</Text>)}
                     </VStack>
 
                     <Stack mb="5">
-                        <FormControl.Label>Data/time</FormControl.Label>
+                        <FormControl.Label>
+                        <Text fontSize="16" opacity="0.7">Date/time</Text>
+                        </FormControl.Label>
                         <Controller 
                         control={control}
                         render={({ field: { onChange, onBlur, value } })=>(
-                            <Input p={2} placeholder={setPlaceholderForEdit(date, "Date/time")}  borderRadius="10" 
-                            onChangeText={onChange} value={value}/>
+                            <Input p={4} placeholder={setPlaceholderForEdit(date, "Date/time")}  borderRadius="10" 
+                            onChangeText={onChange} value={value} bg="white"/>
                         )}
                         name = "date"
                         />
                     </Stack>
 
                     <VStack mb="5">
-                        <Text>Assigned Points</Text>
-                        <Box bg={colors.gray}  mt="3"  borderRadius="10" p="5">
+                    <Text fontSize="17" opacity="0.7">Reward Points</Text>
+                        <Box mt="3"  borderRadius="10" p="5" bg="white">
                             <Slider size="lg" defaultValue={setPlaceholderForEdit(sliderValue, 0)} onChange={sliderOnChange} onChangeEnd={sliderOnChangeEnd} maxValue={100} >
-                            <Slider.Track>
-                                <Slider.FilledTrack />
+                            <Slider.Track bg={colors.shades.lightBlueS}>
+                                <Slider.FilledTrack bg={colors.secondary} opacity="1"/>
                             </Slider.Track>
-                            <Slider.Thumb />
+                            <Slider.Thumb bg={colors.primary.blue}/>
                             </Slider>
                             <Text textAlign="center">{sliderValue}</Text>
                         </Box>
-                        <Text mt="2" fontSize="10">Required Points</Text>
+                        <Text color="cancelBtnGray" opacity="0.4" fontSize="11" mt="2">Required Points</Text>
                     </VStack>
 
                     <VStack  mb="5">
-                    <Text>Image</Text>
+                    <Text fontSize="17" opacity="0.7">Image</Text>
                     {image ?   <Image source={{ uri: image }} style={{ width: 200, height: 200 }} alt="image"/> : null}
                     <HStack justifyContent="space-around" mt="3">
-                        <AntDesign name="picture" size={70} color="black" onPress={pickImage}/>
-                        <AntDesign name="camera" size={70} color="black" onPress={()=>takePhoto(setAudioPermission,setCameraPermission,setRecordVideoPermission, setImage)}/>
+                        {/* <AntDesign name="picture" size={70} color="black" onPress={pickImage}/>
+                        <AntDesign name="camera" size={70} color="black" onPress={()=>takePhoto(setAudioPermission,setCameraPermission,setRecordVideoPermission, setImage)}/> */}
+                        <SvgUri source={require("../../../assets/picIcons/GalleryIcon.svg")} />
+                        <SvgUri source={require("../../../assets/picIcons/CaptureIcon.svg")}/>
                     </HStack>
+                    <Text  color="cancelBtnGray" opacity="0.4" fontSize="11" mt="2">Add an image related to the task</Text>
                     </VStack>
 
                     <Stack mb="5">
-                        <FormControl.Label>Notes</FormControl.Label>
+                        <FormControl.Label>
+                            <Text fontSize="17" opacity="0.7">Notes</Text>
+                            </FormControl.Label>
                         <Controller 
                         control={control}
                         render={({ field: { onChange, onBlur, value } })=>(
-                            <TextArea p={2} placeholder={setPlaceholderForEdit(notes, "Notes")} borderRadius="10" height="150" onChangeText={onChange} value={value}/>
+                            <TextArea p={2} placeholder={setPlaceholderForEdit(notes, null)} borderRadius="10" height="150" onChangeText={onChange} value={value} bg="white" borderWidth="0"/>
                             
                         )}
                         name = "notes"
                         />
+                        <Text color="cancelBtnGray" opacity="0.4" fontSize="11" mt="2">Add instruction, notes or aditional description</Text>
                     </Stack>
 
                     <VStack mb="5">
                         <HStack justifyContent="space-between" alignContent="center" mb="4">
-                            <Text>Timer</Text>
-                        <Switch  size="lg" onToggle={()=>setTimer(prev=>!prev)} isChecked={timer} />
+                            <Text fontSize="16" opacity="0.7">Timer</Text>
+                        <Switch  size="lg" onToggle={()=>setTimer(prev=>!prev)} isChecked={timer} onTrackColor="primary.blue" offTrackColor="shades.lightBlueS" onThumbColor="shades.lightBlueS" offThumbColor="shades.lightBlueS"/>
                         </HStack>
 
                         <HStack  justifyContent="space-between" alignContent="center" mb="4">
-                            <Text>Urgent</Text>
-                        <Switch  size="lg" onToggle={()=>setUrgent(prev=>!prev)} isChecked={urgent}/>
+                            <Text fontSize="16" opacity="0.7">Urgent</Text>
+                        <Switch  size="lg" onToggle={()=>setUrgent(prev=>!prev)} isChecked={urgent} onTrackColor="primary.blue" offTrackColor="shades.lightBlueS" onThumbColor="shades.lightBlueS" offThumbColor="shades.lightBlueS"/>
                         </HStack>
 
                         <HStack justifyContent="space-between" alignContent="center" mb="4">
-                        <Text>Focus Mode</Text>
-                        <Switch size="lg" onToggle={()=>setFocus(prev=>!prev)} isChecked={focus} />
+                        <Text fontSize="16" opacity="0.7">Focus Mode</Text>
+                        <Switch size="lg" onToggle={()=>setFocus(prev=>!prev)} isChecked={focus} onTrackColor="primary.blue" offTrackColor="shades.lightBlueS" onThumbColor="shades.lightBlueS" offThumbColor="shades.lightBlueS"/>
                         </HStack>
                     </VStack>
-
-                   
                     
-
-                    <VStack space="6" mb="70">                    
-                    <Button p="5" borderRadius="10" title="submit" onPress={handleSubmit(onSubmit)}>Save</Button>
                     <Center>
-                    <Button w="80%" p="4" borderRadius="10" onPress={()=>handleShowModal(false)} >Cancel/Delete</Button>
-                    </Center>
-                    </VStack>
+                    <Button size="lg" mt="4" mb="60" w="350" borderRadius="90" title="submit" onPress={handleSubmit(onSubmit)} bg="secondary" py="9" _text={
+                        {
+                            color : "white",
+                        }
+                    }>
+                            Save
+                        </Button>
+                        </Center>
                 </FormControl>
             </Center>
             </VStack>

@@ -4,19 +4,17 @@ import { AntDesign } from '@expo/vector-icons';
 export default function EachTask ({data, handleShowModal, i,row}) {
     // console.log(data)
     const {child} = data
-    const renderChild = child?.map(()=><AntDesign name="user" size={14} color="black" />)
+    const renderChild = child?.map(()=><AntDesign name="user" size={24} color="black" />)
     // console.log(row)
-
-   
 
     const mainTaskView = 
                         
-                        <HStack bg="white" px="75" py="5" borderRadius="15">   
+                        <HStack bg="white" w="350" py="5" borderRadius="15" justifyContent="space-around">   
                             <VStack>           
                                 <Text fontSize="19">{data.title}</Text> 
                                 <Text fontSize="11" mt="2">Due: {data.date}</Text>
                             </VStack> 
-                            <HStack space="3" maxW="2">
+                            <HStack>
                             {renderChild}
                             </HStack>                
                         </HStack>

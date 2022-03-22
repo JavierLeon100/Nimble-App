@@ -1,5 +1,5 @@
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
-import {Avatar, Box, Pressable, Stack} from "native-base";
+import {Avatar, Box, Icon, Pressable, Stack} from "native-base";
 import { useState } from "react";
 import { Modal } from "react-native";
 import { Text, View } from 'react-native';
@@ -8,9 +8,9 @@ import ActivityScreen from "./src/component/screens/ActivityScreen";
 import RewardScreen from "./src/component/screens/RewardScreen";
 import TaskScreen from './src/component/screens/TaskScreen'
 import EditChildProfile from "./src/component/modal/editChildProfile";
-import { LinearGradient } from 'expo-linear-gradient';
-import { StyleSheet} from 'react-native';
 import { colors } from "./src/component/utilis/colors";
+import SvgUri from 'react-native-svg-uri-updated';
+
 
 
 
@@ -54,12 +54,33 @@ export default function({font}){
         )
 }}
 
-const screenOptions = {
-}
+
+
+const optionsForNav = ({route})=> ({
+  tabBarIcon : ({focused, color, size})=> {
+      const {name} = route
+      if (name === "Activity"){
+        return (    
+          <SvgUri source={require("./assets/tabBarIcons/ActivityIcon.svg")} fill={focused ? colors.secondary : colors.primary.blue}/>
+        )
+      }
+      else if (name === "Rewards") {
+        return <SvgUri source={require("./assets/tabBarIcons/RewardIcon.svg")} fill={focused ? colors.secondary : colors.primary.blue}/>
+      }
+     else if (name === "Tasks"){
+       return <SvgUri source={require("./assets/tabBarIcons/TaskIcon.svg")} fill={focused ? colors.secondary : colors.primary.blue}/>
+     }
+  },
+  tabBarActiveTintColor : colors.secondary,
+  tabBarInactiveTintColor : colors.primary.blue,
+  tabBarStyle : {
+    height : 100
+  }
+})
 
     return (
       <>
-        <Tab.Navigator options={{cardStyle : {backgroundColor : colors.black}}}>
+        <Tab.Navigator screenOptions={optionsForNav} sceneContainerStyle={{backgroundColor : colors.backGroundLightBlue}}>
         <Tab.Screen name="Activity" component={ActivityScreen} 
         options={options} />
         <Tab.Screen name="Tasks" component={TaskScreen} options={options}/>

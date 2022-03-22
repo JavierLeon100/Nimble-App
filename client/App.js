@@ -36,7 +36,11 @@ export default function App() {
             white : "#FEFEFE",
             black : "#0B0B19",
             darkBlueGray : "#F0F0FF",
-            blueGray : "#F5F5FC"
+            blueGray : "#F5F5FC",
+            mainGray : "#E9E9E9",
+            backGroundLightBlue  : "#F7F7FF",
+            backGroundModal : "#F5F5FC",
+            cancelBtnGray : "#858585"
         },
         fontConfig : {
             Quicksand : {
