@@ -142,7 +142,7 @@ export default function ModalForAddRewards({handleShowModal, setRewards}){
                     </Stack>
                     
                     <Center>
-                    <Button size="lg" mt="4" mb="60" w="350" borderRadius="90" title="submit" onPress={handleSubmit(onSubmit)} bg="secondary" py="9" onPress={handleSubmit(onSubmit)} _text={
+                    <Button size="lg" mt="4" mb="60" w="350" borderRadius="90" title="submit" onPress={handleSubmit(onSubmit)} bg="secondary" py="9" _text={
                         {
                             color : "white",
                         }

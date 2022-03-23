@@ -16,5 +16,6 @@ export const colors = {
         backGroundLightBlue  : "#F7F7FF",
         backGroundModal : "#F5F5FC",
         cancelBtnGray : "#858585",
-        eggYellow : "#FBD300"
+        eggYellow : "#FBD300",
+        red : "#FF0000"
 }

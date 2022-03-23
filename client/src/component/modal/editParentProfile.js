@@ -1,117 +1,129 @@
 import { Center, FormControl,  Heading,  HStack,  ScrollView, StatusBar, Text, VStack, Input, Stack, Button, Box, Flex, FlatList} from "native-base"
-import {Link} from "react-native"
+import {Link, Pressable} from "react-native"
 import { colors } from "../utilis/colors"
 import { FontAwesome5 } from '@expo/vector-icons';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { AntDesign } from '@expo/vector-icons';
 import { FlatGrid } from "react-native-super-grid";
+import { useForm, Controller } from "react-hook-form";
+import SvgUri from 'react-native-svg-uri-updated';
 
 
 
 
 export default function editParentProfile({showModal, changeMode}){
 
-    const userIocn = <AntDesign name="user" size={40} color="black" />
-    const editButton = <Button w="90" ml="10" onPress={changeMode}>Edit</Button>
+    const userIocn = <SvgUri source={require("../../../assets/profileIcons/ProfileIcon.svg")} height={40} width={40} alignSelf="flex-start"/>
+
+
+    const { handleSubmit, watch, formState: { errors }, control } = useForm({
+        defaultValues : {
+            title : ""
+        }
+    });
 
     const exampleArray = [
         {
             icon : userIocn,
-            Button : editButton
+            childName : "Joe"
         },
         {
             icon : userIocn,
-            Button : editButton
+            childName : "Angelina"
         },
         {
             icon : userIocn,
-            Button : editButton
+            childName : "Stephen"
         },
         {
             icon : userIocn,
-            Button : editButton
+            childName : "Harry"
         }
     ]
 
     const header = ()=>(
-    <>
-        <VStack safeArea mt="5">     
-        <HStack w="100%" justifyContent="space-around" alignItems="center">
-            <MaterialCommunityIcons name="less-than" size={24} color="white" style={{visibility : "hidden"}}/>
-            <Heading>Profile</Heading>
-            <FontAwesome5 name="edit" size={24} color="black"/>
-        </HStack>  
-        </VStack>
+        <>
+               
+                <Center mb={2}>
+                    <VStack w="80%">
+                        <Text fontSize="16" opacity="0.7" mb={2}>Name</Text>
+                        <Controller 
+                            control={control}
+                            render={({ field: { onChange, onBlur, value } })=>(
+                                <Input p={4} placeholder="Name" borderRadius="10" 
+                                onChangeText={onChange} value={value} bg="white"/>
+                            )}
+                            name = "name"
+                            />
 
-        <Center mt="5">
-        <AntDesign name="user" size={50} color="black" />
-        </Center>
+                        <Text fontSize="16" opacity="0.7" mb={2} mt={2}>Email</Text>
+                        <Controller 
+                            control={control}
+                            render={({ field: { onChange, onBlur, value } })=>(
+                                <Input p={4} placeholder="email" borderRadius="10" 
+                                onChangeText={onChange} value={value} bg="white"/>
+                            )}
+                            name = "email"
+                            />
 
-            <FormControl w="100%" mt="4">
-            <Center>
-                <HStack alignItems="center" justifyContent="space-around">
-                    <FormControl.Label>
-                        <Text fontSize="18" mr="3">Name</Text>
-                    </FormControl.Label>
-                    <Input placeholder="Name" w="60%" p="6"/> 
-                </HStack>
-            </Center>
-            </FormControl>
+                        <Text fontSize="16" opacity="0.7" mb={2} mt={2}>Password</Text>
+                        <Controller 
+                            control={control}
+                            render={({ field: { onChange, onBlur, value } })=>(
+                                <Input p={4} placeholder="password" borderRadius="10" 
+                                onChangeText={onChange} value={value} bg="white" type="password"/>
+                            )}
+                            name = "password"
+                            />
+                        
+                        <Text alignSelf="flex-end" mt={3} color="gradientBlue" underline>Change Password</Text>
 
-            <FormControl w="100%" mt="4">
-            <Center>
-                <HStack alignItems="center" justifyContent="space-around">
-                    <FormControl.Label>
-                        <Text fontSize="18" mr="3">Email</Text>
-                    </FormControl.Label>
-                    <Input placeholder="Email" w="60%" p="6"/> 
-                </HStack>
-            </Center>
-            </FormControl>
 
-            <FormControl w="100%" mt="4">
-            <Center>
-                <HStack alignItems="center" justifyContent="space-around">
-                    <FormControl.Label>
-                        <Text fontSize="18"  ml="-19">Password</Text>
-                    </FormControl.Label>
-                    <Input placeholder="Password" w="60%" p="6"/> 
-                </HStack>
-            </Center>
-            </FormControl>
-
-            <Center mt="6">
-                <Flex w="80%" alignItems="flex-end">
-                <Text underline >Change Password</Text>
-                </Flex>
-            </Center>
-            
-            <Text fontWeight="bold" fontSize="lg" textAlign="center" my="3">Children</Text>
-    </>)
+                    <Text alignSelf="flex-start" fontSize="16" opacity="0.7">Kids</Text>
+                    </VStack>
+                    </Center>
+        </>
+    )
 
     const footer = ()=>(
-        <Center>
-        <Button bg={colors.black} h="20" w="80" borderRadius="10" onPress={showModal}>Close</Button>
+        <Center mt="3">
+            <VStack w="80%" justifyContent="center" alignItems="center" space="10">
+                <Text underline color="red" fontSize="md">Delete Account</Text>
+                <Button size="lg"   w="350" borderRadius="90" title="submit" bg="secondary" py="3"  _text={
+                        {
+                            color : "white",
+                        }
+                    }>
+                            Save
+                        </Button>
+            </VStack>
         </Center>
     )
 
-    return (            
-            <FlatGrid 
-                ListHeaderComponent={header}
-                ListFooterComponent={footer}
-                itemDimension={180}
-                spacing={18}
-                data={exampleArray}
-                renderItem={
-                    ({item})=>(
-                            <Center>
-                                <HStack justifyContent="space-around" p="3" w="150">
-                                {item.icon}
-                                {item.Button}
-                                </HStack>
+    return (    
+        <Box bg="backGroundModal" h={900}> 
+            <HStack alignItems="center" justifyContent="space-around" mb="30" bg="primary.blue" h={150} pt={50}>
+                        <Text color="white" onPress={()=>showModal(false)}>Cancel</Text>
+                        <Heading size="lg" color="white">Profile</Heading>
+                        <Text color="white">Save</Text>
+            </HStack>
+                    <FlatGrid data={exampleArray} renderItem={
+                        ({item})=>(
+                            <Center mt={2} alignItems="center" >
+                                <Button bg="backGroundModal" onPress={changeMode}>
+                                    <HStack w="40" alignItems="center">
+                                        {item.icon}
+                                        <Text ml="7">{item.childName}</Text>
+                                    </HStack>
+                                </Button>
                             </Center>
-                    )
-                }
-            />
+                        )
+                    }
+                    ListHeaderComponent={header}
+                    ListFooterComponent={footer}
+                    itemDimension={180}
+                    />
+          
+    </Box> 
     )
 }
