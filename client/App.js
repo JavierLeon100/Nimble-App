@@ -1,16 +1,10 @@
-import { NavigationContainer } from "@react-navigation/native";
-import { createNativeStackNavigator } from "@react-navigation/native-stack";
-import { NativeBaseProvider, extendTheme } from "native-base";
-import Index from "./index";
-import ChildsView from "./ChildsView";
-import { createContext, useState } from "react";
+import { NativeBaseProvider, extendTheme, Image } from "native-base";
 import { useFonts, Quicksand_300Light, Quicksand_400Regular, Quicksand_600SemiBold, Quicksand_500Medium } from "@expo-google-fonts/quicksand";
 import AppLoading from 'expo-app-loading'
-
-const Stack = createNativeStackNavigator();
+import OnBoardingScreen from "./OnBoardingScreen";
 
 export default function App() {
-    const [isParent, setIsParent] = useState(true)
+    
     let [fontsLoaded] = useFonts({
         Quicksand_300Light,
         Quicksand_400Regular,
@@ -42,7 +36,10 @@ export default function App() {
             backGroundModal : "#F5F5FC",
             cancelBtnGray : "#858585",
             eggYellow : "#FBD300",
-            red : "#FF0000"
+            red : "#FF0000",
+            schemaForBtn : {
+                400 : "#6A6CFF"
+            }
         },
         fontConfig : {
             Quicksand : {
@@ -69,11 +66,13 @@ export default function App() {
         },
 
     })
+
+    
+
+    
     return (
         <NativeBaseProvider theme={theme}>
-            <NavigationContainer>
-            {isParent ? <Index font={fontsLoaded}/> :  <ChildsView />}
-            </NavigationContainer>
+            <OnBoardingScreen fontsLoaded={fontsLoaded}/>
         </NativeBaseProvider>
     );
 }

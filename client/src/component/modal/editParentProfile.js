@@ -89,7 +89,7 @@ export default function editParentProfile({showModal, changeMode}){
         <Center mt="3">
             <VStack w="80%" justifyContent="center" alignItems="center" space="10">
                 <Text underline color="red" fontSize="md">Delete Account</Text>
-                <Button size="lg"   w="350" borderRadius="90" title="submit" bg="secondary" py="3"  _text={
+                <Button size="lg" colorScheme="indigo" w="350" borderRadius="90" title="submit" bg="secondary" py="3"  _text={
                         {
                             color : "white",
                         }
@@ -110,7 +110,7 @@ export default function editParentProfile({showModal, changeMode}){
                     <FlatGrid data={exampleArray} renderItem={
                         ({item})=>(
                             <Center mt={2} alignItems="center" >
-                                <Button bg="backGroundModal" onPress={changeMode}>
+                                <Button bg="backGroundModal" onPress={changeMode} colorScheme="indigo">
                                     <HStack w="40" alignItems="center">
                                         {item.icon}
                                         <Text ml="7">{item.childName}</Text>

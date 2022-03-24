@@ -18,69 +18,29 @@ export default function EditChildProfile({showModal, changeMode}){
         }
     });
 
-    const badgeIocn = <SvgUri source={require("../../../assets/profileIcons/badgeIcon.svg")} height={40} width={40}/>
+    const BadgeIcon = <SvgUri source={require("../../../assets/profileIcons/badgeIcon.svg")} height={40} width={40}/>
     const badgeName = <Text w="90" ml="10">name is here</Text>
 
     const exampleArray = [
         {
-            icon : badgeIocn,
+            icon : BadgeIcon,
             badgeName: "All weekly tasks"
         },
         {
-            icon : badgeIocn,
+            icon : BadgeIcon,
             badgeName : "Redeemed 10 gifts"
         },
         {
-            icon : badgeIocn,
+            icon : BadgeIcon,
             badgeName : "Reached level 10"
         },
         {
-            icon : badgeIocn,
+            icon : BadgeIcon,
             badgeName : "Redeemed 30 gifts"
         }
     ]
 
-    // const header = ()=>(
-    //     <>
-    //     <VStack safeArea mt="5">     
-    //     <HStack w="100%" justifyContent="space-around" alignItems="center">
-    //         <Pressable onPress={changeMode}>
-    //         <MaterialCommunityIcons name="less-than" size={24} color="black" />
-    //         </Pressable>
-    //         <Heading>Profile</Heading>
-    //         <FontAwesome5 name="edit" size={24} color="black"/>
-    //     </HStack>  
-    //     </VStack>
-
-    //     <Center mt="5">
-    //             <AntDesign name="user" size={50} color="black" />
-    //             <Text mt="3">Level 10</Text>
-    //     </Center>
-
-    //         <FormControl w="100%" mt="4">
-    //         <Center>
-    //             <HStack alignItems="center" justifyContent="space-around">
-    //                 <FormControl.Label>
-    //                     <Text fontSize="18" mr="3">Name</Text>
-    //                 </FormControl.Label>
-    //                 <Input placeholder="Name" w="60%" p="6"/> 
-    //             </HStack>
-    //         </Center>
-    //         </FormControl>
-
-    //         <FormControl w="100%" mt="4">
-    //         <Center>
-    //             <HStack alignItems="center" justifyContent="space-around">
-    //                 <FormControl.Label>
-    //                     <Text fontSize="18" mr="3">Birthday</Text>
-    //                 </FormControl.Label>
-    //                 <Input placeholder="Birthday" w="60%" p="6"/> 
-    //             </HStack>
-    //         </Center>
-    //         </FormControl>
-    //         <Text fontWeight="bold" fontSize="lg" textAlign="center" my="7">Badges unlocked</Text>
-    // </>)
-
+    
     const header = ()=>(
         <>
                 <Center mb={2}>
@@ -152,7 +112,7 @@ export default function EditChildProfile({showModal, changeMode}){
         
             <VStack w="80%" justifyContent="center" alignItems="center" space="5" mt="3">
                 <Text underline color="red" fontSize="md">Delete Account</Text>
-                <Button size="lg"   w="350" borderRadius="90" title="submit" bg="secondary" py="3"  _text={
+                <Button size="lg" colorScheme="indigo" w="350" borderRadius="90" title="submit" bg="secondary" py="3"  _text={
                         {
                             color : "white",
                         }
