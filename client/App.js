@@ -2,6 +2,10 @@ import { NativeBaseProvider, extendTheme, Image } from "native-base";
 import { useFonts, Quicksand_300Light, Quicksand_400Regular, Quicksand_600SemiBold, Quicksand_500Medium } from "@expo-google-fonts/quicksand";
 import AppLoading from 'expo-app-loading'
 import OnBoardingScreen from "./OnBoardingScreen";
+import { createContext } from "react";
+import { NavigationContainer } from "@react-navigation/native";
+
+export const fontsContext = createContext()
 
 export default function App() {
     
@@ -39,7 +43,8 @@ export default function App() {
             red : "#FF0000",
             schemaForBtn : {
                 400 : "#6A6CFF"
-            }
+            },
+            loginFormBlue : "#4E53FB40"
         },
         fontConfig : {
             Quicksand : {
@@ -71,8 +76,12 @@ export default function App() {
 
     
     return (
-        <NativeBaseProvider theme={theme}>
-            <OnBoardingScreen fontsLoaded={fontsLoaded}/>
-        </NativeBaseProvider>
+        <NavigationContainer>
+            <NativeBaseProvider theme={theme}>
+                <fontsContext.Provider value={fontsContext}>
+                    <OnBoardingScreen fontsLoaded={fontsLoaded}/>
+                </fontsContext.Provider>
+            </NativeBaseProvider>
+        </NavigationContainer>
     );
 }

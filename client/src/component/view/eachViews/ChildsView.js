@@ -1,7 +1,7 @@
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
-import ChildsProfileScreen from "../screens/ChildsProfileScreeen";
-import ChildsThingsToDoScreen from "../screens/ChildsThingsToDoScreen"; 
-import RewardScreen from "../screens/RewardScreen";
+import ChildsProfileScreen from "../../screens/ChildsProfileScreeen";
+import ChildsThingsToDoScreen from "../../screens/ChildsThingsToDoScreen"; 
+import RewardScreen from "../../screens/RewardScreen";
 import {Avatar, Pressable, Stack} from "native-base";
 
 
