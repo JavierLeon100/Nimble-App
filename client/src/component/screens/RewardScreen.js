@@ -1,4 +1,4 @@
-import { Button, Pressable  } from "native-base";
+import { Button, Pressable, Text  } from "native-base";
 import PlusButton from "../buttons/PlusButton";
 import AllOrSuggested from "../layout/AllOrSuggested";
 import EachReward from "../listItems/rewards/EachReward";
@@ -14,30 +14,43 @@ export const childRewardContext = createContext()
 export default function(){
     
     const [rewards, setRewards] = useState([])
+    const [selectedReward, setSelectedReward] = useState()
     const exampleArrayForChildView = [
     {
         title : "Xbox",
-        cost : "10000"
+        cost : "10000",
+        desc : "Xbox is a video gaming brand created and owned by Microsoft. The brand consists of five video game consoles, as well as applications (games), streaming services, an online service by the name of Xbox network, and the development arm by the name of Xbox Game Studios. The brand was first introduced in the United States in November 2001, with the launch of the original Xbox console.",
+        key : 1
     },
     {
-        title : "Xbox",
-        cost : "10000"
+        title : "Ps5",
+        cost : "20000",
+        desc : "The PS5 console unleashes new gaming possibilities that you never anticipated. Experience lightning fast loading with an ultra-high speed SSD, deeper immersion with support for haptic feedback.",
+        key : 2
     },
     {
-        title : "Xbox",
-        cost : "10000"
+        title : "aa",
+        cost : "30000",
+        desc : "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+        key : 3
     },
     {
-        title : "Xbox",
-        cost : "10000"
+        title : "bbb",
+        cost : "40000",
+        desc : "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+        key : 4
     },
     {
-        title : "Xbox",
-        cost : "10000"
+        title : "cccc",
+        cost : "50000",
+        desc : "cccccccccccccccccccccccccccccccccc",
+        key : 5
     },
     {
-        title : "Xbox",
-        cost : "10000"
+        title : "ddddd",
+        cost : "60000",
+        desc : "ddddddddddddddddddddddddddddddddddddddd",
+        key : 6
     },
     
 ]
@@ -48,10 +61,15 @@ export default function(){
         boo ? setShowModal(true) : setShowModal(false)
     }
 
+    const handleSelectedReward = (key)=>{
+        const foundReward = exampleArrayForChildView.find(r=> r.key === key)
+        setSelectedReward(foundReward)
+    }
+
     const isParentScreen = useContext(CreateParentContext)
     const contextValue = {
         setShowModal,
-
+        selectedReward
     }
 
     return (
@@ -59,13 +77,12 @@ export default function(){
         {isParentScreen ?   <AllOrSuggested /> : null}
 
         <FlatGrid mt="4" data={isParentScreen ? rewards : exampleArrayForChildView} renderItem={({item})=>
-        <Pressable onPress={()=>setShowModal(true)}>
+        <Pressable onPress={()=>{handleSelectedReward(item.key), setShowModal(true)}}>
             <EachReward reward={item}/>
         </Pressable>
         } itemDimension={130} spacing={19} />
 
         {isParentScreen ?  <PlusButton handleShowModal={handleShowModal}/> : null}
-       
 
         <Modal visible={showModal} presentationStyle="formSheet" animationType="slide">
                 {isParentScreen ? <ModalForAddRewards handleShowModal={handleShowModal} setRewards={setRewards}/> :

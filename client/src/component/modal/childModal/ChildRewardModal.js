@@ -8,12 +8,15 @@ import { colors } from "../../utilis/colors"
 
 export default function(){
 
-    const btnRightIcon = (textColor)=>(
-    <HStack alignItems="center" space={0.5} pl={textColor === "secondary" ? 30 : null}>
-         <Text color={textColor}>+50</Text>
-                <SvgUri source={require("../../../../assets/rewardIcons/Egg.svg")} fill={colors.eggYellow}/>
-    </HStack>
-    )
+    const {selectedReward} = useContext(childRewardContext)
+    const {title, desc, cost} = selectedReward
+
+    // const btnRightIcon = (textColor)=>(
+    // <HStack alignItems="center" space={0.5} pl={textColor === "secondary" ? 30 : null}>
+    //      <Text color={textColor}>+50</Text>
+    //             <SvgUri source={require("../../../../assets/rewardIcons/Egg.svg")} fill={colors.eggYellow}/>
+    // </HStack>
+    // )
     
     const {setShowModal} = useContext(childRewardContext)
 
@@ -29,16 +32,16 @@ export default function(){
 
             <HStack justifyContent="space-between" alignItems="center" mt={2}>
                 <HStack  alignItems="center" space={2} p={4}>
-                    <Text fontSize="20">PlayStation 5</Text>
+                    <Text fontSize="20">{title}</Text>
                 </HStack>
                 <HStack alignItems="center" space={1} pr={5}>
-                    <Text color="black" fontSize="20">1000</Text>
+                    <Text color="black" fontSize="20">{cost}</Text>
                     <SvgUri source={require("../../../../assets/rewardIcons/Egg.svg")} fill={colors.eggYellow} height={25} width={25}/>
                 </HStack>
             </HStack>
 
             <Text pl={5} space={1} lineHeight={25}>
-            The PS5 console unleashes new gaming possibilities that you never anticipated. Experience lightning fast loading with an ultra-high speed SSD, deeper immersion with support for haptic feedback.
+            {desc}
             </Text>
 
                 <Center h={160} justifyContent="space-around" mt={20}>
