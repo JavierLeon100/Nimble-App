@@ -3,19 +3,16 @@ import mongoose from "mongoose";
 const parentSchema = new mongoose.Schema({
     id: {
         type: String,
-        required: true,
     },
     name: {
         type: String,
     },
-    // tasksId: [String],
-    // rewardsId: [String],
+    homeId: String,
 });
 
 const childSchema = new mongoose.Schema({
     id: {
         type: String,
-        required: true,
     },
     name: {
         type: String,
@@ -23,14 +20,12 @@ const childSchema = new mongoose.Schema({
     points: {
         type: Number,
     },
-    tasksId: [String],
-    rewardsId: [String],
+    homeId: String,
 });
 
 const taskSchema = new mongoose.Schema({
     id: {
         type: String,
-        required: true,
     },
     title: {
         type: String,
@@ -38,7 +33,7 @@ const taskSchema = new mongoose.Schema({
     date: {
         type: String,
     },
-    child: childSchema,
+    childId: String,
     img: {
         type: String,
     },
@@ -55,12 +50,12 @@ const taskSchema = new mongoose.Schema({
         type: Boolean,
     },
     status: String,
+    homeId: String,
 });
 
 const rewardSchema = new mongoose.Schema({
     id: {
         type: String,
-        required: true,
     },
     title: {
         type: String,
@@ -68,7 +63,7 @@ const rewardSchema = new mongoose.Schema({
     cost: {
         type: Number,
     },
-    child: childSchema,
+    childId: String,
     img: {
         type: String,
     },
@@ -76,8 +71,9 @@ const rewardSchema = new mongoose.Schema({
         type: String,
     },
     notes: {
-        type: Number,
+        type: String,
     },
+    homeId: String,
 });
 
 const homeSchema = new mongoose.Schema({
@@ -85,7 +81,7 @@ const homeSchema = new mongoose.Schema({
         type: String,
     },
     name: String,
-    parents: [parentSchema],
+    parents: parentSchema,
     children: [childSchema],
     tasks: [taskSchema],
     rewards: [rewardSchema],
