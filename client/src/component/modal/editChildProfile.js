@@ -103,8 +103,6 @@ export default function EditChildProfile({showModal, changeMode}){
                     </HStack>
                     
                 </VStack>
-                
-               
             </HStack>
 
             

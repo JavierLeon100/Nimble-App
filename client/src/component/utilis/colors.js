@@ -17,5 +17,10 @@ export const colors = {
         backGroundModal : "#F5F5FC",
         cancelBtnGray : "#858585",
         eggYellow : "#FBD300",
-        red : "#FF0000"
+        red : "#FF0000",
+        schemaForBtn : {
+            400 : "#6A6CFF"
+        },
+        loginFormBlue : "#4E53FB40",
+        childBackGround : "#f7ebe9"
 }

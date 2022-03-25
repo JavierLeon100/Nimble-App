@@ -9,6 +9,7 @@ import {TaskToEditContext } from "../screens/TaskScreen";
 import { EvilIcons } from '@expo/vector-icons';
 import generateID from "../utilis/generate";
 
+
 export default function ModalDetailForActivity({handleShowModal, setTasks, editTask,  updateTask}){
 
     const [image, setImage] = useState();
@@ -43,7 +44,8 @@ export default function ModalDetailForActivity({handleShowModal, setTasks, editT
         }
     });
 
-    const {selectedTask, setSelectedTask} = useContext(TaskToEditContext)
+    
+    const {selectedTask, setSelectedTask} = useContext(TaskToEditContext )
     // const selectedTask = selectedTaskArry[0]
     const {
         title, 

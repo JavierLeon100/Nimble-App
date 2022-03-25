@@ -44,7 +44,8 @@ export default function App() {
             schemaForBtn : {
                 400 : "#6A6CFF"
             },
-            loginFormBlue : "#4E53FB40"
+            loginFormBlue : "#4E53FB40",
+            childBackGround : "#FFFAF9"
         },
         fontConfig : {
             Quicksand : {

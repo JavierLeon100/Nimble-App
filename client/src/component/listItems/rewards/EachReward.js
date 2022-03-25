@@ -1,4 +1,4 @@
-import { Text, VStack, HStack, Center, Image } from "native-base";
+import { Text, VStack, HStack, Center, Image, Pressable } from "native-base";
 import { colors } from "../../utilis/colors";
 import { AntDesign } from '@expo/vector-icons';
 import SvgUri from 'react-native-svg-uri-updated';
@@ -7,7 +7,8 @@ import SvgUri from 'react-native-svg-uri-updated';
 export default function({reward}){
 
     return (
-            <VStack bg="white" borderRadius="10" py="5" justifyContent="center" alignItems="center" space={2}>
+                
+        <VStack bg="white" borderRadius="10" py="5" justifyContent="center" alignItems="center" space={2}>
                     <Text textAlign="left" w="80%" fontSize={18}>{reward.title}</Text>
                 <Center>
                     <Image source={require("../../../../assets/rewardIcons/switch.png")} size="lg" resizeMode="contain" alt="reward icon"/>
@@ -18,5 +19,6 @@ export default function({reward}){
                     </HStack>
                 </Center>
             </VStack>
+                        
         ) 
 }

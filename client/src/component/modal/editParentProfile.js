@@ -43,7 +43,6 @@ export default function editParentProfile({showModal, changeMode}){
 
     const header = ()=>(
         <>
-               
                 <Center mb={2}>
                     <VStack w="80%">
                         <Text fontSize="16" opacity="0.7" mb={2}>Name</Text>

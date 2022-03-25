@@ -6,7 +6,6 @@ import { Platform, Animated, Dimensions, Modal} from "react-native"
 import ModalDetailForActivity from "../modal/modalDetailForActivity";
 import { useEffect, useState, useRef, createContext } from "react";
 import { Button, FlatList, HStack , Text, Center, Box, Pressable, Modal as ModalN, Icon } from "native-base";
-import ChildsProfileScreen from "./ChildsProfileScreeen";
 import { SwipeListView } from 'react-native-swipe-list-view';
 import { colors } from "../utilis/colors";
 import * as Notifications from 'expo-notifications';
