@@ -16,7 +16,6 @@ import {
     Modal as ModalN,
     Icon,
 } from "native-base";
-import ChildsProfileScreen from "./ChildsProfileScreeen";
 import { SwipeListView } from "react-native-swipe-list-view";
 import { colors } from "../utilis/colors";
 import * as Notifications from "expo-notifications";

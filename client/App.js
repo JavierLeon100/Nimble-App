@@ -1,27 +1,14 @@
+import { NativeBaseProvider, extendTheme, Image } from "native-base";
+import { useFonts, Quicksand_300Light, Quicksand_400Regular, Quicksand_600SemiBold, Quicksand_500Medium } from "@expo-google-fonts/quicksand";
+import AppLoading from 'expo-app-loading'
+import OnBoardingScreen from "./OnBoardingScreen";
+import { createContext } from "react";
 import { NavigationContainer } from "@react-navigation/native";
-import { createNativeStackNavigator } from "@react-navigation/native-stack";
-import { NativeBaseProvider, extendTheme } from "native-base";
-import Index from "./index";
-import ChildsView from "./ChildsView";
-// import { ApolloClient, ApolloProvider, InMemoryCache } from "@apollo/client";
-import { createContext, useState } from "react";
-import {
-    useFonts,
-    Quicksand_300Light,
-    Quicksand_400Regular,
-    Quicksand_600SemiBold,
-    Quicksand_500Medium,
-} from "@expo-google-fonts/quicksand";
-import AppLoading from "expo-app-loading";
 
-// const client = new ApolloClient({
-//     uri: "http://localhost:4000/graphql",
-//     cache: new InMemoryCache(),
-// });
-const Stack = createNativeStackNavigator();
+export const fontsContext = createContext()
 
 export default function App() {
-    const [isParent, setIsParent] = useState(true);
+    
     let [fontsLoaded] = useFonts({
         Quicksand_300Light,
         Quicksand_400Regular,
@@ -42,16 +29,23 @@ export default function App() {
                 lightBlueS: "#B5B6FF",
                 blueS: "#5556CC",
             },
-            secondary: "#FF6C58",
-            accent: "#FBD300",
-            white: "#FEFEFE",
-            black: "#0B0B19",
-            darkBlueGray: "#F0F0FF",
-            blueGray: "#F5F5FC",
-            mainGray: "#E9E9E9",
-            backGroundLightBlue: "#F7F7FF",
-            backGroundModal: "#F5F5FC",
-            cancelBtnGray: "#858585",
+            secondary : "#FF6C58",
+            accent : "#FBD300",
+            white : "#FEFEFE",
+            black : "#0B0B19",
+            darkBlueGray : "#F0F0FF",
+            blueGray : "#F5F5FC",
+            mainGray : "#E9E9E9",
+            backGroundLightBlue  : "#F7F7FF",
+            backGroundModal : "#F5F5FC",
+            cancelBtnGray : "#858585",
+            eggYellow : "#FBD300",
+            red : "#FF0000",
+            schemaForBtn : {
+                400 : "#6A6CFF"
+            },
+            loginFormBlue : "#4E53FB40",
+            childBackGround : "#FFFAF9"
         },
         fontConfig: {
             Quicksand: {
@@ -76,12 +70,19 @@ export default function App() {
             body: "Quicksand_500Medium",
             head: "Quicksand_600SemiBold",
         },
-    });
+
+    })
+
+    
+
+    
     return (
-        <NativeBaseProvider theme={theme}>
-            <NavigationContainer>
-                {isParent ? <Index font={fontsLoaded} /> : <ChildsView />}
-            </NavigationContainer>
-        </NativeBaseProvider>
+        <NavigationContainer>
+            <NativeBaseProvider theme={theme}>
+                <fontsContext.Provider value={fontsContext}>
+                    <OnBoardingScreen fontsLoaded={fontsLoaded}/>
+                </fontsContext.Provider>
+            </NativeBaseProvider>
+        </NavigationContainer>
     );
 }

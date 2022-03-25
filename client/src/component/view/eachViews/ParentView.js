@@ -3,14 +3,13 @@ import {Avatar, Box, Icon, Pressable, Stack} from "native-base";
 import { useState } from "react";
 import { Modal } from "react-native";
 import { Text, View } from 'react-native';
-import EditParentProfile from "./src/component/modal/editParentProfile";
-import ActivityScreen from "./src/component/screens/ActivityScreen";
-import RewardScreen from "./src/component/screens/RewardScreen";
-import TaskScreen from './src/component/screens/TaskScreen'
-import EditChildProfile from "./src/component/modal/editChildProfile";
-import { colors } from "./src/component/utilis/colors";
+import EditParentProfile from "../../modal/editParentProfile"
+import ActivityScreen from "../../screens/ActivityScreen";
+import RewardScreen from "../../screens/RewardScreen";
+import TaskScreen from '../../screens/TaskScreen'
+import EditChildProfile from "../../modal/editChildProfile";
+import { colors } from "../../utilis/colors";
 import SvgUri from 'react-native-svg-uri-updated';
-
 
 
 
@@ -61,14 +60,14 @@ const optionsForNav = ({route})=> ({
       const {name} = route
       if (name === "Activity"){
         return (    
-          <SvgUri source={require("./assets/tabBarIcons/ActivityIcon.svg")} fill={focused ? colors.secondary : colors.primary.blue}/>
+          <SvgUri source={require("../../../../assets/tabBarIcons/ActivityIcon.svg")} fill={focused ? colors.secondary : colors.primary.blue}/>
         )
       }
       else if (name === "Rewards") {
-        return <SvgUri source={require("./assets/tabBarIcons/RewardIcon.svg")} fill={focused ? colors.secondary : colors.primary.blue}/>
+        return <SvgUri source={require("../../../../assets/tabBarIcons/RewardIcon.svg")} fill={focused ? colors.secondary : colors.primary.blue}/>
       }
      else if (name === "Tasks"){
-       return <SvgUri source={require("./assets/tabBarIcons/TaskIcon.svg")} fill={focused ? colors.secondary : colors.primary.blue}/>
+       return <SvgUri source={require("../../../../assets/tabBarIcons/TaskIcon.svg")} fill={focused ? colors.secondary : colors.primary.blue}/>
      }
   },
   tabBarActiveTintColor : colors.secondary,

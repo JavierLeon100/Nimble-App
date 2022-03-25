@@ -7,6 +7,8 @@ import { pickImage, takePhoto } from "../utilis/camera/pickAndTakePic";
 import { Pressable } from "react-native";
 import {TaskToEditContext } from "../screens/TaskScreen";
 import { EvilIcons } from '@expo/vector-icons';
+import generateID from "../utilis/generate";
+
 
 export default function ModalDetailForActivity({handleShowModal, setTasks, editTask,  updateTask}){
 
@@ -42,7 +44,8 @@ export default function ModalDetailForActivity({handleShowModal, setTasks, editT
         }
     });
 
-    const {selectedTask, setSelectedTask} = useContext(TaskToEditContext)
+    
+    const {selectedTask, setSelectedTask} = useContext(TaskToEditContext )
     // const selectedTask = selectedTaskArry[0]
     const {
         title, 
@@ -57,11 +60,6 @@ export default function ModalDetailForActivity({handleShowModal, setTasks, editT
 
     const setPlaceholderForEdit = (editPlaceholder, defaultPlaceholder)=>editTask ? editPlaceholder : defaultPlaceholder
 
-    const generateTaskID = (myStrong)=>{
-        let strong = 1000;
-        if (myStrong) strong = myStrong;
-        return new Date().getTime().toString(16)  + Math.floor(strong*Math.random()).toString(16)
-       }
 
 
     const onSubmit = data => {
@@ -78,7 +76,7 @@ export default function ModalDetailForActivity({handleShowModal, setTasks, editT
             console.log("edittask")
             console.log("form", data)
         } else {
-            data.key = generateTaskID()
+            data.key = generateID()
             console.log(date)
             setTasks((prev)=>[
                 ...prev,
@@ -105,7 +103,7 @@ export default function ModalDetailForActivity({handleShowModal, setTasks, editT
     }
 
     return (
-    <ScrollView style={{backgroundColor : colors.backGroundModal}}>
+    <ScrollView bg="backGroundModal">
         <Center>
             <VStack w="100%">
             <HStack alignItems="center" justifyContent="space-around" mt="60" mb="30">
@@ -159,10 +157,10 @@ export default function ModalDetailForActivity({handleShowModal, setTasks, editT
                     <Text fontSize="17" opacity="0.7">Reward Points</Text>
                         <Box mt="3"  borderRadius="10" p="5" bg="white">
                             <Slider size="lg" defaultValue={setPlaceholderForEdit(sliderValue, 0)} onChange={sliderOnChange} onChangeEnd={sliderOnChangeEnd} maxValue={100} >
-                            <Slider.Track bg={colors.shades.lightBlueS}>
-                                <Slider.FilledTrack bg={colors.secondary} opacity="1"/>
+                            <Slider.Track bg="shades.lightBlueS">
+                                <Slider.FilledTrack bg="secondary" opacity="1"/>
                             </Slider.Track>
-                            <Slider.Thumb bg={colors.primary.blue}/>
+                            <Slider.Thumb bg="primary.blue"/>
                             </Slider>
                             <Text textAlign="center">{sliderValue}</Text>
                         </Box>
@@ -175,12 +173,6 @@ export default function ModalDetailForActivity({handleShowModal, setTasks, editT
                     {image ?   <Image source={{ uri: image }} style={{ width: 200, height: 200 }} alt="image" borderRadius="10"/> : null}
                     </Center>
                     <HStack justifyContent="space-around" mt="3">
-                        {/* <AntDesign name="picture" size={70} color="black" onPress={pickImage}/>
-                        <AntDesign name="camera" size={70} color="black" onPress={()=>takePhoto(setAudioPermission,setCameraPermission,setRecordVideoPermission, setImage)}/> */}
-                        {/* <SvgUri source={require("../../../assets/picIcons/GalleryIcon.svg")} />
-                        <SvgUri source={require("../../../assets/picIcons/CaptureIcon.svg")}/> */}
-                        {/* <Image source={require("../../../assets/picIcons/GalleryPng.png")} alt="Gallery" size="sm"/> */}
-                        
                             <VStack alignItems="center" bg="white" px="50" py="5" borderRadius="15" >
                                 <EvilIcons name="image" size={40} color={colors.primary.blue} onPress={()=>pickImage(setImage)}/>
                                 <Text color="primary.blue">Gallery</Text>
@@ -237,7 +229,7 @@ export default function ModalDetailForActivity({handleShowModal, setTasks, editT
                     }>
                             Save
                         </Button>
-                        </Center>
+                    </Center>
                 </FormControl>
             </Center>
             </VStack>

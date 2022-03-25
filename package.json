@@ -1,6 +1,0 @@
-{
-  "dependencies": {
-    "dayjs": "^1.11.0",
-    "react-native-svg-uri-updated": "^1.0.11"
-  }
-}
