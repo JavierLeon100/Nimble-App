@@ -19,9 +19,9 @@ export default function EachTask({ data, handleShowModal, i, row }) {
         >
             <VStack>
                 <Text fontSize="19">{data.title}</Text>
-                <Textr fontSize="11" mt="2">
+                <Text fontSize="11" mt="2">
                     Due: {data.date}
-                </Textr>
+                </Text>
             </VStack>
             <HStack>{renderChild}</HStack>
         </HStack>

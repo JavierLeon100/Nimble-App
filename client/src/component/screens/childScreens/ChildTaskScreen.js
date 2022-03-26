@@ -27,7 +27,8 @@ export default function() {
     const contextValue = {
         selectedTask,
         setSelectedTask,
-        setShowModal
+        setShowModal,
+        setChildTasks
       }
 
       const onSwipeValueChange =(swipeData=>{
@@ -53,19 +54,6 @@ export default function() {
     const handleShowModal = (boo)=>{
         boo ? setShowModal(true) : setShowModal(false)
     }
-
-
-    // const tasks = [
-    //     {title : "a task", date : "Wednesday Jan 26", key : 1, point : 600},
-    //     {title : "b task", date : "Wednesday Jan 27", key : 2, point : 700},
-    //     {title : "c task", date : "Wednesday Jan 28", key : 3, point : 800},
-    //     {title : "d task", date : "Wednesday Jan 29", key : 4, point : 800},
-    //     {title : "e task", date : "Wednesday Jan 30", key : 6, point : 900},
-    //     {title : "f task", date : "2020-12-12", key : 7, point : 1000},
-    //     {title : "g task", date : "2020-12-12", key : 8, point : 11000},
-    //     {title : "h task", date : "2020-12-12", key : 9, point : 600},
-    //     {title : "k task", date : "2020-12-12", key : 10,point : 600},
-    // ]
 
     const openButton = 
                         <Pressable onPress={()=>setShowDeleteModal(true)}>

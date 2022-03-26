@@ -1,14 +1,17 @@
 import { Button, Center, Heading, HStack, ScrollView, Text, VStack } from "native-base"
-import { useContext } from "react"
+import { useContext, useState } from "react"
 import { ImageBackground } from "react-native"
 import SvgUri from "react-native-svg-uri-updated"
 import { ChildTaskToEditContext } from "../../screens/childScreens/ChildTaskScreen"
 import { colors } from "../../utilis/colors"
+import TakePicScreen from "./TakePicScreen"
 
 
 export default function(){
 
-    const {setShowModal, selectedTask} = useContext(ChildTaskToEditContext)
+    const [doingTask, setDoingTask]= useState(false)
+    const [takePicScreen, setTakePicScreen] = useState(false)
+    const {setShowModal, selectedTask, setChildTasks} = useContext(ChildTaskToEditContext)
     const {title, date, point, focus} = selectedTask
 
     const btnRightIcon = (textColor)=>(
@@ -22,6 +25,8 @@ export default function(){
 
 
     return(
+        takePicScreen ? <TakePicScreen /> : 
+
             <ScrollView>
             <ImageBackground resizeMode="cover" source={require("../../../../assets/imageForTasks/CleanUpRoom.png")} style={{
                 flex: 1,
@@ -53,14 +58,23 @@ export default function(){
             </VStack>
 
                 <Center h={160} justifyContent="space-around" mt={20}>
-                        <Button _text={{color : "white", fontSize : 17}} rightIcon={btnRightIcon("white")} bg="secondary" colorScheme="indigo" w="80%" borderRadius={40} h="16">
-                            Do It Right Now
+                        <Button _text={{color : "white", fontSize : 17}} rightIcon={doingTask ? null: btnRightIcon("white")} bg="secondary" colorScheme="indigo" w="80%" borderRadius={40} h="16" onPress={()=>
+                                doingTask ? 
+                                setTakePicScreen(true)
+                                : 
+                                setDoingTask(true)
+                            }>
+                            {doingTask ? "Finish" : "Do It Right Now"}
                         </Button>
 
+                        {doingTask ? null : 
                         <Button _text={{color : "secondary", fontSize : 17}} colorScheme="indigo" w="80%" borderRadius={40} h="16" variant="outline" borderColor="secondary" onPress={()=>setShowModal(false)}>
                         Later Today
                         </Button>
+                        
+                        }
                 </Center>
             </ScrollView>
+    
     )
 }

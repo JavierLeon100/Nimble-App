@@ -15,6 +15,7 @@ export default function(){
     
     const [rewards, setRewards] = useState([])
     const [selectedReward, setSelectedReward] = useState()
+    const [editReward, setEditReward] = useState(false)
     const exampleArrayForChildView = [
     {
         title : "Xbox",
@@ -62,14 +63,16 @@ export default function(){
     }
 
     const handleSelectedReward = (key)=>{
-        const foundReward = exampleArrayForChildView.find(r=> r.key === key)
-        setSelectedReward(foundReward)
+        const childFoundReward = exampleArrayForChildView.find(r=> r.key === key)
+        const parentFoundReward = rewards.find(r=>r.kry === key) 
+        setSelectedReward(isParentScreen ? parentFoundReward : childFoundReward)
     }
 
     const isParentScreen = useContext(CreateParentContext)
     const contextValue = {
         setShowModal,
-        selectedReward
+        selectedReward,
+        editReward
     }
 
     return (
@@ -77,7 +80,10 @@ export default function(){
         {isParentScreen ?   <AllOrSuggested /> : null}
 
         <FlatGrid mt="4" data={isParentScreen ? rewards : exampleArrayForChildView} renderItem={({item})=>
-        <Pressable onPress={()=>{handleSelectedReward(item.key), setShowModal(true)}}>
+        <Pressable onPress={()=>{
+            handleSelectedReward(item.key)
+            setShowModal(true)}
+            }>
             <EachReward reward={item}/>
         </Pressable>
         } itemDimension={130} spacing={19} />

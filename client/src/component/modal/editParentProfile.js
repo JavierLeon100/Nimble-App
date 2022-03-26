@@ -22,6 +22,7 @@ import { AntDesign } from "@expo/vector-icons";
 import { FlatGrid } from "react-native-super-grid";
 import { useForm, Controller } from "react-hook-form";
 import SvgUri from "react-native-svg-uri-updated";
+import { Feather } from '@expo/vector-icons';
 
 export default function editParentProfile({ showModal, changeMode }) {
     const userIocn = (
@@ -67,6 +68,9 @@ export default function editParentProfile({ showModal, changeMode }) {
         <>
             <Center mb={2}>
                 <VStack w="80%">
+                <HStack justifyContent="flex-end">
+                    <Feather name="edit" size={24} color={colors.primary.blue} opacity="0.5"/>
+                </HStack>
                     <Text fontSize="16" opacity="0.7" mb={2}>
                         Name
                     </Text>
@@ -178,13 +182,17 @@ export default function editParentProfile({ showModal, changeMode }) {
                 h={150}
                 pt={50}
             >
-                <Text color="white" onPress={() => showModal(false)}>
-                    Cancel
-                </Text>
+                <Pressable onPress={() => showModal(false)}>
+                        <MaterialCommunityIcons name="less-than" size={30} color="white" />
+                    </Pressable>
                 <Heading size="lg" color="white">
                     Profile
                 </Heading>
-                <Text color="white">Save</Text>
+                <SvgUri
+                        source={require("../../../assets/profileIcons/ProfileIcon.svg")}
+                        height={40}
+                        width={40}
+                />
             </HStack>
             <FlatGrid
                 data={exampleArray}
