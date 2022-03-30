@@ -2,7 +2,7 @@ import PlusButton from "../buttons/PlusButton";
 import AllOrSuggested from "../layout/AllOrSuggested";
 import Date from "../layout/Date";
 import EachTask from "../listItems/tasks/EachTasks";
-import { Platform, Animated, Dimensions, Modal} from "react-native"
+import { Platform, Animated, Dimensions, Modal, View} from "react-native"
 import ModalDetailForActivity from "../modal/modalDetailForActivity";
 import { useEffect, useState, useRef, createContext } from "react";
 import { Button, FlatList, HStack , Text, Center, Box, Pressable, Modal as ModalN } from "native-base";
@@ -24,7 +24,12 @@ Notifications.setNotificationHandler({
 
 export const TaskToEditContext = createContext()
 
-export default function Index({navigation}){
+export default function Index({route, navigation}){
+
+  const {user} = route.params;
+  console.log("User from Google", user);
+
+
     const [showModal, setShowModal] = useState(false)
     const [showDeleteModal, setShowDeleteModal] = useState(false)
     const [tasks, setTasks] = useState([])
@@ -144,7 +149,14 @@ const [expoPushToken, setExpoPushToken] = useState("");
     
 
     return(
+
         <>
+
+        <View>
+          <Text>Welcome {user.name} !</Text>
+        </View>
+
+
         <TaskToEditContext.Provider value={contextValue}>
         <AllOrSuggested />
         <Date />

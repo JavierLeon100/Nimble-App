@@ -8,12 +8,10 @@ import ActivityScreen from "./src/component/screens/ActivityScreen";
 import RewardScreen from "./src/component/screens/RewardScreen";
 import TaskScreen from './src/component/screens/TaskScreen'
 import EditChildProfile from "./src/component/modal/editChildProfile";
+import GoogleLoginScreen from "./src/component/screens/GoogleLoginScreen"
 import { LinearGradient } from 'expo-linear-gradient';
 import { StyleSheet} from 'react-native';
 import { colors } from "./src/component/utilis/colors";
-
-
-
 
 function SettingsScreen() {
   
@@ -56,10 +54,10 @@ export default function({font}){
 
 const screenOptions = {
 }
-
     return (
       <>
         <Tab.Navigator options={{cardStyle : {backgroundColor : colors.black}}}>
+        <Tab.Screen name="GoogleLoginScreen" component={GoogleLoginScreen} />
         <Tab.Screen name="Activity" component={ActivityScreen} 
         options={options} />
         <Tab.Screen name="Tasks" component={TaskScreen} options={options}/>

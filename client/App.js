@@ -1,11 +1,12 @@
 import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { NativeBaseProvider, extendTheme } from "native-base";
-import Index from "./index";
+import Index from "./src/component/screens/TaskScreen";
 import ChildsView from "./ChildsView";
 import { createContext, useState } from "react";
 import { useFonts, Quicksand_300Light, Quicksand_400Regular, Quicksand_600SemiBold, Quicksand_500Medium } from "@expo-google-fonts/quicksand";
 import AppLoading from 'expo-app-loading'
+import GoogleLoginScreen from "./src/component/screens/GoogleLoginScreen";
 
 const Stack = createNativeStackNavigator();
 
@@ -66,7 +67,15 @@ export default function App() {
     return (
         <NativeBaseProvider theme={theme}>
             <NavigationContainer>
-            {isParent ? <Index font={fontsLoaded}/> :  <ChildsView />}
+            <Stack.Navigator initialRouteName="GoogleLoginScreen" >
+
+              <Stack.Screen name ="GoogleLoginScreen" component={GoogleLoginScreen} />
+
+              {/* Index screen is TaskScreen in screens */}
+              <Stack.Screen name ="Index" component={Index} />
+
+            {/* {isParent ? <Index font={fontsLoaded}/> :  <ChildsView />} */}
+            </Stack.Navigator>
             </NavigationContainer>
         </NativeBaseProvider>
     );

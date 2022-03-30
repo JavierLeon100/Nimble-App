@@ -16,12 +16,12 @@ const ChildsProfileScreen = ({navigation}) => {
                 <FormControl>
                     <Stack mb="5">
                         <FormControl.Label>What is your name ?</FormControl.Label>
-                        <Input p={2} placeholder="Edward Cullens" p="6" borderRadius="10"/>
+                        <Input p={2} placeholder="Edward Cullens" borderRadius="10"/>
                     </Stack>
 
                     <Stack mb="5">
                         <FormControl.Label>What is your birthday ?</FormControl.Label>
-                        <Input p={2} placeholder="April 9, 2002" p="6" borderRadius="10"/>
+                        <Input p={2} placeholder="April 9, 2002"  borderRadius="10"/>
                     </Stack>
 
                     <VStack mb="5">
@@ -33,9 +33,6 @@ const ChildsProfileScreen = ({navigation}) => {
                         <AntDesign name="user" size={24} color="black" />
                         </HStack>
                     </VStack>
-
-
-
                 </FormControl>
 
                 <Button>Next</Button>
@@ -45,14 +42,11 @@ const ChildsProfileScreen = ({navigation}) => {
         </Center>
 
       
-
-            
         
         </ScrollView>
 
   
-           
-       
+        
 
         </>
     );
