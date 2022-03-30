@@ -21,6 +21,9 @@ import { colors } from "../utilis/colors";
 import * as Notifications from "expo-notifications";
 import Constants from "expo-constants";
 import DeleteModal from "../modal/deleteModal";
+import { useQuery, gql } from "@apollo/client";
+import { GET_ALL_TASKS } from "../../GraphQL/Queries";
+import { SuggestedTasksData } from "../utilis/SuggestedTaskData";
 
 Notifications.setNotificationHandler({
     handleNotification: async () => ({
@@ -38,7 +41,8 @@ export default function Index({ navigation }) {
     const [tasks, setTasks] = useState([]);
     const [editTask, setEditTask] = useState(false);
     const [selectedTask, setSelectedTask] = useState([]);
-    const [idToEdit, setIDToEdit] = useState();
+    const [idToEdit, setIdToEdit] = useState();
+    const [showSuggested, setShowSuggested] = useState(false);
     // const valueForIdContext = editTask
     const handleShowModal = (boo) => {
         boo ? setShowModal(true) : setShowModal(false);
@@ -78,6 +82,7 @@ export default function Index({ navigation }) {
         const { key } = swipeData;
         if ((swipeData.direction = "left")) {
             const taskToEdit = tasks.filter((task) => task.key == key)[0];
+            console.log(key);
             setSelectedTask(taskToEdit);
         }
         // console.log(taskToEdit)
@@ -158,42 +163,85 @@ export default function Index({ navigation }) {
         };
     }, []);
 
+    //Get Tasks from DB
+    const { error, loading, data } = useQuery(GET_ALL_TASKS, {
+        variables: {
+            //replace with homeIdVariable from auth
+            homeId: "622ab00bfe4e52d96b61a960",
+        },
+    });
+
+    useEffect(() => {
+        data ? setTasks(data.getAllTasks) : null;
+    }, [data]);
+
     return (
         <>
             <TaskToEditContext.Provider value={contextValue}>
-                <AllOrSuggested />
+                <AllOrSuggested
+                    setShowSuggested={setShowSuggested}
+                    showSuggested={showSuggested}
+                />
                 <Date />
                 <Center>
-                    <SwipeListView
-                        data={tasks}
-                        renderItem={
-                            (data, rowMap) => (
-                                // <Animated.View style={{
-                                //   height: rowTranslateAnimatedValues[data.item.key].interpolate({
-                                //     inputRange: [0, 1],
-                                //     outputRange: [0, 50],
-                                // }),
-                                // }}>
+                    {showSuggested ? (
+                        <SwipeListView
+                            data={SuggestedTasksData}
+                            keyExtractor={(item, _id) => item.key}
+                            renderItem={(data, rowMap) => (
                                 <EachTask
+                                    setIdToEdit={setIdToEdit}
                                     data={data.item}
                                     handleShowModal={handleShowModal}
                                     row={rowMap}
+                                    noDate={true}
                                 />
-                            )
-                            // </Animated.View>
-                        }
-                        renderHiddenItem={(data, rowMap) => openButton}
-                        rightOpenValue={-Dimensions.get("window").width}
-                        leftOpenValue={75}
-                        rightActivationValue={100}
-                        leftActionValue={100}
-                        onRightAction={() => {
-                            setEditTask(true), setShowModal(true);
-                        }}
-                        // onLeftAction={()=>setShowModal(true)}
-                        onSwipeValueChange={onSwipeValueChange}
-                        style={{ marginBottom: 240 }}
-                    />
+                            )}
+                            renderHiddenItem={(data, rowMap) => openButton}
+                            rightOpenValue={-Dimensions.get("window").width}
+                            leftOpenValue={75}
+                            rightActivationValue={100}
+                            leftActionValue={100}
+                            onRightAction={() => {
+                                setEditTask(true), setShowModal(true);
+                            }}
+                            onSwipeValueChange={onSwipeValueChange}
+                            style={{ marginBottom: 240 }}
+                        />
+                    ) : (
+                        <SwipeListView
+                            data={tasks}
+                            keyExtractor={(item, _id) => item.key}
+                            renderItem={
+                                (data, rowMap) => (
+                                    // <Animated.View style={{
+                                    //   height: rowTranslateAnimatedValues[data.item.key].interpolate({
+                                    //     inputRange: [0, 1],
+                                    //     outputRange: [0, 50],
+                                    // }),
+                                    // }}>
+                                    <EachTask
+                                        setIdToEdit={setIdToEdit}
+                                        data={data.item}
+                                        handleShowModal={handleShowModal}
+                                        row={rowMap}
+                                    />
+                                )
+                                // </Animated.View>
+                            }
+                            renderHiddenItem={(data, rowMap) => openButton}
+                            rightOpenValue={-Dimensions.get("window").width}
+                            leftOpenValue={75}
+                            rightActivationValue={100}
+                            leftActionValue={100}
+                            onRightAction={() => {
+                                setEditTask(true), setShowModal(true);
+                            }}
+                            // onLeftAction={()=>setShowModal(true)}
+                            onSwipeValueChange={onSwipeValueChange}
+                            style={{ marginBottom: 240 }}
+                        />
+                    )}
                 </Center>
                 <PlusButton
                     handleShowModal={handleShowModal}
