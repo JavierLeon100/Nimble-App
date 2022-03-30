@@ -1,5 +1,5 @@
 import { Center, FormControl, Heading, HStack, Text, VStack, Input, Stack, Slider, Box, TextArea, ScrollView, Button, Image} from "native-base";
-import { useRef, useState } from "react";
+import { useContext, useRef, useState } from "react";
 import { colors } from "../utilis/colors";
 import * as ImagePicker from 'expo-image-picker';
 import RecordVideo from "../layout/recordVideo";
@@ -10,6 +10,7 @@ import { startRecordVideo, stopRecordVideo} from "../utilis/camera/recordVideo";
 import { useForm, Controller } from "react-hook-form";
 import { EvilIcons } from '@expo/vector-icons';
 import generateID from "../utilis/generate";
+import { childRewardContext } from "../screens/RewardScreen";
 
 export default function ModalForAddRewards({handleShowModal, setRewards}){
     const [image, setImage] = useState();
@@ -31,6 +32,8 @@ export default function ModalForAddRewards({handleShowModal, setRewards}){
             title : ""
         }
     });
+
+    const {editReward, selectedReward} = useContext(childRewardContext)
 
     const onSubmit = data=>{
         data.cost = sliderValue
@@ -71,7 +74,7 @@ export default function ModalForAddRewards({handleShowModal, setRewards}){
                         <Controller 
                         control={control}
                         render={({ field: { onChange, onBlur, value } })=>(
-                            <Input p={4} placeholder={"title"} borderRadius="10" 
+                            <Input p={4} placeholder="title" borderRadius="10" 
                             onChangeText={onChange} value={value} bg="white"/>
                         )}
                         name = "title"

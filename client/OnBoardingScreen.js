@@ -14,13 +14,8 @@ import LoginScreen from './src/component/screens/signIn_up/LoginScreen';
 const Stack = createNativeStackNavigator();
 
 export default function({fontsLoaded}){
-    // const [isParent, setIsParent] = useState(true)
     const [onSlide, setOnSlide] = useState(true)
     const [isSignUp, setIsSignUp] = useState(true)
-    // const doneComponent =  <NavigationContainer>
-    //                         {isParent ? <Index font={fontsLoaded}/> :  <ChildsView />}
-    //                         </NavigationContainer>
-    
 
     const slides = [
         {
