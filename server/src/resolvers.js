@@ -33,6 +33,7 @@ const resolvers = {
         },
         getTasksByChild: async (parent, args, context, info) => {
             const { childId } = args;
+
             return await Task.find({ childId });
         },
         getTask: async (parent, args, context, info) => {
@@ -153,7 +154,7 @@ const resolvers = {
             return `Task with id: ${id} DELETED `;
         },
         updateTask: async (parent, args, context, info) => {
-            const { id } = args;
+            const { id } = task;
             const { title } = args.task;
             const { date } = args.task;
             const { img } = args.task;
@@ -163,7 +164,7 @@ const resolvers = {
             const { focusMode } = args.task;
             const { status } = args.task;
             const { childId } = args.task;
-
+            console.log(args);
             const updates = {};
 
             if (title !== undefined) {
@@ -203,6 +204,7 @@ const resolvers = {
             const task = await Task.findByIdAndUpdate(id, updates, {
                 new: true,
             });
+
             return task;
         },
 
@@ -225,7 +227,6 @@ const resolvers = {
             const { notes } = args.reward;
             const { childId } = args.reward;
 
-            console.log(args);
             const updates = {};
 
             if (title !== undefined) {
