@@ -6,8 +6,6 @@ export default function AllOrSuggested(props) {
     const { showSuggested } = props;
     const { setShowSuggested } = props;
 
-    const [allTasks, setAllTasks] = useState(false);
-    const variantFor = allTasks ? "outline" : null;
     return (
         <Center mt="9">
             <Button.Group isAttached colorScheme="indigo" borderRadius="35">

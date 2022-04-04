@@ -22,9 +22,13 @@ import { AntDesign } from "@expo/vector-icons";
 import { FlatGrid } from "react-native-super-grid";
 import { useForm, Controller } from "react-hook-form";
 import SvgUri from "react-native-svg-uri-updated";
-import { Feather } from '@expo/vector-icons';
+import { Feather } from "@expo/vector-icons";
+import { useQuery } from "@apollo/client";
+import { GET_CHILDREN } from "../../GraphQL/Queries";
+import { useEffect, useState } from "react";
 
 export default function editParentProfile({ showModal, changeMode }) {
+    const [children, setChildren] = useState([]);
     const userIocn = (
         <SvgUri
             source={require("../../../assets/profileIcons/ProfileIcon.svg")}
@@ -45,32 +49,33 @@ export default function editParentProfile({ showModal, changeMode }) {
         },
     });
 
-    const exampleArray = [
-        {
-            icon: userIocn,
-            childName: "Joe",
+    const {
+        error: childError,
+        loading: childLoading,
+        data: childData,
+    } = useQuery(GET_CHILDREN, {
+        variables: {
+            //replace with homeIdVariable from auth
+            homeId: "622ab00bfe4e52d96b61a960",
         },
-        {
-            icon: userIocn,
-            childName: "Angelina",
-        },
-        {
-            icon: userIocn,
-            childName: "Stephen",
-        },
-        {
-            icon: userIocn,
-            childName: "Harry",
-        },
-    ];
+    });
+
+    useEffect(() => {
+        childData ? setChildren(childData.getChildren) : null;
+    }, [childData]);
 
     const header = () => (
         <>
             <Center mb={2}>
                 <VStack w="80%">
-                <HStack justifyContent="flex-end">
-                    <Feather name="edit" size={24} color={colors.primary.blue} opacity="0.5"/>
-                </HStack>
+                    <HStack justifyContent="flex-end">
+                        <Feather
+                            name="edit"
+                            size={24}
+                            color={colors.primary.blue}
+                            opacity="0.5"
+                        />
+                    </HStack>
                     <Text fontSize="16" opacity="0.7" mb={2}>
                         Name
                     </Text>
@@ -183,19 +188,23 @@ export default function editParentProfile({ showModal, changeMode }) {
                 pt={50}
             >
                 <Pressable onPress={() => showModal(false)}>
-                        <MaterialCommunityIcons name="less-than" size={30} color="white" />
-                    </Pressable>
+                    <MaterialCommunityIcons
+                        name="less-than"
+                        size={30}
+                        color="white"
+                    />
+                </Pressable>
                 <Heading size="lg" color="white">
                     Profile
                 </Heading>
                 <SvgUri
-                        source={require("../../../assets/profileIcons/ProfileIcon.svg")}
-                        height={40}
-                        width={40}
+                    source={require("../../../assets/profileIcons/ProfileIcon.svg")}
+                    height={40}
+                    width={40}
                 />
             </HStack>
             <FlatGrid
-                data={exampleArray}
+                data={children}
                 renderItem={({ item }) => (
                     <Center mt={2} alignItems="center">
                         <Button
@@ -204,13 +213,19 @@ export default function editParentProfile({ showModal, changeMode }) {
                             colorScheme="indigo"
                         >
                             <HStack w="40" alignItems="center">
-                                {item.icon}
-                                <Text ml="7">{item.childName}</Text>
+                                <SvgUri
+                                    source={require("../../../assets/profileIcons/ProfileIcon.svg")}
+                                    height={40}
+                                    width={40}
+                                    alignSelf="flex-start"
+                                />
+                                <Text ml="7">{item.name}</Text>
                             </HStack>
                         </Button>
                     </Center>
                 )}
                 ListHeaderComponent={header}
+                keyExtractor={(item) => item._id}
                 ListFooterComponent={footer}
                 itemDimension={180}
             />

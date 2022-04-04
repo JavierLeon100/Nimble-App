@@ -24,6 +24,7 @@ import DeleteModal from "../modal/deleteModal";
 import { useQuery, gql } from "@apollo/client";
 import { GET_ALL_TASKS } from "../../GraphQL/Queries";
 import { SuggestedTasksData } from "../utilis/SuggestedTaskData";
+import { find } from "lodash";
 
 Notifications.setNotificationHandler({
     handleNotification: async () => ({
@@ -77,15 +78,14 @@ export default function Index({ navigation }) {
     };
 
     const onSwipeValueChange = (swipeData) => {
-        // console.log(swipeData)
-        // setSelectedTaskID(swipeData.key)
         const { key } = swipeData;
         if ((swipeData.direction = "left")) {
-            const taskToEdit = tasks.filter((task) => task.key == key)[0];
-            console.log(key);
-            setSelectedTask(taskToEdit);
+            if (showSuggested) {
+                setSelectedTask(find(SuggestedTasksData, { _id: key }));
+            } else {
+                setSelectedTask(find(tasks, { _id: key }));
+            }
         }
-        // console.log(taskToEdit)
     };
 
     const updateTask = (id, taskToUpdate) => {
@@ -164,11 +164,12 @@ export default function Index({ navigation }) {
     }, []);
 
     //Get Tasks from DB
-    const { error, loading, data } = useQuery(GET_ALL_TASKS, {
+    const { error, loading, data, refetch } = useQuery(GET_ALL_TASKS, {
         variables: {
             //replace with homeIdVariable from auth
             homeId: "622ab00bfe4e52d96b61a960",
         },
+        // pollInterval: 500,
     });
 
     useEffect(() => {
@@ -187,10 +188,9 @@ export default function Index({ navigation }) {
                     {showSuggested ? (
                         <SwipeListView
                             data={SuggestedTasksData}
-                            keyExtractor={(item, _id) => item.key}
+                            keyExtractor={(item) => item._id}
                             renderItem={(data, rowMap) => (
                                 <EachTask
-                                    setIdToEdit={setIdToEdit}
                                     data={data.item}
                                     handleShowModal={handleShowModal}
                                     row={rowMap}
@@ -211,7 +211,7 @@ export default function Index({ navigation }) {
                     ) : (
                         <SwipeListView
                             data={tasks}
-                            keyExtractor={(item, _id) => item.key}
+                            keyExtractor={(item) => item._id}
                             renderItem={
                                 (data, rowMap) => (
                                     // <Animated.View style={{
@@ -221,7 +221,6 @@ export default function Index({ navigation }) {
                                     // }),
                                     // }}>
                                     <EachTask
-                                        setIdToEdit={setIdToEdit}
                                         data={data.item}
                                         handleShowModal={handleShowModal}
                                         row={rowMap}
@@ -259,6 +258,7 @@ export default function Index({ navigation }) {
                         setTasks={setTasks}
                         editTask={editTask}
                         updateTask={updateTask}
+                        refetch={refetch}
                     />
                 </Modal>
             </TaskToEditContext.Provider>
