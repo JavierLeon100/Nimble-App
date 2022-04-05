@@ -12,19 +12,17 @@ import { createContext } from "react";
 import { NavigationContainer } from "@react-navigation/native";
 import { ApolloClient, InMemoryCache, ApolloProvider } from "@apollo/client";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
-import { NativeBaseProvider, extendTheme } from "native-base";
 import Index from "./src/component/screens/TaskScreen";
-import ChildsView from "./ChildsView";
-import { createContext, useState } from "react";
-import { useFonts, Quicksand_300Light, Quicksand_400Regular, Quicksand_600SemiBold, Quicksand_500Medium } from "@expo-google-fonts/quicksand";
-import AppLoading from 'expo-app-loading'
+// import { createStackNavigator } from '@react-navigation/stack'
 import GoogleLoginScreen from "./src/component/screens/GoogleLoginScreen";
 
 // Initialize Apollo Client
 const client = new ApolloClient({
-    uri: "http://10.0.2.2:4000/graphql",
+    uri: "http://96.49.203.104:4000/graphql",
     cache: new InMemoryCache(),
 });
+
+const Stack = createNativeStackNavigator()
 
 export const fontsContext = createContext();
 
@@ -100,16 +98,8 @@ export default function App() {
                         <OnBoardingScreen fontsLoaded={fontsLoaded} />
                     </fontsContext.Provider>
                 </NativeBaseProvider>
-            <Stack.Navigator initialRouteName="GoogleLoginScreen" >
-
-              <Stack.Screen name ="GoogleLoginScreen" component={GoogleLoginScreen} />
-
-              {/* Index screen is TaskScreen in screens */}
-              <Stack.Screen name ="Index" component={Index} />
-
-            {/* {isParent ? <Index font={fontsLoaded}/> :  <ChildsView />} */}
-            </Stack.Navigator>
             </NavigationContainer>
         </ApolloProvider>
+        // <GoogleLoginScreen />
     );
 }

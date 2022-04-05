@@ -24,6 +24,8 @@ import DeleteModal from "../modal/deleteModal";
 import { useQuery, gql } from "@apollo/client";
 import { GET_ALL_TASKS } from "../../GraphQL/Queries";
 import { SuggestedTasksData } from "../utilis/SuggestedTaskData";
+import LottieView from 'lottie-react-native';
+
 
 Notifications.setNotificationHandler({
     handleNotification: async () => ({
@@ -37,8 +39,8 @@ export const TaskToEditContext = createContext();
 
 export default function Index({route, navigation}){
 
-  const {user} = route.params;
-  console.log("User from Google", user);
+//   const {user} = route.params
+//   console.log("User from Google", user);
 
 
     const [showModal, setShowModal] = useState(false)
@@ -183,16 +185,17 @@ export default function Index({route, navigation}){
     return (
       
         <>
-
+{/* 
         <View>
-          <Text>Welcome {user.name} !</Text>
-        </View>
+          <Text>Welcome {user?.name} !</Text>
+        </View> */}
 
             <TaskToEditContext.Provider value={contextValue}>
                 <AllOrSuggested
                     setShowSuggested={setShowSuggested}
                     showSuggested={showSuggested}
                 />
+              
                 <Date />
                 <Center>
                     {showSuggested ? (

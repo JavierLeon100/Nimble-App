@@ -119,7 +119,7 @@ export default function ModalDetailForActivity({
 
     const handleChildArray = () => {
         const { value } = childRef.current;
-        setChildArray((prev) => [...prev, value]);
+        setChildArray((prev) => [...prev, {name : value, _id : value}]);
     };
 
     const {
