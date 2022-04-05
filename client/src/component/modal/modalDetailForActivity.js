@@ -203,7 +203,7 @@ export default function ModalDetailForActivity({
     };
 
     return (
-        <ScrollView bg="backGroundModal">
+        <ScrollView bg="backGroundModal" >
             <Center>
                 <VStack w="100%">
                     <HStack
@@ -272,6 +272,7 @@ export default function ModalDetailForActivity({
                                     onValueChange={(itemValue) =>
                                         setChildId(itemValue)
                                     }
+                                    
                                 >
                                     {childArray
                                         ? childArray.map((child) => (
