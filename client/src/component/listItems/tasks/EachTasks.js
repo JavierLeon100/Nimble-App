@@ -3,14 +3,7 @@ import { Animated } from "react-native";
 import { AntDesign } from "@expo/vector-icons";
 import SvgUri from "react-native-svg-uri-updated";
 import { FlatGrid } from "react-native-super-grid";
-export default function EachTask({
-    data,
-    handleShowModal,
-    i,
-    row,
-    noDate,
-    setIdToEdit,
-}) {
+
 
 export default function EachTask({ data, handleShowModal, i, row, noDate }) {
     // console.log(data)
