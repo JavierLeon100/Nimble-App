@@ -24,6 +24,7 @@ export default function () {
     const [audioPermission, setAudioPermission] = useState();
     const [image, setImage] = useState();
     const [photoUploadMode, setPhotoUploadMode] = useState(false);
+    const [dateTaken, setDateTaken] = useState();
 
     // useEffect(()=>{
     //     setPhotoUploadMode(true)
@@ -35,7 +36,8 @@ export default function () {
             setAudioPermission,
             setCameraPermission,
             setRecordVideoPermission,
-            setImage
+            setImage,
+            setDateTaken
         );
     };
 
@@ -46,6 +48,7 @@ export default function () {
             variables: {
                 updateTaskId: selectedTask._id,
                 task: {
+                    date: dateTaken,
                     status: "completed",
                     img: image,
                 },
