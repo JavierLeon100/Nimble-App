@@ -4,6 +4,7 @@ import {React, useState} from 'react';
 import { StyleSheet, View, Text, Image, Button } from 'react-native';
 import * as Google from 'expo-google-app-auth';
 import { Heading } from 'native-base';
+import TaskScreen from './TaskScreen';
 
   // const Google_APIKEY = "AIzaSyD8v7HV9-InofzsuhZGS2QNKA6IlkSDCgg ";
 
@@ -16,6 +17,7 @@ const GoogleLoginScreen = ({navigation}) => {
   const [userInfo, setUserInfo] = useState();
   const [message, setMessage] = useState();
   const [messageType, setMessageType] = useState();
+  const [googleLogin, setGoogleLogin] = useState(false);
 
 
   const signInAsync = async() =>{
@@ -29,7 +31,8 @@ const GoogleLoginScreen = ({navigation}) => {
       if (type == "success") {
         //Then you can use Google REST API
         console.log("GoogleLoginScreen.js | log in success! navigating to home screen!");
-        navigation.navigate("Index", { user })
+        // navigation.navigate("TaskScreen", { user })
+        setGoogleLogin(true);
       }
     } catch (error) {
       console.log("GoogleLoginScreen.js | error with login", error);
@@ -41,6 +44,7 @@ const GoogleLoginScreen = ({navigation}) => {
     <View style={styles.container}>
       <Heading>NIMBLE</Heading>
       <Button title="Login with Google" onPress={signInAsync} />
+      { googleLogin ? < TaskScreen />  : null }
     </View>
   );
 };

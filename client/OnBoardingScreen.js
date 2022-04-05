@@ -50,13 +50,10 @@ export default function({fontsLoaded}){
                                 <SvgUri source={item.image} height={250} width={250}/>
                                 <Heading color="white">{item.heading}</Heading>
                                 <Text color="white" w={300} textAlign="center" mt={8}>{item.text}</Text>
-                                <Button bg={!item.heading ? "white" : "secondary"} colorScheme='indigo' _text={{color : !item.heading ? "primary.blue" : "white", fontSize : 17}} borderRadius="30" w={300} py={5} mt={200} onPress={()=> {setOnSlide(false), setIsSignUp(true)}}>
-                                    {!item.heading ? "Get Started" : "Sign Up"}
-                                </Button>
+                                <Button bg={!item.heading ? "white" : "secondary"} colorScheme='indigo' _text={{color : !item.heading ? "primary.blue" : "white", fontSize : 17}} borderRadius="30" w={300} py={5} mt={200} onPress={()=> {setOnSlide(false)}}>
+                                    Login with Google                                </Button>
                                 <Text color="white" fontSize="md" mt={8}>Have an account?</Text>
-                                <Pressable>
-                                    <Text color="accent" fontSize="md" mt={2} onPress={()=> {setOnSlide(false), setIsSignUp(false)}}>Login</Text>
-                                </Pressable>
+                                
                             </VStack>
                         </Center>
                         )
@@ -66,7 +63,7 @@ export default function({fontsLoaded}){
         
             onSlide ? <AppIntroSlider renderItem={renderItem} data={slides} showDoneButton={false} showNextButton={false}/> 
             :
-            isSignUp ? <SignUpScreen /> : <LoginScreen />
+          <LoginScreen />
             
             
        

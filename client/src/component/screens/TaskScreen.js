@@ -36,7 +36,9 @@ Notifications.setNotificationHandler({
 
 export const TaskToEditContext = createContext();
 
-export default function Index({route, navigation}){
+export default function({ route, navigation }){
+
+    
 
   const {user} = route.params;
 
