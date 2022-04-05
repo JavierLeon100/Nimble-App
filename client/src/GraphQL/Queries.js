@@ -18,6 +18,24 @@ export const GET_ALL_TASKS = gql`
     }
 `;
 
+export const GET_TASKS_BY_CHILD = gql`
+    query GetTasksByChild($childId: String) {
+        getTasksByChild(childId: $childId) {
+            status
+            childId
+            homeId
+            focusMode
+            urgent
+            rewardPoints
+            notes
+            img
+            date
+            title
+            _id
+        }
+    }
+`;
+
 export const GET_CHILDREN = gql`
     query GetChildren($homeId: String) {
         getChildren(homeId: $homeId) {

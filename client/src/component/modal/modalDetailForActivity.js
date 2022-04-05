@@ -16,24 +16,31 @@ import {
     Button,
     Image,
     InputGroup,
+    Select,
+    CheckIcon,
 } from "native-base";
 import { AntDesign } from "@expo/vector-icons";
 import { useRef, useState, useContext, useEffect } from "react";
 import { colors } from "../utilis/colors";
 import { useForm, Controller } from "react-hook-form";
 import { pickImage, takePhoto } from "../utilis/camera/pickAndTakePic";
-import { Pressable } from "react-native";
+import { Platform, Pressable } from "react-native";
 import { TaskToEditContext } from "../screens/TaskScreen";
 import { EvilIcons } from "@expo/vector-icons";
 import generateID from "../utilis/generate";
-import { GET_CHILDREN } from "../../GraphQL/Queries";
-import { useQuery } from "@apollo/client";
+import { GET_ALL_TASKS, GET_CHILDREN } from "../../GraphQL/Queries";
+import { useMutation, useQuery } from "@apollo/client";
+import { FlatGrid } from "react-native-super-grid";
+import { SvgUri } from "react-native-svg";
+import DateTimePicker from "@react-native-community/datetimepicker";
+import { CREATE_TASK } from "../../GraphQL/Mutations";
 
 export default function ModalDetailForActivity({
     handleShowModal,
     setTasks,
     editTask,
     updateTask,
+    refetch,
 }) {
     const [image, setImage] = useState();
     const [video, setVideo] = useState();
@@ -43,13 +50,21 @@ export default function ModalDetailForActivity({
     const [cameraPermission, setCameraPermission] = useState();
     const [recordVideoPermission, setRecordVideoPermission] = useState();
     const [audioPermission, setAudioPermission] = useState();
-
+    const [childId, setChildId] = useState("");
     const [sliderValue, setSliderValue] = useState(0);
     const [focus, setFocus] = useState(false);
     const [timer, setTimer] = useState(false);
     const [urgent, setUrgent] = useState(false);
     const [childArray, setChildArray] = useState([]);
     const childRef = useRef(null);
+
+    //Date Picker
+    const [datePicker, setDatePicker] = useState(new Date());
+    const [dateMode, setDateMode] = useState("date");
+    const [dateShow, setDateShow] = useState(false);
+    const [finalDate, setFinalDate] = useState("");
+    const [dateText, setDateText] = useState("Date");
+    const [timeText, setTimeText] = useState("Time");
 
     useEffect(() => {
         if (editTask) {
@@ -88,24 +103,48 @@ export default function ModalDetailForActivity({
     const setPlaceholderForEdit = (editPlaceholder, defaultPlaceholder) =>
         editTask ? editPlaceholder : defaultPlaceholder;
 
-    const onSubmit = (data) => {
-        data.rewardPoints = sliderValue;
-        data.timer = timer;
-        data.urgent = urgent;
-        data.focus = focus;
-        data.child = childArray;
+    //Add Task to BD
+    const [createTask, { data }] = useMutation(CREATE_TASK);
 
-        if (editTask) {
-            data.key = selectedTask.key;
-            // setSelectedTask(data)
-            updateTask(selectedTask.key, data);
-            console.log("edittask");
-            console.log("form", data);
-        } else {
-            data.key = generateID();
-            console.log(date);
-            setTasks((prev) => [...prev, data]);
-        }
+    const onSubmit = (data) => {
+        const { title } = data;
+        const { notes } = data;
+        // data.rewardPoints = sliderValue;
+        // data.timer = timer ? timer : "false";
+        // data.urgent = urgent;
+        // data.focus = focus ? focus : "false";
+        // data.childId = childId;
+        // data.status = "new";
+        // data.date = finalDate;
+
+        const task = {};
+        task.title = title;
+        task.notes = notes;
+        task.homeId = "622ab00bfe4e52d96b61a960";
+        task.childId = childId;
+        task.status = "new";
+        task.focusMode = focus;
+        task.urgent = urgent;
+        task.rewardPoints = sliderValue;
+        task.date = finalDate;
+
+        createTask({
+            variables: { task },
+        });
+
+        // if (editTask) {
+        //     data.key = selectedTask.key;
+        //     // setSelectedTask(data)
+        //     updateTask(selectedTask.key, data);
+        //     console.log("edittask");
+        //     console.log("form", data);
+        // } else {
+        //     data.key = generateID();
+        //     console.log(date);
+        //     setTasks((prev) => [...prev, data]);
+        // }
+
+        refetch();
         handleShowModal(false);
     };
 
@@ -117,11 +156,14 @@ export default function ModalDetailForActivity({
         setSliderValue(Math.floor(v));
     };
 
+<<<<<<< HEAD
     const handleChildArray = () => {
         const { value } = childRef.current;
         setChildArray((prev) => [...prev, {name : value, _id : value}]);
     };
 
+=======
+>>>>>>> 37ce771a75b07388dac11461cdcb280c18333290
     const {
         error: childError,
         loading: childLoading,
@@ -136,6 +178,39 @@ export default function ModalDetailForActivity({
     useEffect(() => {
         childData ? setChildArray(childData.getChildren) : null;
     }, [childData]);
+
+    // const handleOnPressChild = (childId) => {
+    //     console.log("change kid to", childId);
+    //     setChildId(childId);
+    //     console.log("change kid to", childId);
+    // };
+
+    const onDateChange = (event, selectedDate) => {
+        const currentDate = selectedDate || date;
+        setDateShow(Platform.OS === "ios");
+        setDateMode(currentDate);
+
+        let tempDate = new Date(currentDate);
+        let newDate =
+            tempDate.getDate() +
+            " " +
+            (tempDate.getMonth() + 1) +
+            " " +
+            tempDate.getFullYear();
+        let newTime = tempDate.getHours() + ":" + tempDate.getMinutes();
+
+        if (dateMode === "date") {
+            setDateText(newDate);
+        } else if (dateMode === "time") {
+            setTimeText(newTime);
+        }
+        setFinalDate(newDate + " | " + newTime);
+    };
+
+    const showDateMode = (currentMode) => {
+        setDateShow(true);
+        setDateMode(currentMode);
+    };
 
     return (
         <ScrollView bg="backGroundModal">
@@ -192,48 +267,73 @@ export default function ModalDetailForActivity({
 
                             <VStack mb="5">
                                 <Text fontSize="16" opacity="0.7">
-                                    Assign To
+                                    Assign To:
                                 </Text>
-                                <HStack space="2" mt="2">
-                                    <Input w="260" ref={childRef} />
-                                    <Button onPress={handleChildArray}>
-                                        Assign
-                                    </Button>
-                                </HStack>
-                                {childArray
-                                    ? childArray.map((c) => (
-                                          <Text key={c._id} color="black">
-                                              {c.name}
-                                          </Text>
-                                      ))
-                                    : null}
+
+                                <Select
+                                    selectedValue={childId}
+                                    accessibilityLabel="Choose Child"
+                                    placeholder="Choose Child"
+                                    _selectedItem={{
+                                        bg: "primary.400",
+                                        endIcon: <CheckIcon size="5" />,
+                                    }}
+                                    mt={1}
+                                    onValueChange={(itemValue) =>
+                                        setChildId(itemValue)
+                                    }
+                                >
+                                    {childArray
+                                        ? childArray.map((child) => (
+                                              <Select.Item
+                                                  label={child.name}
+                                                  value={child._id}
+                                              />
+                                          ))
+                                        : null}
+                                </Select>
                             </VStack>
 
                             <Stack mb="5">
-                                <FormControl.Label>
-                                    <Text fontSize="16" opacity="0.7">
-                                        Date/time
+                                <Text fontSize="16" opacity="0.7">
+                                    Date
+                                </Text>
+                                <Button
+                                    mt={2}
+                                    p={4}
+                                    borderRadius="10"
+                                    bg="white"
+                                    onPress={() => showDateMode("date")}
+                                >
+                                    <Text color="gray.500" opacity="0.7">
+                                        {dateText}
                                     </Text>
-                                </FormControl.Label>
-                                <Controller
-                                    control={control}
-                                    render={({
-                                        field: { onChange, onBlur, value },
-                                    }) => (
-                                        <Input
-                                            p={4}
-                                            placeholder={setPlaceholderForEdit(
-                                                date,
-                                                "Date/time"
-                                            )}
-                                            borderRadius="10"
-                                            onChangeText={onChange}
-                                            value={value}
-                                            bg="white"
-                                        />
-                                    )}
-                                    name="date"
-                                />
+                                </Button>
+                                <Text mt={3} fontSize="16" opacity="0.7">
+                                    Time
+                                </Text>
+                                <Button
+                                    mt={2}
+                                    p={4}
+                                    borderRadius="10"
+                                    bg="white"
+                                    onPress={() => showDateMode("time")}
+                                >
+                                    <Text color="gray.500" opacity="0.7">
+                                        {timeText}
+                                    </Text>
+                                </Button>
+
+                                {dateShow && (
+                                    <DateTimePicker
+                                        testID="dateTimePicker"
+                                        value={datePicker}
+                                        mode={dateMode}
+                                        is24Hour={true}
+                                        display="default"
+                                        onChange={onDateChange}
+                                    />
+                                )}
                             </Stack>
 
                             <VStack mb="5">
@@ -374,7 +474,7 @@ export default function ModalDetailForActivity({
                                     fontSize="11"
                                     mt="2"
                                 >
-                                    Add instruction, notes or aditional
+                                    Add instruction, notes or additional
                                     description
                                 </Text>
                             </Stack>

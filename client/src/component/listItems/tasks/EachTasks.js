@@ -11,8 +11,11 @@ export default function EachTask({
     noDate,
     setIdToEdit,
 }) {
+
+export default function EachTask({ data, handleShowModal, i, row, noDate }) {
     // console.log(data)
     const { child } = data;
+
     const renderChild = child?.map(() => (
        <SvgUri source={require("../../../../assets/slothFacesSvg/sloth1.svg")}/>
         ));
@@ -32,7 +35,9 @@ export default function EachTask({
             <VStack>
                 <Text fontSize="19">{data.title}</Text>
                 <Text fontSize="11" mt="2">
-                    {noDate ? "" : `Due:${data.date}`}
+                    {noDate
+                        ? "Due: Fri 08 2022 | 12:00 PM"
+                        : `Due:${data.date}`}
                 </Text>
             </VStack>
             {/* <HStack space={2}>{renderChild}</HStack> */}
@@ -55,8 +60,7 @@ export default function EachTask({
         </HStack>
     );
 
-    // setIdToEdit(data.);
-    
+
     return (
         <Center mb={3} key={i} position="relative">
             {mainTaskView}
