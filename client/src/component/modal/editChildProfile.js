@@ -19,7 +19,6 @@ export default function EditChildProfile({showModal, changeMode}){
     });
 
     const BadgeIcon = <SvgUri source={require("../../../assets/profileIcons/badgeIcon.svg")} height={40} width={40}/>
-    const badgeName = <Text w="90" ml="10">name is here</Text>
 
     const exampleArray = [
         {
