@@ -149,6 +149,7 @@ const resolvers = {
             return task;
         },
         deleteTask: async (parent, args, context, info) => {
+            console.log(args);
             const { id } = args;
             await Task.findByIdAndDelete(id);
             return `Task with id: ${id} DELETED `;

@@ -21,13 +21,14 @@ import { colors } from "../utilis/colors";
 import * as Notifications from "expo-notifications";
 import Constants from "expo-constants";
 import DeleteModal from "../modal/deleteModal";
-import { useQuery, gql } from "@apollo/client";
+import { useQuery, gql, useMutation } from "@apollo/client";
 import { GET_ALL_TASKS } from "../../GraphQL/Queries";
 import { SuggestedTasksData } from "../utilis/SuggestedTaskData";
 
 import LottieView from "lottie-react-native";
 
 import { find } from "lodash";
+import { DELETE_TASK } from "../../GraphQL/Mutations";
 
 Notifications.setNotificationHandler({
     handleNotification: async () => ({
@@ -102,9 +103,12 @@ export default function Index({ route, navigation }) {
         setTasks(newTasks);
     };
 
-    const deleteTask = (id) => {
-        const filtered = tasks.filter((task) => task.key != id);
-        setTasks(filtered);
+    const [deleteTask] = useMutation(DELETE_TASK);
+
+    const handleDeleteTask = (deleteTaskId) => {
+        deleteTask({ variables: { deleteTaskId } });
+
+        refetch();
         setShowDeleteModal(false);
     };
 
@@ -179,8 +183,6 @@ export default function Index({ route, navigation }) {
     });
 
     refetch();
-    console.log(tasks);
-    console.log(error);
 
     useEffect(() => {
         data ? setTasks(data.getAllTasks) : null;
@@ -277,7 +279,7 @@ export default function Index({ route, navigation }) {
             <ModalN isOpen={showDeleteModal} size="lg">
                 <DeleteModal
                     setShowDeleteModal={setShowDeleteModal}
-                    deleteTask={() => deleteTask(selectedTask.key)}
+                    deleteTask={() => handleDeleteTask(selectedTask._id)}
                 />
             </ModalN>
             {/* <Button 
