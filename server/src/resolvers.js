@@ -154,7 +154,7 @@ const resolvers = {
             return `Task with id: ${id} DELETED `;
         },
         updateTask: async (parent, args, context, info) => {
-            const { id } = task;
+            const { id } = args;
             const { title } = args.task;
             const { date } = args.task;
             const { img } = args.task;
@@ -164,7 +164,7 @@ const resolvers = {
             const { focusMode } = args.task;
             const { status } = args.task;
             const { childId } = args.task;
-            console.log(args);
+
             const updates = {};
 
             if (title !== undefined) {
