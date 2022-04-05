@@ -2,7 +2,7 @@ import PlusButton from "../buttons/PlusButton";
 import AllOrSuggested from "../layout/AllOrSuggested";
 import Date from "../layout/Date";
 import EachTask from "../listItems/tasks/EachTasks";
-import { Platform, Animated, Dimensions, Modal } from "react-native";
+import { Platform, Animated, Dimensions, Modal, View} from "react-native"
 import ModalDetailForActivity from "../modal/modalDetailForActivity";
 import { useEffect, useState, useRef, createContext } from "react";
 import {
@@ -24,7 +24,12 @@ import DeleteModal from "../modal/deleteModal";
 import { useQuery, gql } from "@apollo/client";
 import { GET_ALL_TASKS } from "../../GraphQL/Queries";
 import { SuggestedTasksData } from "../utilis/SuggestedTaskData";
+
+import LottieView from 'lottie-react-native';
+
+
 import { find } from "lodash";
+
 
 Notifications.setNotificationHandler({
     handleNotification: async () => ({
@@ -36,12 +41,17 @@ Notifications.setNotificationHandler({
 
 export const TaskToEditContext = createContext();
 
-export default function Index({ navigation }) {
-    const [showModal, setShowModal] = useState(false);
-    const [showDeleteModal, setShowDeleteModal] = useState(false);
-    const [tasks, setTasks] = useState([]);
-    const [editTask, setEditTask] = useState(false);
-    const [selectedTask, setSelectedTask] = useState([]);
+export default function Index({route, navigation}){
+
+//   const {user} = route.params
+//   console.log("User from Google", user);
+
+
+    const [showModal, setShowModal] = useState(false)
+    const [showDeleteModal, setShowDeleteModal] = useState(false)
+    const [tasks, setTasks] = useState([])
+    const [editTask, setEditTask] = useState(false)
+    const [selectedTask, setSelectedTask] = useState([])
     const [idToEdit, setIdToEdit] = useState();
     const [showSuggested, setShowSuggested] = useState(false);
     // const valueForIdContext = editTask
@@ -177,12 +187,19 @@ export default function Index({ navigation }) {
     }, [data]);
 
     return (
+      
         <>
+{/* 
+        <View>
+          <Text>Welcome {user?.name} !</Text>
+        </View> */}
+
             <TaskToEditContext.Provider value={contextValue}>
                 <AllOrSuggested
                     setShowSuggested={setShowSuggested}
                     showSuggested={showSuggested}
                 />
+              
                 <Date />
                 <Center>
                     {showSuggested ? (

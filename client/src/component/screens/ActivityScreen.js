@@ -2,46 +2,41 @@ import { Box, Button, HStack, ScrollView, Text } from "native-base";
 import { useState } from "react";
 import Date from "../layout/Date";
 import SvgUri from "react-native-svg-uri-updated";
+import { FlatGrid } from "react-native-super-grid";
 
 export default function ActivityScreen() {
     const [defaultScreen, setDefaultScreen] = useState(true);
 
+
+    const child = [1,2,2,2]
+
     return (
         <ScrollView>
             <Date />
-            <HStack bg="white" p={3}>
+            <HStack bg="white" p={3} alignItems="center">
                 <Box p={3} />
-                <Text w={250} fontSize="md">
+                <Text w={210} fontSize="md">
                     Task ‘Sweeping and Cleaning Kit’ is Overdue at 12:00 PM
                 </Text>
 
-                <HStack
-                    w={110}
-                    flexDirection="row-reverse"
-                    flexWrap="wrap"
-                    space="2"
-                >
+                
+            <FlatGrid
+                mt="4"
+                data={child}
+                renderItem={({ item }) => (
                     <SvgUri
-                        source={require("../../../assets/profileIcons/ProfileIcon.svg")}
-                        height={30}
-                        width={30}
-                    />
-                    <SvgUri
-                        source={require("../../../assets/profileIcons/ProfileIcon.svg")}
-                        height={30}
-                        width={30}
-                    />
-                    <SvgUri
-                        source={require("../../../assets/profileIcons/ProfileIcon.svg")}
-                        height={30}
-                        width={30}
-                    />
-                    <SvgUri
-                        source={require("../../../assets/profileIcons/ProfileIcon.svg")}
-                        height={30}
-                        width={30}
-                    />
-                </HStack>
+                    source={require("../../../assets/slothFacesSvg/sloth1.svg")}
+                
+                />
+                )}
+                itemDimension={130}
+                spacing={10}
+                horizontal={true}
+                style ={{
+                    height : 70,
+                }}
+            />
+                
             </HStack>
         </ScrollView>
     );

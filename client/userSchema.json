@@ -1,0 +1,16 @@
+{
+    "schemaName": "userType",
+    "fields": [
+      {
+        "fieldName": "Parent",
+        "fieldType": "STRING",
+        "multiValued": "false"
+      },
+      {
+        "fieldName": "Child",
+        "fieldType": "STRING",
+        "multiValued": "false"
+      }
+    ]
+  }
+

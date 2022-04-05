@@ -149,6 +149,13 @@ export default function ModalDetailForActivity({
         setSliderValue(Math.floor(v));
     };
 
+
+    const handleChildArray = () => {
+        const { value } = childRef.current;
+        setChildArray((prev) => [...prev, {name : value, _id : value}]);
+    };
+
+
     const {
         error: childError,
         loading: childLoading,

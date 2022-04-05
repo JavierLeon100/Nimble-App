@@ -11,12 +11,18 @@ import OnBoardingScreen from "./OnBoardingScreen";
 import { createContext } from "react";
 import { NavigationContainer } from "@react-navigation/native";
 import { ApolloClient, InMemoryCache, ApolloProvider } from "@apollo/client";
+import { createNativeStackNavigator } from "@react-navigation/native-stack";
+import Index from "./src/component/screens/TaskScreen";
+// import { createStackNavigator } from '@react-navigation/stack'
+import GoogleLoginScreen from "./src/component/screens/GoogleLoginScreen";
 
 // Initialize Apollo Client
 const client = new ApolloClient({
-    uri: "http://10.0.0.197:4000/graphql",
+    uri: "http://96.49.203.104:4000/graphql",
     cache: new InMemoryCache(),
 });
+
+const Stack = createNativeStackNavigator()
 
 export const fontsContext = createContext();
 
@@ -94,5 +100,6 @@ export default function App() {
                 </NativeBaseProvider>
             </NavigationContainer>
         </ApolloProvider>
+        // <GoogleLoginScreen />
     );
 }
