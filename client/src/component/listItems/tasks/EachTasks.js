@@ -1,16 +1,10 @@
 import { HStack, Text, Center, Button, VStack, Pressable } from "native-base";
 import { Animated } from "react-native";
 import { AntDesign } from "@expo/vector-icons";
-export default function EachTask({
-    data,
-    handleShowModal,
-    i,
-    row,
-    noDate,
-    setIdToEdit,
-}) {
+export default function EachTask({ data, handleShowModal, i, row, noDate }) {
     // console.log(data)
     const { child } = data;
+
     const renderChild = child?.map(() => (
         <AntDesign name="user" size={24} color="black" />
     ));
@@ -27,14 +21,14 @@ export default function EachTask({
             <VStack>
                 <Text fontSize="19">{data.title}</Text>
                 <Text fontSize="11" mt="2">
-                    {noDate ? "" : `Due:${data.date}`}
+                    {noDate
+                        ? "Due: Fri 08 2022 | 12:00 PM"
+                        : `Due:${data.date}`}
                 </Text>
             </VStack>
             <HStack>{renderChild}</HStack>
         </HStack>
     );
-
-    // setIdToEdit(data.);
 
     return (
         <Center mb={3} key={i} position="relative">

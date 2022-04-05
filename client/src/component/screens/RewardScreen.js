@@ -18,6 +18,7 @@ export default function () {
     const [selectedReward, setSelectedReward] = useState();
     const [editReward, setEditReward] = useState(false);
     const exampleArrayForChildView = [];
+    const [showSuggested, setShowSuggested] = useState(false);
 
     const [showModal, setShowModal] = useState(false);
     const handleShowModal = (boo) => {
@@ -55,7 +56,12 @@ export default function () {
 
     return (
         <childRewardContext.Provider value={contextValue}>
-            {isParentScreen ? <AllOrSuggested /> : null}
+            {isParentScreen ? (
+                <AllOrSuggested
+                    setShowSuggested={setShowSuggested}
+                    showSuggested={showSuggested}
+                />
+            ) : null}
 
             <FlatGrid
                 mt="4"
