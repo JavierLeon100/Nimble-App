@@ -8,6 +8,7 @@ import ChildDetailedTaskModal from "../../modal/childModal/ChildDetailedTaskModa
 import { Modal, Dimensions } from "react-native";
 import { GET_TASKS_BY_CHILD } from "../../../GraphQL/Queries";
 import { useQuery } from "@apollo/client";
+import { find } from "lodash";
 
 export const ChildTaskToEditContext = createContext();
 
@@ -27,10 +28,8 @@ export default function () {
         // setSelectedTaskID(swipeData.key)
         const { key } = swipeData;
         if ((swipeData.direction = "left")) {
-            const taskToEdit = childTasks.filter((task) => task.key == key)[0];
-            setSelectedTask(taskToEdit);
+            setSelectedTask(find(childTasks, { _id: key }));
         }
-        // console.log(taskToEdit)
     };
 
     const updateTask = (id, taskToUpdate) => {
@@ -85,6 +84,7 @@ export default function () {
             <Center>
                 <SwipeListView
                     data={childTasks}
+                    keyExtractor={(item) => item._id}
                     renderItem={(data, rowMap) => (
                         <EachTask data={data.item} row={rowMap} />
                     )}
