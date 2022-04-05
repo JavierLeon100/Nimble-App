@@ -109,13 +109,6 @@ export default function ModalDetailForActivity({
     const onSubmit = (data) => {
         const { title } = data;
         const { notes } = data;
-        // data.rewardPoints = sliderValue;
-        // data.timer = timer ? timer : "false";
-        // data.urgent = urgent;
-        // data.focus = focus ? focus : "false";
-        // data.childId = childId;
-        // data.status = "new";
-        // data.date = finalDate;
 
         const task = {};
         task.title = title;

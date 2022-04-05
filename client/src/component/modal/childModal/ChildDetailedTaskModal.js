@@ -20,9 +20,10 @@ export default function () {
     const { setShowModal, selectedTask, setChildTasks } = useContext(
         ChildTaskToEditContext
     );
+
     const taskTitle = selectedTask.title;
     const taskDate = selectedTask.date;
-    const taskPoints = selectedTask.points;
+    const taskPoints = selectedTask.rewardPoints;
     const taskFocus = selectedTask.focus;
     const taskId = selectedTask._id;
     const taskNotes = selectedTask.notes;
@@ -57,7 +58,7 @@ export default function () {
                     px={9}
                     pt={330}
                 >
-                    <HStack alignItems="center" space={2}>
+                    <HStack alignItems="center" space={2} flex={1}>
                         <Heading color="white">{taskTitle}</Heading>
                         {taskFocus ? (
                             <SvgUri
@@ -65,9 +66,13 @@ export default function () {
                             />
                         ) : null}
                     </HStack>
-                    <Text color="white" fontSize="lg">
+                    <Text color="white" fontSize="lg" ml={2}>
                         {taskPoints}
                     </Text>
+                    <SvgUri
+                        source={require("../../../../assets/rewardIcons/Egg.svg")}
+                        fill={colors.eggYellow}
+                    />
                 </HStack>
             </ImageBackground>
 

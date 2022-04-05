@@ -16,8 +16,9 @@ import { AntDesign } from "@expo/vector-icons";
 import { ChildTaskToEditContext } from "../../screens/childScreens/ChildTaskScreen";
 import { useMutation } from "@apollo/client";
 import { UPDATE_TASK } from "../../../GraphQL/Mutations";
+import FileBase64 from "react-file-base64";
 
-export default function (selectedTask, refetch, taskId) {
+export default function () {
     const [cameraPermission, setCameraPermission] = useState();
     const [recordVideoPermission, setRecordVideoPermission] = useState();
     const [audioPermission, setAudioPermission] = useState();
@@ -27,7 +28,7 @@ export default function (selectedTask, refetch, taskId) {
     // useEffect(()=>{
     //     setPhotoUploadMode(true)
     // }, image)
-    const { setShowModal } = useContext(ChildTaskToEditContext);
+    const { selectedTask, setShowModal } = useContext(ChildTaskToEditContext);
 
     const takePhotoFunction = () => {
         takePhoto(
@@ -38,16 +39,18 @@ export default function (selectedTask, refetch, taskId) {
         );
     };
 
-    const [updateTask, { data }] = useMutation(UPDATE_TASK);
+    const [updateTask, { data }, error] = useMutation(UPDATE_TASK);
 
     const handleCompleteTask = () => {
+        console.log(image);
+
         updateTask({
             variables: {
+                updateTaskId: selectedTask._id,
                 task: {
                     status: "completed",
-                    img: "image",
+                    img: image,
                 },
-                id: taskId,
             },
         });
 
