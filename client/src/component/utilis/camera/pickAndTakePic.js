@@ -16,16 +16,21 @@ export const takePhoto = async (
     setRecordVideoPermission,
     setAudioPermission,
     setCameraPermission,
-    setImage
+    setImage,
+    setDateTaken
 ) => {
     const { status } = await Camera.requestCameraPermissionsAsync();
     setCameraPermission(status === "granted");
 
-    const { base64 } = await ImagePicker.launchCameraAsync({
+    const result = await ImagePicker.launchCameraAsync({
         base64: true,
         quality: 0,
+        exif: true,
     });
 
+    const date = result.exif.DateTimeOriginal;
+    const base64 = result.base64;
+    setDateTaken(date);
     setImage(base64);
     const s = await Camera.requestCameraPermissionsAsync().status;
     setRecordVideoPermission(s === "granted");

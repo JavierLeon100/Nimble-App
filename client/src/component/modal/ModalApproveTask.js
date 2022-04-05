@@ -54,18 +54,13 @@ const ModalApproveTask = (props) => {
             </ImageBackground>
 
             <HStack justifyContent="space-between" alignItems="center" m={2}>
-                <Text fontSize={17} color="black" opacity={0.5}>
-                    {selectedTask.date}
-                </Text>
                 <SvgUri
-                    source={require("../../../assets/profileIcons/ProfileIcon.svg")}
+                // source={require("../../../assets/")}
                 />
             </HStack>
 
             <VStack pl={5} space={1}>
-                <Text fontSize={15}>Start Time: 6am Recorded</Text>
-                <Text fontSize={15}>Img date: </Text>
-                <Text fontSize={15}>Img location: </Text>
+                <Text fontSize={15}>Img date: {selectedTask.date} </Text>
             </VStack>
 
             <Center h={160} justifyContent="space-around" mt={20}>
