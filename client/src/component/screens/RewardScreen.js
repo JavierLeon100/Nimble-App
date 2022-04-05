@@ -17,7 +17,7 @@ export default function () {
     const [rewards, setRewards] = useState([]);
     const [selectedReward, setSelectedReward] = useState();
     const [editReward, setEditReward] = useState(false);
-    const exampleArrayForChildView = [];
+    const [childRewards, setChildRewards] = useState([]);
     const [showSuggested, setShowSuggested] = useState(false);
 
     const [showModal, setShowModal] = useState(false);
@@ -26,13 +26,11 @@ export default function () {
     };
 
     const handleSelectedReward = (key) => {
-        const childFoundReward = exampleArrayForChildView.find(
-            (r) => r.key === key
-        );
-        const parentFoundReward = rewards.find((r) => r.kry === key);
-        setSelectedReward(
-            isParentScreen ? parentFoundReward : childFoundReward
-        );
+        const reward = rewards.find((r) => r._id === key);
+
+        setSelectedReward(reward);
+
+        console.log(selectedReward);
     };
 
     const isParentScreen = useContext(CreateParentContext);
@@ -65,11 +63,12 @@ export default function () {
 
             <FlatGrid
                 mt="4"
-                data={isParentScreen ? rewards : exampleArrayForChildView}
+                data={rewards}
+                keyExtractor={(item) => item._id}
                 renderItem={({ item }) => (
                     <Pressable
                         onPress={() => {
-                            handleSelectedReward(item.key);
+                            handleSelectedReward(item._id);
                             setShowModal(true);
                         }}
                     >
