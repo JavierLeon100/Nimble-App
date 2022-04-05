@@ -38,11 +38,11 @@ export const TaskToEditContext = createContext();
 
 export default function({ route, navigation }){
 
-    
 
-  const {user} = route.params;
 
-  console.log("User from Google", user);
+//   const {user} = route.params;
+
+//   console.log("User from Google", user);
 
 
     const [showModal, setShowModal] = useState(false)
@@ -188,10 +188,10 @@ export default function({ route, navigation }){
     return (
       
         <>
-        <View>
-          <Text>Welcome {user.name} !</Text>
+        {/* <View>
+          <Text>Welcome {user.name} !</Text> */}
           {/* <Button title="Log out" onPress={()=>navigation.navigate("SignUpScreen")}></Button> */}
-        </View> 
+        {/* </View>  */}
 
             <TaskToEditContext.Provider value={contextValue}>
                 <AllOrSuggested

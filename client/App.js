@@ -17,7 +17,7 @@ import GoogleLoginScreen from "./src/component/screens/GoogleLoginScreen";
 
 // Initialize Apollo Client
 const client = new ApolloClient({
-    uri: "http://10.0.0.197:4000/graphql",
+    uri: "http://localhost:4000/graphql",
     cache: new InMemoryCache(),
 });
 
