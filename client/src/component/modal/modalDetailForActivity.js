@@ -109,13 +109,6 @@ export default function ModalDetailForActivity({
     const onSubmit = (data) => {
         const { title } = data;
         const { notes } = data;
-        // data.rewardPoints = sliderValue;
-        // data.timer = timer ? timer : "false";
-        // data.urgent = urgent;
-        // data.focus = focus ? focus : "false";
-        // data.childId = childId;
-        // data.status = "new";
-        // data.date = finalDate;
 
         const task = {};
         task.title = title;
@@ -156,12 +149,10 @@ export default function ModalDetailForActivity({
         setSliderValue(Math.floor(v));
     };
 
-
     const handleChildArray = () => {
         const { value } = childRef.current;
-        setChildArray((prev) => [...prev, {name : value, _id : value}]);
+        setChildArray((prev) => [...prev, { name: value, _id: value }]);
     };
-
 
     const {
         error: childError,

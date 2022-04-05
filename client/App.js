@@ -22,7 +22,7 @@ const client = new ApolloClient({
     cache: new InMemoryCache(),
 });
 
-const Stack = createNativeStackNavigator()
+const Stack = createNativeStackNavigator();
 
 export const fontsContext = createContext();
 
