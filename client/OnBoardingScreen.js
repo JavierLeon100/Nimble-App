@@ -14,7 +14,7 @@ import {
     View,
 } from "native-base";
 import { useEffect, useRef, useState } from "react";
-// import Index from "./src/component/view/index";
+
 import { colors } from "./src/component/utilis/colors";
 import AppIntroSlider from "react-native-app-intro-slider";
 import SvgUri from "react-native-svg-uri-updated";
