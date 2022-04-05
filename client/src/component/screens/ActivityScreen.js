@@ -7,8 +7,11 @@ import { FlatGrid } from "react-native-super-grid";
 export default function ActivityScreen() {
     const [defaultScreen, setDefaultScreen] = useState(true);
 
+    //define state for empty/not empty
+    //create EachActivity component with the card
+    //if state empty show screen / if not show list of activity
 
-    const child = [1,2,2,2]
+    const child = [1];
 
     return (
         <ScrollView>
@@ -19,24 +22,21 @@ export default function ActivityScreen() {
                     Task ‘Sweeping and Cleaning Kit’ is Overdue at 12:00 PM
                 </Text>
 
-                
-            <FlatGrid
-                mt="4"
-                data={child}
-                renderItem={({ item }) => (
-                    <SvgUri
-                    source={require("../../../assets/slothFacesSvg/sloth1.svg")}
-                
+                <FlatGrid
+                    mt="4"
+                    data={child}
+                    renderItem={({ item }) => (
+                        <SvgUri
+                            source={require("../../../assets/slothFacesSvg/sloth1.svg")}
+                        />
+                    )}
+                    itemDimension={130}
+                    spacing={10}
+                    horizontal={true}
+                    style={{
+                        height: 70,
+                    }}
                 />
-                )}
-                itemDimension={130}
-                spacing={10}
-                horizontal={true}
-                style ={{
-                    height : 70,
-                }}
-            />
-                
             </HStack>
         </ScrollView>
     );

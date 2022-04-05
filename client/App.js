@@ -18,11 +18,11 @@ import GoogleLoginScreen from "./src/component/screens/GoogleLoginScreen";
 
 // Initialize Apollo Client
 const client = new ApolloClient({
-    uri: "http://96.49.203.104:4000/graphql",
+    uri: "http://10.0.0.197:4000/graphql",
     cache: new InMemoryCache(),
 });
 
-const Stack = createNativeStackNavigator()
+const Stack = createNativeStackNavigator();
 
 export const fontsContext = createContext();
 
