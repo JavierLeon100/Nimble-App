@@ -38,6 +38,7 @@ export const TaskToEditContext = createContext();
 export default function Index({route, navigation}){
 
   const {user} = route.params;
+
   console.log("User from Google", user);
 
 
@@ -59,6 +60,7 @@ export default function Index({route, navigation}){
     // }
 
     const [childsView, setChildsView] = useState(false);
+
     const openButton = (
         <Pressable onPress={() => setShowDeleteModal(true)}>
             <HStack
@@ -183,10 +185,10 @@ export default function Index({route, navigation}){
     return (
       
         <>
-
         <View>
           <Text>Welcome {user.name} !</Text>
-        </View>
+          {/* <Button title="Log out" onPress={()=>navigation.navigate("SignUpScreen")}></Button> */}
+        </View> 
 
             <TaskToEditContext.Provider value={contextValue}>
                 <AllOrSuggested

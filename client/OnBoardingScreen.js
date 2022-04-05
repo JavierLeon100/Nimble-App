@@ -9,6 +9,7 @@ import { colors } from './src/component/utilis/colors';
 import AppIntroSlider from 'react-native-app-intro-slider';
 import SvgUri from 'react-native-svg-uri-updated';
 import SignUpScreen from './src/component/screens/signIn_up/SignUpScreen';
+import GoogleLoginScreen from './src/component/screens/GoogleLoginScreen';
 import LoginScreen from './src/component/screens/signIn_up/LoginScreen';
 
 const Stack = createNativeStackNavigator();
