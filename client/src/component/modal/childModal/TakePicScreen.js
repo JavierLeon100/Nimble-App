@@ -42,8 +42,6 @@ export default function () {
     const [updateTask, { data }, error] = useMutation(UPDATE_TASK);
 
     const handleCompleteTask = () => {
-        console.log(image);
-
         updateTask({
             variables: {
                 updateTaskId: selectedTask._id,
@@ -66,7 +64,7 @@ export default function () {
             {image ? (
                 <>
                     <Image
-                        source={{ uri: image }}
+                        source={{ uri: "data:image/jpeg;base64," + image }}
                         style={{ width: 200, height: 200 }}
                         alt="image"
                         borderRadius="10"

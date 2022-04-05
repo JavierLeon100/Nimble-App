@@ -54,13 +54,6 @@ export default function () {
 
     return (
         <childRewardContext.Provider value={contextValue}>
-            {isParentScreen ? (
-                <AllOrSuggested
-                    setShowSuggested={setShowSuggested}
-                    showSuggested={showSuggested}
-                />
-            ) : null}
-
             <FlatGrid
                 mt="4"
                 data={rewards}

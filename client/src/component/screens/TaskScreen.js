@@ -29,6 +29,7 @@ import LottieView from "lottie-react-native";
 
 import { find } from "lodash";
 import { DELETE_TASK } from "../../GraphQL/Mutations";
+import ModalApproveTask from "../modal/ModalApproveTask";
 
 Notifications.setNotificationHandler({
     handleNotification: async () => ({
@@ -55,13 +56,9 @@ export default function Index({ route, navigation }) {
     const handleShowModal = (boo) => {
         boo ? setShowModal(true) : setShowModal(false);
     };
+    //Complete tasks
+    const [isCompleted, setIsCompleted] = useState(false);
 
-    // const handleEditMode = ()=>{
-    //     setEditTask(true)
-
-    // }
-
-    const [childsView, setChildsView] = useState(false);
     const openButton = (
         <Pressable onPress={() => setShowDeleteModal(true)}>
             <HStack
@@ -91,6 +88,10 @@ export default function Index({ route, navigation }) {
                 setSelectedTask(find(SuggestedTasksData, { _id: key }));
             } else {
                 setSelectedTask(find(tasks, { _id: key }));
+
+                if (selectedTask.status === "completed") {
+                    setIsCompleted(true);
+                }
             }
         }
     };
@@ -185,7 +186,13 @@ export default function Index({ route, navigation }) {
     refetch();
 
     useEffect(() => {
-        data ? setTasks(data.getAllTasks) : null;
+        if (typeof data !== "undefined") {
+            const newTasks = data.getAllTasks.filter(
+                (task) => task.status !== "approved"
+            );
+
+            setTasks(newTasks);
+        }
     }, [data]);
 
     return (
@@ -265,13 +272,21 @@ export default function Index({ route, navigation }) {
                     presentationStyle="formSheet"
                     animationType="slide"
                 >
-                    <ModalDetailForActivity
-                        handleShowModal={handleShowModal}
-                        setTasks={setTasks}
-                        editTask={editTask}
-                        updateTask={updateTask}
-                        refetch={refetch}
-                    />
+                    {isCompleted ? (
+                        <ModalApproveTask
+                            handleShowModal={handleShowModal}
+                            refetch={refetch}
+                            setShowModal={setShowModal}
+                        />
+                    ) : (
+                        <ModalDetailForActivity
+                            handleShowModal={handleShowModal}
+                            setTasks={setTasks}
+                            editTask={editTask}
+                            updateTask={updateTask}
+                            refetch={refetch}
+                        />
+                    )}
                 </Modal>
             </TaskToEditContext.Provider>
 
