@@ -1,12 +1,20 @@
-import { Heading, Input, Text, VStack, Button, Pressable, Center } from "native-base"
-import MainScreen from "../../view/MainScreen"
-import {useEffect, useState} from "react" 
-import * as Google from 'expo-google-app-auth';
+import {
+    Heading,
+    Input,
+    Text,
+    VStack,
+    Button,
+    Pressable,
+    Center,
+} from "native-base";
+import MainScreen from "../../view/MainScreen";
+import { useEffect, useState } from "react";
+import * as Google from "expo-google-app-auth";
 import { GoogleIdentity } from "expo-google-sign-in";
 import GoogleLoginScreen from "../GoogleLoginScreen";
 
-export default function(){
-    const [loggedIn, setLoggedIn] = useState(false)
+export default function () {
+    const [loggedIn, setLoggedIn] = useState(false);
 
     useEffect(()=>{
         signInAsync();

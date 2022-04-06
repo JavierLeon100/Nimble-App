@@ -24,6 +24,7 @@ export default function () {
     const [audioPermission, setAudioPermission] = useState();
     const [image, setImage] = useState();
     const [photoUploadMode, setPhotoUploadMode] = useState(false);
+    const [dateTaken, setDateTaken] = useState();
 
     // useEffect(()=>{
     //     setPhotoUploadMode(true)
@@ -35,19 +36,19 @@ export default function () {
             setAudioPermission,
             setCameraPermission,
             setRecordVideoPermission,
-            setImage
+            setImage,
+            setDateTaken
         );
     };
 
     const [updateTask, { data }, error] = useMutation(UPDATE_TASK);
 
     const handleCompleteTask = () => {
-        console.log(image);
-
         updateTask({
             variables: {
                 updateTaskId: selectedTask._id,
                 task: {
+                    date: dateTaken,
                     status: "completed",
                     img: image,
                 },
@@ -66,7 +67,7 @@ export default function () {
             {image ? (
                 <>
                     <Image
-                        source={{ uri: image }}
+                        source={{ uri: "data:image/jpeg;base64," + image }}
                         style={{ width: 200, height: 200 }}
                         alt="image"
                         borderRadius="10"

@@ -15,6 +15,7 @@ import {
     Pressable,
     Modal as ModalN,
     Icon,
+    Select,
 } from "native-base";
 import { SwipeListView } from "react-native-swipe-list-view";
 import { colors } from "../utilis/colors";
@@ -29,6 +30,7 @@ import LottieView from "lottie-react-native";
 
 import { find } from "lodash";
 import { DELETE_TASK } from "../../GraphQL/Mutations";
+import ModalApproveTask from "../modal/ModalApproveTask";
 
 Notifications.setNotificationHandler({
     handleNotification: async () => ({
@@ -55,13 +57,8 @@ export default function({ route, navigation }) {
     const handleShowModal = (boo) => {
         boo ? setShowModal(true) : setShowModal(false);
     };
-
-    // const handleEditMode = ()=>{
-    //     setEditTask(true)
-
-    // }
-
-    const [childsView, setChildsView] = useState(false);
+    //Complete tasks
+    const [isCompleted, setIsCompleted] = useState(false);
 
     const openButton = (
         <Pressable onPress={() => setShowDeleteModal(true)}>
@@ -92,6 +89,10 @@ export default function({ route, navigation }) {
                 setSelectedTask(find(SuggestedTasksData, { _id: key }));
             } else {
                 setSelectedTask(find(tasks, { _id: key }));
+
+                if (selectedTask.status === "completed") {
+                    setIsCompleted(true);
+                }
             }
         }
     };
@@ -186,7 +187,13 @@ export default function({ route, navigation }) {
     refetch();
 
     useEffect(() => {
-        data ? setTasks(data.getAllTasks) : null;
+        if (typeof data !== "undefined") {
+            const newTasks = data.getAllTasks.filter(
+                (task) => task.status !== "approved"
+            );
+
+            setTasks(newTasks);
+        }
     }, [data]);
 
     return (
@@ -201,7 +208,7 @@ export default function({ route, navigation }) {
                     setShowSuggested={setShowSuggested}
                     showSuggested={showSuggested}
                 />
-
+               
                 <Date />
                 <Center>
                     {showSuggested ? (
@@ -266,13 +273,21 @@ export default function({ route, navigation }) {
                     presentationStyle="formSheet"
                     animationType="slide"
                 >
-                    <ModalDetailForActivity
-                        handleShowModal={handleShowModal}
-                        setTasks={setTasks}
-                        editTask={editTask}
-                        updateTask={updateTask}
-                        refetch={refetch}
-                    />
+                    {isCompleted ? (
+                        <ModalApproveTask
+                            handleShowModal={handleShowModal}
+                            refetch={refetch}
+                            setShowModal={setShowModal}
+                        />
+                    ) : (
+                        <ModalDetailForActivity
+                            handleShowModal={handleShowModal}
+                            setTasks={setTasks}
+                            editTask={editTask}
+                            updateTask={updateTask}
+                            refetch={refetch}
+                        />
+                    )}
                 </Modal>
             </TaskToEditContext.Provider>
 
