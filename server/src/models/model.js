@@ -87,6 +87,11 @@ const homeSchema = new mongoose.Schema({
     rewards: [rewardSchema],
 });
 
+const activitySchema = new mongoose.Schema({
+    homeId: String,
+    activity: String,
+});
+
 const Parent = mongoose.model("parent", parentSchema);
 
 const Child = mongoose.model("children", childSchema);
@@ -97,4 +102,6 @@ const Reward = mongoose.model("reward", rewardSchema);
 
 const Home = mongoose.model("home", homeSchema);
 
-export { Parent, Child, Task, Reward, Home };
+const Activity = mongoose.model("activity", activitySchema);
+
+export { Parent, Child, Task, Reward, Home, Activity };

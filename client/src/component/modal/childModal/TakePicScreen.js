@@ -17,7 +17,6 @@ import { ChildTaskToEditContext } from "../../screens/childScreens/ChildTaskScre
 import { useMutation } from "@apollo/client";
 import { UPDATE_TASK } from "../../../GraphQL/Mutations";
 
-
 export default function () {
     const [cameraPermission, setCameraPermission] = useState();
     const [recordVideoPermission, setRecordVideoPermission] = useState();
