@@ -6,6 +6,7 @@ import http from "http";
 import resolvers from "./src/resolvers";
 import typeDefs from "./src/typeDefs";
 import mongoose from "mongoose";
+import { generateUploadURL } from "./src/s3";
 
 const startApolloServer = async (typeDefs, resolvers) => {
     const app = express();
@@ -16,6 +17,11 @@ const startApolloServer = async (typeDefs, resolvers) => {
         typeDefs,
         resolvers,
         plugins: [ApolloServerPluginDrainHttpServer({ httpServer })],
+    });
+
+    app.get("/s3Url", async (req, res) => {
+        const url = await generateUploadURL();
+        res.send({ url });
     });
 
     await server.start();

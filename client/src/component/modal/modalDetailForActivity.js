@@ -31,14 +31,13 @@ import generateID from "../utilis/generate";
 import { GET_ALL_TASKS, GET_CHILDREN } from "../../GraphQL/Queries";
 import { useMutation, useQuery } from "@apollo/client";
 import { FlatGrid } from "react-native-super-grid";
-import  SvgUri from "react-native-svg-uri-updated";
+import SvgUri from "react-native-svg-uri-updated";
 import DateTimePicker from "@react-native-community/datetimepicker";
 import { CREATE_TASK } from "../../GraphQL/Mutations";
-import dayjs from 'dayjs'
+import dayjs from "dayjs";
 import { monthName } from "../utilis/dateFormat";
-import SelectBox from 'react-native-multi-selectbox'
-import RNPickerSelect from 'react-native-picker-select';
-
+import SelectBox from "react-native-multi-selectbox";
+import RNPickerSelect from "react-native-picker-select";
 
 export default function ModalDetailForActivity({
     handleShowModal,
@@ -60,17 +59,17 @@ export default function ModalDetailForActivity({
     const [focus, setFocus] = useState(false);
     const [timer, setTimer] = useState(false);
     const [urgent, setUrgent] = useState(false);
-    const [childArray, setChildArray] = useState([{name : "john", _id : "12"}, {name : "Dave", _id : "12"}, {name : "Bob", _id : "12"}, {name : "john", _id : "12"}]);
-    const [selectedChildArray, setselectedChildArray] = useState([])
+    const [childArray, setChildArray] = useState([]);
+    const [selectedChildArray, setselectedChildArray] = useState([]);
     const childRef = useRef(null);
 
     //Date Picker
     const [datePicker, setDatePicker] = useState(new Date());
-    const [timePicker, setTimePicker] = useState(new Date())
+    const [timePicker, setTimePicker] = useState(new Date());
     const [dateShow, setDateShow] = useState(false);
-    const [userDate, setUserDate] = useState()
-    const [timeShow, setTimeShow] = useState(false)
-    const [userTime, setUserTime] = useState()
+    const [userDate, setUserDate] = useState();
+    const [timeShow, setTimeShow] = useState(false);
+    const [userTime, setUserTime] = useState();
 
     useEffect(() => {
         if (editTask) {
@@ -125,7 +124,7 @@ export default function ModalDetailForActivity({
         task.focusMode = focus;
         task.urgent = urgent;
         task.rewardPoints = sliderValue;
-        task.date = userDate + " | " + userTime
+        task.date = userDate + " | " + userTime;
         // alert(task.date)
         createTask({
             variables: { task },
@@ -160,12 +159,6 @@ export default function ModalDetailForActivity({
         setChildArray((prev) => [...prev, { name: value, _id: value }]);
     };
 
-    const handleSelectedChild = (name, id)=>{
-        setselectedChildArray((prev=>[
-            ...prev, {name : name, _id : id}
-        ]))
-    }
-
     const {
         error: childError,
         loading: childLoading,
@@ -187,40 +180,40 @@ export default function ModalDetailForActivity({
     //     console.log("change kid to", childId);
     // };
 
-    const onDateChange = (event, selectedDate) => {
+    const onDateChange = (event, date) => {
         const newDate =
-            selectedDate.getDate() +
+            date.getDate() +
             " " +
-            monthName[selectedDate.getMonth()] +
+            monthName[date.getMonth()] +
             " " +
-            selectedDate.getFullYear();
-        setUserDate(newDate)
-        setDatePicker(selectedDate)
+            date.getFullYear();
+
+        setUserDate(newDate);
+        setDatePicker(date);
+        setDateShow(false);
+        console.log(userDate);
     };
 
-    const onTimeChange = (e, selectedTime)=>{
-        const newTime = 
-        selectedTime.getHours()  +
-        ":" +
-        selectedTime.getMinutes() +
-        " " 
+    const onTimeChange = (e, selectedTime) => {
+        const newTime =
+            selectedTime.getHours() + ":" + selectedTime.getMinutes() + " ";
         // alert(newTime)
-        setUserTime(newTime)
-        setTimePicker(selectedTime)
-    }
+        setUserTime(newTime);
+        setTimePicker(selectedTime);
+    };
 
     const showDateMode = () => {
         setDateShow(true);
         // setDateMode(currentMode);
     };
 
-    const showTimeMode = ()=>{
-        setTimeShow(true)
+    const showTimeMode = () => {
+        setTimeShow(true);
         // setDateMode(currentMode);
-    }
+    };
 
     return (
-        <ScrollView bg="backGroundModal" >
+        <ScrollView bg="backGroundModal">
             <Center>
                 <VStack w="100%">
                     <HStack
@@ -276,25 +269,42 @@ export default function ModalDetailForActivity({
                                 <Text fontSize="16" opacity="0.7">
                                     Assign To:
                                 </Text>
-                                <HStack space={5} flexWrap="wrap" ml={8} justifyContent="space-between">
-                                    {childArray ? childArray.map(child=>
-                                   <Pressable onPress={()=>handleSelectedChild(child.name, child._id)}>
-                                        <HStack alignItems="center" space={2} mt={3}  >
-                                            <SvgUri source={require("../../../assets/slothFacesSvg/sloth10.svg")} width={40} height={40}/>
-                                            <Text>{child.name}</Text>
-                                        </HStack>
-                                    </Pressable>
-                                    ) : null}
-                                </HStack>
-                                    {/*render selected children */}
-                                    <HStack space={6} justifyContent="center" mt={9}>
-                                    {selectedChildArray ? 
-                                    selectedChildArray.map(child=>(
-                                        <Text>{child.name}</Text> 
-                                    ))
+                                <HStack
+                                    space={5}
+                                    flexWrap="wrap"
+                                    ml={8}
+                                    justifyContent="space-between"
+                                >
+                                    {childArray
+                                        ? childArray.map((child) => (
+                                              <Pressable
+                                                  onPress={() =>
+                                                      setChildId(child._id)
+                                                  }
+                                              >
+                                                  <HStack
+                                                      alignItems="center"
+                                                      space={2}
+                                                      mt={3}
+                                                  >
+                                                      <SvgUri
+                                                          source={require("../../../assets/slothFacesSvg/sloth10.svg")}
+                                                          width={40}
+                                                          height={40}
+                                                      />
+                                                      <Text
+                                                          underline={
+                                                              child._id ==
+                                                              childId
+                                                          }
+                                                      >
+                                                          {child.name}
+                                                      </Text>
+                                                  </HStack>
+                                              </Pressable>
+                                          ))
                                         : null}
-                                        </HStack>
-                                    
+                                </HStack>
                             </VStack>
                             <Stack mb="5">
                                 <Text fontSize="16" opacity="0.7">
@@ -302,37 +312,32 @@ export default function ModalDetailForActivity({
                                 </Text>
                                 {dateShow ? (
                                     <Center>
-                                    <DateTimePicker
-                                        testID="dateTimePicker"
-                                        value={datePicker}
-                                        onChange={onDateChange}
-                                        style ={{
-                                            width : 100,
-                                            
-                                        }}
-                                    />
+                                        <DateTimePicker
+                                            testID="dateTimePicker"
+                                            value={datePicker}
+                                            onChange={onDateChange}
+                                            style={{
+                                                width: 100,
+                                            }}
+                                        />
                                     </Center>
-                                   
-                                )  
-                                : 
-                                 <Button
-                                    mt={2}
-                                    p={4}
-                                    borderRadius="10"
-                                    bg="white"
-                                    onPress={() => showDateMode()}
+                                ) : (
+                                    <Button
+                                        mt={2}
+                                        p={4}
+                                        borderRadius="10"
+                                        bg="white"
+                                        onPress={() => showDateMode()}
                                     >
-                                    <Text color="gray.500" opacity="0.7">
-                                        Date
-                                    </Text>
-                                </Button>
-                            }
-                               
+                                        <Text color="gray.500" opacity="0.7">
+                                            {!userDate ? "Date" : userDate}
+                                        </Text>
+                                    </Button>
+                                )}
+
                                 <Text mt={3} fontSize="16" opacity="0.7">
                                     Time
                                 </Text>
-                                
-
 
                                 {timeShow ? (
                                     <DateTimePicker
@@ -341,12 +346,11 @@ export default function ModalDetailForActivity({
                                         mode="time"
                                         is24Hour={true}
                                         onChange={onTimeChange}
-                                        style ={{
-                                            width : 200
-                                            
+                                        style={{
+                                            width: 200,
                                         }}
                                     />
-                                ) : 
+                                ) : (
                                     <Button
                                         mt={2}
                                         p={4}
@@ -358,7 +362,7 @@ export default function ModalDetailForActivity({
                                             Time
                                         </Text>
                                     </Button>
-                                }
+                                )}
                             </Stack>
 
                             <VStack mb="5">
