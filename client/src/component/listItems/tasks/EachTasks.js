@@ -1,32 +1,87 @@
-import { HStack, Text, Center, Button, VStack} from "native-base"
-import {colors} from "../../utilis/colors"
-import { AntDesign } from '@expo/vector-icons';
+import {
+    HStack,
+    Text,
+    Center,
+    Button,
+    VStack,
+    Pressable,
+    Image,
+} from "native-base";
+import { Animated } from "react-native";
+import { AntDesign } from "@expo/vector-icons";
+import SvgUri from "react-native-svg-uri-updated";
+import { FlatGrid } from "react-native-super-grid";
+
+export default function EachTask({ data, handleShowModal, i, row, noDate }) {
+    // console.log(data)
+    const { child } = data;
+
+    const status = data.status;
+    //conditional rendering of data.status
+
+    // if urgent !!! red before
+    if (status == "urgent") {
+
+        data.title = "!!!" + data.title;
+        data.title.style={color: 'red'}
 
 
-export default function EachTask ({data, handleShowModal, i}) {
+    } else if (status == "completed") {
+        data.title.style={textDecorationLine: 'line-through',textDecorationStyle: 'solid'}
 
-    const mainTaskView = 
-                        <HStack bg={colors.gray} px="10" py="5" borderRadius="15">   
-                            <VStack>           
-                                <Text fontSize="19">{data.item.task}</Text> 
-                                <Text fontSize="11" mt="2">Due: Wed Jan 26 2022 | 12:00 PM  | 1 Hour</Text>
-                            </VStack> 
-                            <HStack space="3" maxW="2">
-                            <AntDesign name="user" size={14} color="black" />
-                            <AntDesign name="user" size={14} color="black" />
-                            <AntDesign name="user" size={14} color="black" />
-                            <AntDesign name="user" size={14} color="black" />   
-                            </HStack>                
-                        </HStack>
+    }
 
+
+    // if completed text strike trough
+
+    const renderChild = child?.map(() => (
+        <SvgUri
+            source={require("../../../../assets/slothFacesSvg/sloth1.svg")}
+        />
+    ));
+    // console.log(row)
+
+    const mainTaskView = (
+        <HStack
+            bg="white"
+            w="350"
+            py="3"
+            borderRadius="15"
+            // justifyContent="space-between"
+            px={9}
+            space={10}
+            alignItems="center"
+        >
+            <VStack>
+                <Text fontSize="19">{data.title}</Text>
+                <Text fontSize="11" mt="2">
+                    {noDate
+                        ? "Due: Fri 08 2022 | 12:00 PM"
+                        : `Due:${data.date}`}
+                </Text>
+            </VStack>
+            {/* <HStack space={2}>{renderChild}</HStack> */}
+            <FlatGrid
+                mt="9"
+                data={child}
+                renderItem={({ item }) => (
+                    <SvgUri
+                        source={require("../../../../assets/slothFacesSvg/sloth1.svg")}
+                    />
+                )}
+                itemDimension={130}
+                spacing={10}
+                horizontal={true}
+                style={{
+                    height: 70,
+                }}
+            />
+        </HStack>
+    );
 
     return (
-        <>
         <Center mb={3} key={i} position="relative">
-                {mainTaskView}
-            </Center>
-            </>
-        
-    )
+            {mainTaskView}
+        </Center>
+    );
 }
-

@@ -1,120 +1,234 @@
-import { Center, FormControl,  Heading,  HStack,  ScrollView, StatusBar, Text, VStack, Input, Stack, Button, Box, Flex, FlatList} from "native-base"
-import {Link} from "react-native"
-import { colors } from "../utilis/colors"
-import { FontAwesome5 } from '@expo/vector-icons';
-import { MaterialCommunityIcons } from '@expo/vector-icons';
-import { AntDesign } from '@expo/vector-icons';
+import {
+    Center,
+    FormControl,
+    Heading,
+    HStack,
+    ScrollView,
+    StatusBar,
+    Text,
+    VStack,
+    Input,
+    Stack,
+    Button,
+    Box,
+    Flex,
+    FlatList,
+} from "native-base";
+import { Link, Pressable } from "react-native";
+import { colors } from "../utilis/colors";
+import { FontAwesome5 } from "@expo/vector-icons";
+import { MaterialCommunityIcons } from "@expo/vector-icons";
+import { AntDesign } from "@expo/vector-icons";
 import { FlatGrid } from "react-native-super-grid";
-import { useEffect } from "react";
+import { useForm, Controller } from "react-hook-form";
+import SvgUri from "react-native-svg-uri-updated";
+import { Feather } from "@expo/vector-icons";
+import { useQuery } from "@apollo/client";
+import { GET_CHILDREN } from "../../GraphQL/Queries";
+import { useEffect, useState } from "react";
 
+export default function editParentProfile({ showModal, changeMode }) {
+    const [children, setChildren] = useState([]);
+    const userIocn = (
+        <SvgUri
+            source={require("../../../assets/profileIcons/ProfileIcon.svg")}
+            height={40}
+            width={40}
+            alignSelf="flex-start"
+        />
+    );
 
-
-
-export default function editParentProfile({showModal, changeMode}){
-
-    const userIocn = <AntDesign name="user" size={40} color="black" />
-    const editButton = <Button w="90" ml="10" onPress={changeMode}>Edit</Button>
-
-    const exampleArray = [
-        {
-            icon : userIocn,
-            Button : editButton
+    const {
+        handleSubmit,
+        watch,
+        formState: { errors },
+        control,
+    } = useForm({
+        defaultValues: {
+            title: "",
         },
-        {
-            icon : userIocn,
-            Button : editButton
+    });
+
+    const {
+        error: childError,
+        loading: childLoading,
+        data: childData,
+    } = useQuery(GET_CHILDREN, {
+        variables: {
+            //replace with homeIdVariable from auth
+            homeId: "622ab00bfe4e52d96b61a960",
         },
-        {
-            icon : userIocn,
-            Button : editButton
-        },
-        {
-            icon : userIocn,
-            Button : editButton
-        }
-    ]
+    });
 
-    
+    useEffect(() => {
+        childData ? setChildren(childData.getChildren) : null;
+    }, [childData]);
 
-    const header = ()=>(
-    <>
-        <VStack safeArea mt="5">     
-        <HStack w="100%" justifyContent="space-around" alignItems="center">
-            <MaterialCommunityIcons name="less-than" size={24} color="white" style={{visibility : "hidden"}}/>
-            <Heading>Profile</Heading>
-            <FontAwesome5 name="edit" size={24} color="black"/>
-        </HStack>  
-        </VStack>
+    const header = () => (
+        <>
+            <Center mb={2}>
+                <VStack w="80%">
+                    <HStack justifyContent="flex-end">
+                        <Feather
+                            name="edit"
+                            size={24}
+                            color={colors.primary.blue}
+                            opacity="0.5"
+                        />
+                    </HStack>
+                    <Text fontSize="16" opacity="0.7" mb={2}>
+                        Name
+                    </Text>
+                    <Controller
+                        control={control}
+                        render={({ field: { onChange, onBlur, value } }) => (
+                            <Input
+                                p={4}
+                                placeholder="Name"
+                                borderRadius="10"
+                                onChangeText={onChange}
+                                value={value}
+                                bg="white"
+                            />
+                        )}
+                        name="name"
+                    />
 
-        <Center mt="5">
-        <AntDesign name="user" size={50} color="black" />
+                    <Text fontSize="16" opacity="0.7" mb={2} mt={2}>
+                        Email
+                    </Text>
+                    <Controller
+                        control={control}
+                        render={({ field: { onChange, onBlur, value } }) => (
+                            <Input
+                                p={4}
+                                placeholder="email"
+                                borderRadius="10"
+                                onChangeText={onChange}
+                                value={value}
+                                bg="white"
+                            />
+                        )}
+                        name="email"
+                    />
+
+                    <Text fontSize="16" opacity="0.7" mb={2} mt={2}>
+                        Password
+                    </Text>
+                    <Controller
+                        control={control}
+                        render={({ field: { onChange, onBlur, value } }) => (
+                            <Input
+                                p={4}
+                                placeholder="password"
+                                borderRadius="10"
+                                onChangeText={onChange}
+                                value={value}
+                                bg="white"
+                                type="password"
+                            />
+                        )}
+                        name="password"
+                    />
+
+                    <Text
+                        alignSelf="flex-end"
+                        mt={3}
+                        color="gradientBlue"
+                        underline
+                    >
+                        Change Password
+                    </Text>
+
+                    <Text alignSelf="flex-start" fontSize="16" opacity="0.7">
+                        Kids
+                    </Text>
+                </VStack>
+            </Center>
+        </>
+    );
+
+    const footer = () => (
+        <Center mt="3">
+            <VStack
+                w="80%"
+                justifyContent="center"
+                alignItems="center"
+                space="10"
+            >
+                <Text underline color="red" fontSize="md">
+                    Delete Account
+                </Text>
+                <Button
+                    size="lg"
+                    colorScheme="indigo"
+                    w="350"
+                    borderRadius="90"
+                    title="submit"
+                    bg="secondary"
+                    py="3"
+                    _text={{
+                        color: "white",
+                    }}
+                >
+                    Save
+                </Button>
+            </VStack>
         </Center>
+    );
 
-            <FormControl w="100%" mt="4">
-            <Center>
-                <HStack alignItems="center" justifyContent="space-around">
-                    <FormControl.Label>
-                        <Text fontSize="18" mr="3">Name</Text>
-                    </FormControl.Label>
-                    <Input placeholder="Name" w="60%" p="6"/> 
-                </HStack>
-            </Center>
-            </FormControl>
-
-            <FormControl w="100%" mt="4">
-            <Center>
-                <HStack alignItems="center" justifyContent="space-around">
-                    <FormControl.Label>
-                        <Text fontSize="18" mr="3">Email</Text>
-                    </FormControl.Label>
-                    <Input placeholder="Email" w="60%" p="6"/> 
-                </HStack>
-            </Center>
-            </FormControl>
-
-            <FormControl w="100%" mt="4">
-            <Center>
-                <HStack alignItems="center" justifyContent="space-around">
-                    <FormControl.Label>
-                        <Text fontSize="18"  ml="-19">Password</Text>
-                    </FormControl.Label>
-                    <Input placeholder="Password" w="60%" p="6"/> 
-                </HStack>
-            </Center>
-            </FormControl>
-
-            <Center mt="6">
-                <Flex w="80%" alignItems="flex-end">
-                <Text underline >Change Password</Text>
-                </Flex>
-            </Center>
-            
-            <Text fontWeight="bold" fontSize="lg" textAlign="center" my="3">Children</Text>
-    </>)
-
-    const footer = ()=>(
-        <Center>
-        <Button bg={colors.black} h="20" w="80" borderRadius="10" onPress={showModal}>Close</Button>
-        </Center>
-    )
-
-    return (            
-            <FlatGrid 
+    return (
+        <Box bg="backGroundModal" h={900}>
+            <HStack
+                alignItems="center"
+                justifyContent="space-around"
+                mb="30"
+                bg="primary.blue"
+                h={150}
+                pt={50}
+            >
+                <Pressable onPress={() => showModal(false)}>
+                    <MaterialCommunityIcons
+                        name="less-than"
+                        size={30}
+                        color="white"
+                    />
+                </Pressable>
+                <Heading size="lg" color="white">
+                    Profile
+                </Heading>
+                <SvgUri
+                    source={require("../../../assets/profileIcons/ProfileIcon.svg")}
+                    height={40}
+                    width={40}
+                />
+            </HStack>
+            <FlatGrid
+                data={children}
+                renderItem={({ item }) => (
+                    <Center mt={2} alignItems="center">
+                        <Button
+                            bg="backGroundModal"
+                            onPress={changeMode}
+                            colorScheme="indigo"
+                        >
+                            <HStack w="40" alignItems="center">
+                                <SvgUri
+                                    source={require("../../../assets/profileIcons/ProfileIcon.svg")}
+                                    height={40}
+                                    width={40}
+                                    alignSelf="flex-start"
+                                />
+                                <Text ml="7">{item.name}</Text>
+                            </HStack>
+                        </Button>
+                    </Center>
+                )}
                 ListHeaderComponent={header}
+                keyExtractor={(item) => item._id}
                 ListFooterComponent={footer}
                 itemDimension={180}
-                spacing={18}
-                data={exampleArray}
-                renderItem={
-                    ({item})=>(
-                            <Center>
-                                <HStack justifyContent="space-around" p="3" w="150">
-                                {item.icon}
-                                {item.Button}
-                                </HStack>
-                            </Center>
-                    )
-                }
             />
-    )
+        </Box>
+    );
 }

@@ -1,34 +1,56 @@
-import { Button, ScrollView, Text } from "native-base";
-import { useState, useEffect } from "react";
+import { Box, Button, HStack, ScrollView, Text } from "native-base";
+import { useState } from "react";
 import Date from "../layout/Date";
-import DefaultForActivity from "../view/activity/defaultForActivity";
-import TaskViewForActivity from "../view/activity/taskViewForActivity";
-import * as Notifications from 'expo-notifications';
-import * as TaskManager from 'expo-task-manager'
+import SvgUri from "react-native-svg-uri-updated";
+import { FlatGrid } from "react-native-super-grid";
+import MainScreen from "../view/MainScreen";
+import ActivityTaskCard from "../listItems/tasks/parents view/ActivityTaskCard";
+import EmptyActivityScreen from "./EmptyActivityScreen";
+
+export default function ActivityScreen({navigation}) {
+    const [defaultScreen, setDefaultScreen] = useState(true);
+
+    //define state for empty/not empty
+    const [activityTaskArray, setActivityTaskArray] = useState([]);
+    //create EachActivity component with the card
 
 
-export default function ActivityScreen(){
-    const [defaultScreen, setDefaultScreen] = useState(true)
+    //if state empty show screen / if not show list of activity
 
-    
+
+
+
+
+    const child = [1];
 
     return (
-        <>
-        <Date  />
-        {defaultScreen ? 
-        <ScrollView>
-            <DefaultForActivity />
-        </ScrollView> 
-        : 
-        <TaskViewForActivity />}
+        activityTaskArray ?  < EmptyActivityScreen navigation={navigation} /> : 
+
         
+        <ScrollView>
+            <Date />
+            <HStack bg="white" p={3} alignItems="center">
+                <Box p={3} />
+                <Text w={210} fontSize="md">
+                    Task ‘Sweeping and Cleaning Kit’ is Overdue at 12:00 PM
+                </Text>
 
-
-
-
-        <Button onPress={()=>setDefaultScreen(prev=>!prev)}
-        w="20%"
-        >test other screen</Button>
-        </>
-    )
+                <FlatGrid
+                    mt="4"
+                    data={child}
+                    renderItem={({ item }) => (
+                        <SvgUri
+                            source={require("../../../assets/slothFacesSvg/sloth1.svg")}
+                        />
+                    )}
+                    itemDimension={130}
+                    spacing={10}
+                    horizontal={true}
+                    style={{
+                        height: 70,
+                    }}
+                />
+            </HStack>
+        </ScrollView>
+    );
 }

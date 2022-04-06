@@ -1,14 +1,32 @@
-import { Box, Center, HStack, Text } from "native-base";
+import { Box, Button, Center, HStack, Text } from "native-base";
+import { useState } from "react";
 import { colors } from "../utilis/colors";
 
+export default function AllOrSuggested(props) {
+    const { showSuggested } = props;
+    const { setShowSuggested } = props;
 
-export default function AllOrSuggested (){
     return (
-        <Center mt='9'>
-        <HStack space="1">
-            <Text bg={colors.gray}  py="3" textAlign="center" w="40">All Tasks</Text>
-            <Text bg={colors.gray}  py="3" textAlign="center" w="40">Suggested Tasks</Text>
-        </HStack>
-        </Center> 
-    )
+        <Center mt="9">
+            <Button.Group isAttached colorScheme="indigo" borderRadius="35">
+                <Button
+                    w={40}
+                    variant={showSuggested ? "outline" : null}
+                    onPress={() => setShowSuggested(false)}
+                    borderRightWidth={0}
+                    p={6}
+                >
+                    All Tasks
+                </Button>
+                <Button
+                    w={40}
+                    variant={!showSuggested ? "outline" : null}
+                    onPress={() => setShowSuggested(true)}
+                    borderLeftWidth={0}
+                >
+                    Suggested Tasks
+                </Button>
+            </Button.Group>
+        </Center>
+    );
 }
