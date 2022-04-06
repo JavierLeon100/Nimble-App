@@ -55,7 +55,7 @@ export default function ModalDetailForActivity({
     const [focus, setFocus] = useState(false);
     const [timer, setTimer] = useState(false);
     const [urgent, setUrgent] = useState(false);
-    const [childArray, setChildArray] = useState([{name : "john", _id : "12"}]);
+    const [childArray, setChildArray] = useState([{ name: "john", _id: "12" }]);
     const childRef = useRef(null);
 
     //Date Picker
@@ -275,12 +275,12 @@ export default function ModalDetailForActivity({
                                 >
                                     {childArray
                                         ? childArray.map((child) => (
-                                                <Select.Item
-                                                    label={child.name}
-                                                    value={child._id}
-                                                    key ={child._id}
-                                                />
-                                            ))
+                                              <Select.Item
+                                                  label={child.name}
+                                                  value={child._id}
+                                                  key={child._id}
+                                              />
+                                          ))
                                         : null}
                                 </Select>
                             </VStack>
@@ -321,7 +321,7 @@ export default function ModalDetailForActivity({
                                         value={datePicker}
                                         mode={dateMode}
                                         is24Hour={true}
-                                        display="default"
+                                        display="spinner"
                                         onChange={onDateChange}
                                     />
                                 )}

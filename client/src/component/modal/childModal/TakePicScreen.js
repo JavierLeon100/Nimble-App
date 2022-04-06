@@ -43,7 +43,11 @@ export default function () {
 
     const [updateTask, { data }, error] = useMutation(UPDATE_TASK);
 
-    const handleCompleteTask = () => {
+    const handleCompleteTask = async () => {
+        //S3 bucket for img
+        const { url } = await fetch("/s3Url").then((res) => res.json());
+        console.log(url);
+
         updateTask({
             variables: {
                 updateTaskId: selectedTask._id,
