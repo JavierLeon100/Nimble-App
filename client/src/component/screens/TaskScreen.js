@@ -26,7 +26,7 @@ import DeleteModal from "../modal/deleteModal";
 import { useQuery, gql, useMutation } from "@apollo/client";
 import { GET_ALL_TASKS } from "../../GraphQL/Queries";
 import { SuggestedTasksData } from "../utilis/SuggestedTaskData";
-
+import EmptyActivityScreen from "./EmptyActivityScreen";
 import LottieView from "lottie-react-native";
 
 import { find } from "lodash";
@@ -43,7 +43,7 @@ Notifications.setNotificationHandler({
 
 export const TaskToEditContext = createContext();
 
-export default function Index({ route, navigation }) {
+export default function({ props, route, navigation }) {
     //   const {user} = route.params
     //   console.log("User from Google", user);
 
@@ -199,13 +199,16 @@ export default function Index({ route, navigation }) {
         }
     }, [data]);
 
+    // const [activityTaskArray, setActivityTaskArray] = useState([]);
+
+
     return (
         <>
-            {/* 
-        <View>
-          <Text>Welcome {user?.name} !</Text>
-        </View> */}
-
+      
+{/* 
+        {activityTaskArray ? ()=>navigation.navigate("Activity")
+        : */}
+{/* <> */}
             <TaskToEditContext.Provider value={contextValue}>
                 <AllOrSuggested
                     setShowSuggested={setShowSuggested}
@@ -301,21 +304,15 @@ export default function Index({ route, navigation }) {
                     deleteTask={() => handleDeleteTask(selectedTask._id)}
                 />
             </ModalN>
-            {/* <Button 
-        title="test notifications"
-        position="absolute"
-        onPress={async () => {
-          try {
-            await sendPushNotification(expoPushToken);
-            alert(expoPushToken)
-          } catch (error) {
-            alert(error);
-          }
-        }}
-        >test notification</Button> */}
+
+    {/* </>
+} */}
         </>
+                    
     );
+                    
 }
+
 
 async function sendPushNotification(expoPushToken) {
     const message = {

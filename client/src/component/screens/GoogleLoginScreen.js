@@ -1,47 +1,49 @@
 // expo install expo-web-browser expo-auth-session expo-random
-import { StatusBar } from "expo-status-bar";
-import { React, useState } from "react";
-import { StyleSheet, View, Text, Image, Button } from "react-native";
-import * as Google from "expo-google-app-auth";
-import { Heading } from "native-base";
+import { StatusBar } from 'expo-status-bar';
+import {React, useState} from 'react';
+import { StyleSheet, View, Text, Image, Button } from 'react-native';
+import * as Google from 'expo-google-app-auth';
+import { Heading } from 'native-base';
+import TaskScreen from './TaskScreen';
 
 const GoogleLoginScreen = ({ navigation }) => {
     // const [email, setEmail] = useState("");
     // const [password, setPassword] = useState("");
 
-    const [accessToken, setAccessToken] = useState();
-    const [userInfo, setUserInfo] = useState();
-    const [message, setMessage] = useState();
-    const [messageType, setMessageType] = useState();
+  const [accessToken, setAccessToken] = useState();
+  const [userInfo, setUserInfo] = useState();
+  const [message, setMessage] = useState();
+  const [messageType, setMessageType] = useState();
+  const [googleLogin, setGoogleLogin] = useState(false);
 
-    const signInAsync = async () => {
-        console.log("GoogleLoginScreen.js | logged in");
-        try {
-            const { type, user } = await Google.logInAsync({
-                iosClientId:
-                    "764958274720-1ujopa2nvpaqeop98buflf86avfjfipe.apps.googleusercontent.com",
-                androidClientId:
-                    "764958274720-3606ifhd3e0vc0obvjnpadgqmer417jm.apps.googleusercontent.com",
-            });
 
-            if (type == "success") {
-                //Then you can use Google REST API
-                console.log(
-                    "GoogleLoginScreen.js | log in success! navigating to home screen!"
-                );
-                navigation.navigate("Index", { user });
-            }
-        } catch (error) {
-            console.log("GoogleLoginScreen.js | error with login", error);
-        }
-    };
+  const signInAsync = async() =>{
+    console.log("GoogleLoginScreen.js | logged in");
+    try {
+      const {type, user} = await Google.logInAsync({
+        iosClientId: "764958274720-1ujopa2nvpaqeop98buflf86avfjfipe.apps.googleusercontent.com",
+        androidClientId: "764958274720-3606ifhd3e0vc0obvjnpadgqmer417jm.apps.googleusercontent.com",
+      });
 
-    return (
-        <View style={styles.container}>
-            <Heading>NIMBLE</Heading>
-            <Button title="Login with Google" onPress={signInAsync} />
-        </View>
-    );
+      if (type == "success") {
+        //Then you can use Google REST API
+        console.log("GoogleLoginScreen.js | log in success! navigating to home screen!");
+        // navigation.navigate("TaskScreen", { user })
+        setGoogleLogin(true);
+      }
+    } catch (error) {
+      console.log("GoogleLoginScreen.js | error with login", error);
+    }
+  };
+  
+
+  return (
+    <View style={styles.container}>
+      <Heading>NIMBLE</Heading>
+      <Button title="Login with Google" onPress={signInAsync} />
+      { googleLogin ? < TaskScreen />  : null }
+    </View>
+  );
 };
 
 //   return (

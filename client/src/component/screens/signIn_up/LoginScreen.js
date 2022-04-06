@@ -16,34 +16,33 @@ import GoogleLoginScreen from "../GoogleLoginScreen";
 export default function () {
     const [loggedIn, setLoggedIn] = useState(false);
 
-    useEffect(() => {
+    useEffect(()=>{
         signInAsync();
     }, []);
 
-    const signInAsync = async () => {
+    const signInAsync = async() =>{
         console.log("GoogleLoginScreen.js | logged in");
         try {
-            const { type, user } = await Google.logInAsync({
-                iosClientId:
-                    "764958274720-1ujopa2nvpaqeop98buflf86avfjfipe.apps.googleusercontent.com",
-                androidClientId:
-                    "764958274720-3606ifhd3e0vc0obvjnpadgqmer417jm.apps.googleusercontent.com",
-            });
-
-            if (type == "success") {
-                //Then you can use Google REST API
-                console.log(
-                    "GoogleLoginScreen.js | log in success! navigating to home screen!"
-                );
-                // navigation.navigate("TaskScreen", { user })
-                setLoggedIn(true);
-            }
+          const {type, user} = await Google.logInAsync({
+            iosClientId: "764958274720-1ujopa2nvpaqeop98buflf86avfjfipe.apps.googleusercontent.com",
+            androidClientId: "764958274720-3606ifhd3e0vc0obvjnpadgqmer417jm.apps.googleusercontent.com",
+          });
+    
+          if (type == "success") {
+            //Then you can use Google REST API
+            console.log("GoogleLoginScreen.js | log in success! navigating to home screen!");
+            // navigation.navigate("TaskScreen", { user })
+            setLoggedIn(true);
+          }
         } catch (error) {
-            console.log("GoogleLoginScreen.js | error with login", error);
+          console.log("GoogleLoginScreen.js | error with login", error);
         }
-    };
+      };
 
     //   signInAsync();
+      
 
-    return loggedIn ? <MainScreen /> : null;
+    return (
+        loggedIn ?  <MainScreen /> : null 
+    )
 }
