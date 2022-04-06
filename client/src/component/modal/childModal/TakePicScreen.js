@@ -47,7 +47,7 @@ export default function () {
         //S3 bucket for img
         //CHANGE IP
 
-        const { url } = await fetch(`http://10.128.221.65:4000/s3Url`).then(
+        const { url } = await fetch(`http://10.128.246.28:4000/s3Url`).then(
             (res) => res.json()
         );
 

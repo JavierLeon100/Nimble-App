@@ -316,14 +316,14 @@ export default function ModalForAddRewards({ handleShowModal, setRewards }) {
                                     <Center>
                                         <Button
                                             size="lg"
-                                            mt="4"
+                                            mt="3"
                                             mb="60"
                                             w="350"
                                             borderRadius="90"
                                             title="submit"
                                             onPress={handleSubmit(onSubmit)}
                                             bg="secondary"
-                                            py="9"
+                                            py="5"
                                             _text={{
                                                 color: "white",
                                             }}

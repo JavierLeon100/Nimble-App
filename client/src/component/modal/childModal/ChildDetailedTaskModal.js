@@ -39,9 +39,9 @@ export default function () {
     const [startGyro, setStartGyro] = useState(false)
 
     const startDoingTask = ()=>{
-        if(selectedTask.focus){
-            handleGyro(setStartGyro, startGyro, setGyroValue)
-        }
+        // if(taskFocus){
+        //     handleGyro(setStartGyro, startGyro, setGyroValue)
+        // }
         setDoingTask(true)
     }
 
@@ -124,9 +124,9 @@ export default function () {
                 >
                     {doingTask ? "Finish" : "Do It Right Now"}
                 </Button>
-                <Text> x : {gyroValue.x}</Text>
+                {/* <Text> x : {gyroValue.x}</Text>
                 <Text> y : {gyroValue.y}</Text>
-                <Text> z : {gyroValue.z}</Text>
+                <Text> z : {gyroValue.z}</Text> */}
                 {doingTask ? null : (
                     <Button
                         _text={{ color: "secondary", fontSize: 17 }}

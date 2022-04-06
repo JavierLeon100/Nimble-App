@@ -31,7 +31,7 @@ const EmptyActivityScreen =({navigation}) =>{
                                         color: "white",
                                     }}
                                      onPress={()=>
-                GoToSuggestedTasks()}>Add Your First Task</Button>
+                GoToSuggestedTasks()}>Check Suggested Task</Button>
             </Center>
         </View>
     )
