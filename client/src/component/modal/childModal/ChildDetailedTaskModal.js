@@ -12,6 +12,7 @@ import { ImageBackground } from "react-native";
 import SvgUri from "react-native-svg-uri-updated";
 import { ChildTaskToEditContext } from "../../screens/childScreens/ChildTaskScreen";
 import { colors } from "../../utilis/colors";
+import { handleGyro } from "../../utilis/gyrocope/setGyroscope";
 import TakePicScreen from "./TakePicScreen";
 
 export default function () {
@@ -27,6 +28,20 @@ export default function () {
     const taskFocus = selectedTask.focus;
     const taskId = selectedTask._id;
     const taskNotes = selectedTask.notes;
+
+    //gyro
+    const [gyroValue, setGyroValue] = useState({
+        x : 0,
+        y : 0,
+        z : 0,
+    })
+    const {x, y, z} = gyroValue
+    const [startGyro, setStartGyro] = useState(false)
+
+    const startDoingTask = ()=>{
+        setTakePicScreen(true) 
+        handleGyro(setStartGyro, startGyro, setGyroValue)
+    }
 
     const btnRightIcon = (textColor) => (
         <HStack alignItems="center" space={0.5}>
@@ -102,12 +117,14 @@ export default function () {
                     borderRadius={40}
                     h="16"
                     onPress={() =>
-                        doingTask ? setTakePicScreen(true) : setDoingTask(true)
+                        doingTask ? startDoingTask() : setDoingTask(true)
                     }
                 >
                     {doingTask ? "Finish" : "Do It Right Now"}
                 </Button>
-
+                <Text> x : {gyroValue.x}</Text>
+                <Text> y : {gyroValue.y}</Text>
+                <Text> z : {gyroValue.z}</Text>
                 {doingTask ? null : (
                     <Button
                         _text={{ color: "secondary", fontSize: 17 }}
