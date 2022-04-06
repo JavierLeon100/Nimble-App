@@ -122,7 +122,9 @@ export default function () {
                 >
                     {doingTask ? "Finish" : "Do It Right Now"}
                 </Button>
-                <Text>{gyroValue.x}</Text>
+                <Text> x : {gyroValue.x}</Text>
+                <Text> y : {gyroValue.y}</Text>
+                <Text> z : {gyroValue.z}</Text>
                 {doingTask ? null : (
                     <Button
                         _text={{ color: "secondary", fontSize: 17 }}
