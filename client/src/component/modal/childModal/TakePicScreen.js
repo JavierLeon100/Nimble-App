@@ -45,8 +45,22 @@ export default function () {
 
     const handleCompleteTask = async () => {
         //S3 bucket for img
-        const { url } = await fetch("/s3Url").then((res) => res.json());
-        console.log(url);
+        //CHANGE IP
+        const { url } = await fetch("http://10.0.0.197:4000/s3Url").then(
+            (res) => res.json()
+        );
+
+        fetch(url, {
+            method: "PUT",
+            headers: {
+                "Content-Type": "multipart/form-data",
+            },
+            body: image,
+        });
+
+        const imageUrl = url.split("?")[0];
+
+        console.log(imageUrl);
 
         updateTask({
             variables: {
@@ -54,7 +68,7 @@ export default function () {
                 task: {
                     date: dateTaken,
                     status: "completed",
-                    img: image,
+                    img: imageUrl,
                 },
             },
         });
@@ -71,7 +85,7 @@ export default function () {
             {image ? (
                 <>
                     <Image
-                        source={{ uri: "data:image/jpeg;base64," + image }}
+                        source={{ uri: image }}
                         style={{ width: 200, height: 200 }}
                         alt="image"
                         borderRadius="10"

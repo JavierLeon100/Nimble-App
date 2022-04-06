@@ -59,12 +59,7 @@ export default function ModalDetailForActivity({
     const [focus, setFocus] = useState(false);
     const [timer, setTimer] = useState(false);
     const [urgent, setUrgent] = useState(false);
-    const [childArray, setChildArray] = useState([
-        { name: "john", _id: "12" },
-        { name: "Dave", _id: "12" },
-        { name: "Bob", _id: "12" },
-        { name: "john", _id: "12" },
-    ]);
+    const [childArray, setChildArray] = useState([]);
     const [selectedChildArray, setselectedChildArray] = useState([]);
     const childRef = useRef(null);
 
@@ -164,10 +159,6 @@ export default function ModalDetailForActivity({
         setChildArray((prev) => [...prev, { name: value, _id: value }]);
     };
 
-    const handleSelectedChild = (name, id) => {
-        setselectedChildArray((prev) => [...prev, { name: name, _id: id }]);
-    };
-
     const {
         error: childError,
         loading: childLoading,
@@ -189,15 +180,18 @@ export default function ModalDetailForActivity({
     //     console.log("change kid to", childId);
     // };
 
-    const onDateChange = (event, selectedDate) => {
+    const onDateChange = (event, date) => {
         const newDate =
-            selectedDate.getDate() +
+            date.getDate() +
             " " +
-            monthName[selectedDate.getMonth()] +
+            monthName[date.getMonth()] +
             " " +
-            selectedDate.getFullYear();
+            date.getFullYear();
+
         setUserDate(newDate);
-        setDatePicker(selectedDate);
+        setDatePicker(date);
+        setDateShow(false);
+        console.log(userDate);
     };
 
     const onTimeChange = (e, selectedTime) => {
@@ -285,10 +279,7 @@ export default function ModalDetailForActivity({
                                         ? childArray.map((child) => (
                                               <Pressable
                                                   onPress={() =>
-                                                      handleSelectedChild(
-                                                          child.name,
-                                                          child._id
-                                                      )
+                                                      setChildId(child._id)
                                                   }
                                               >
                                                   <HStack
@@ -301,21 +292,16 @@ export default function ModalDetailForActivity({
                                                           width={40}
                                                           height={40}
                                                       />
-                                                      <Text>{child.name}</Text>
+                                                      <Text
+                                                          underline={
+                                                              child._id ==
+                                                              childId
+                                                          }
+                                                      >
+                                                          {child.name}
+                                                      </Text>
                                                   </HStack>
                                               </Pressable>
-                                          ))
-                                        : null}
-                                </HStack>
-                                {/*render selected children */}
-                                <HStack
-                                    space={6}
-                                    justifyContent="center"
-                                    mt={9}
-                                >
-                                    {selectedChildArray
-                                        ? selectedChildArray.map((child) => (
-                                              <Text>{child.name}</Text>
                                           ))
                                         : null}
                                 </HStack>
@@ -344,7 +330,7 @@ export default function ModalDetailForActivity({
                                         onPress={() => showDateMode()}
                                     >
                                         <Text color="gray.500" opacity="0.7">
-                                            Date
+                                            {!userDate ? "Date" : userDate}
                                         </Text>
                                     </Button>
                                 )}

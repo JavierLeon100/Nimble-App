@@ -27,7 +27,7 @@ const ModalApproveTask = (props) => {
             <ImageBackground
                 resizeMode="cover"
                 source={{
-                    uri: "data:image/jpeg;base64," + selectedTask.img,
+                    uri: selectedTask.img,
                 }}
                 style={{
                     flex: 1,

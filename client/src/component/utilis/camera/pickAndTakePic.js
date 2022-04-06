@@ -23,15 +23,14 @@ export const takePhoto = async (
     setCameraPermission(status === "granted");
 
     const result = await ImagePicker.launchCameraAsync({
-        base64: true,
-        quality: 0,
+        quality: 1,
         exif: true,
     });
 
     const date = result.exif.DateTimeOriginal;
-    const base64 = result.base64;
+
     setDateTaken(date);
-    setImage(base64);
+    setImage(result.uri);
     const s = await Camera.requestCameraPermissionsAsync().status;
     setRecordVideoPermission(s === "granted");
     const audio = await Camera.requestMicrophonePermissionsAsync().status;
