@@ -4,22 +4,27 @@ import Date from "../layout/Date";
 import SvgUri from "react-native-svg-uri-updated";
 import { FlatGrid } from "react-native-super-grid";
 import MainScreen from "../view/MainScreen";
+import ActivityTaskCard from "../listItems/tasks/parents view/ActivityTaskCard";
+import EmptyActivityScreen from "./EmptyActivityScreen";
 
-export default function ActivityScreen() {
+export default function ActivityScreen({navigation}) {
     const [defaultScreen, setDefaultScreen] = useState(true);
 
     //define state for empty/not empty
-    const [activityEmpty, setActivityEmpty] = useState(true);
+    const [activityTaskArray, setActivityTaskArray] = useState([]);
     //create EachActivity component with the card
-    
+
+
     //if state empty show screen / if not show list of activity
+
+
 
 
 
     const child = [1];
 
     return (
-        // activityEmpty ?  < MainScreen /> :
+        activityTaskArray ?  < EmptyActivityScreen navigation={navigation} /> : 
 
         
         <ScrollView>

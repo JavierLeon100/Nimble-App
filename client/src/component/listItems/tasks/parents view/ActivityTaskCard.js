@@ -1,3 +1,4 @@
+import {React, useState} from "react";
 import {
     HStack,
     Text,
@@ -7,42 +8,12 @@ import {
     Pressable,
     Image,
 } from "native-base";
-import { Animated } from "react-native";
-import { AntDesign } from "@expo/vector-icons";
 import SvgUri from "react-native-svg-uri-updated";
 import { FlatGrid } from "react-native-super-grid";
 
-export default function EachTask({ data, handleShowModal, i, row, noDate }) {
-    // console.log(data)
-    const { child } = data;
 
-    const status = data.status;
-    //conditional rendering of data.status
-
-    // if urgent !!! red before
-    if (status == "urgent") {
-
-        data.title = "!!!" + data.title;
-        data.title.style={color: 'red'}
-
-
-    } else if (status == "completed") {
-        data.title.style={textDecorationLine: 'line-through',textDecorationStyle: 'solid'}
-
-    }
-
-
-    // if completed text strike trough
-
-    const renderChild = child?.map(() => (
-        <SvgUri
-            source={require("../../../../assets/slothFacesSvg/sloth1.svg")}
-        />
-    ));
-    // console.log(row)
-
-    const mainTaskView = (
-        <HStack
+const ActivityTaskCard = () => {
+    <HStack
             bg="white"
             w="350"
             py="3"
@@ -60,8 +31,8 @@ export default function EachTask({ data, handleShowModal, i, row, noDate }) {
                         : `Due:${data.date}`}
                 </Text>
             </VStack>
-            {/* <HStack space={2}>{renderChild}</HStack> */}
-            <FlatGrid
+            <HStack space={2}>{renderChild}</HStack>
+            {/* <FlatGrid
                 mt="9"
                 data={child}
                 renderItem={({ item }) => (
@@ -75,13 +46,9 @@ export default function EachTask({ data, handleShowModal, i, row, noDate }) {
                 style={{
                     height: 70,
                 }}
-            />
+            /> */}
         </HStack>
-    );
 
-    return (
-        <Center mb={3} key={i} position="relative">
-            {mainTaskView}
-        </Center>
-    );
 }
+
+export default ActivityTaskCard;

@@ -25,6 +25,7 @@ export default function SignUpScreen({navigation}){
           }
         } catch (error) {
           console.log("GoogleLoginScreen.js | error with login", error);
+
         }
       };
     

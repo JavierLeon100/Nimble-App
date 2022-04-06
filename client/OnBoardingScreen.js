@@ -67,7 +67,7 @@ export default function ({ fontsLoaded }) {
     const renderItem = ({ item }) => (
         <Center bg="primary.blue" h={900}>
             <VStack alignItems="center">
-                <LottieView
+                {/* <LottieView
                     source={require("./test3.json")}
                     autoPlay
                     loop={true}
@@ -76,9 +76,9 @@ export default function ({ fontsLoaded }) {
                         height: 300,
                         backgroundColor: "#f2f2f2",
                     }}
-                />
+                /> */}
 
-                {/* <SvgUri source={item.image} height={250} width={250}/> */}
+                <SvgUri source={item.image} height={250} width={250}/>
                 <Heading color="white">{item.heading}</Heading>
                 <Text color="white" w={300} textAlign="center" mt={8}>
                     {item.text}
