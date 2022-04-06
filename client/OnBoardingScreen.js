@@ -93,16 +93,16 @@ export default function ({ fontsLoaded }) {
                     borderRadius="30"
                     w={300}
                     py={5}
-                    mb={200}
+                    mt={200}
                     onPress={() => {
                         setOnSlide(false);
                     }}
                 >
-                    Login with Google{" "}
+                    Login with Google
                 </Button>
-                <Text color="white" fontSize="md" mt={8}>
+                {/* <Text color="white" fontSize="md" mt={8}>
                     Have an account?
-                </Text>
+                </Text> */}
             </VStack>
         </Center>
     );

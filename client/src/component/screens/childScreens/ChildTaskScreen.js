@@ -76,7 +76,9 @@ export default function () {
         data ? setChildTasks(newData) : null;
     }, [data]);
 
-    refetch();
+    useEffect(() => {
+        refetch();
+    }, []);
 
     return (
         <ChildTaskToEditContext.Provider value={contextValue}>
