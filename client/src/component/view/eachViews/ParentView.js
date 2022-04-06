@@ -39,7 +39,7 @@ export default function ({ font }) {
             fontFamily: "Quicksand_600SemiBold",
             color: colors.white,
         },
-        tabBarLabelStyle: { fontFamily: "Quicksand_400Regular" },
+        tabBarLabelStyle: { fontFamily: "Quicksand_400Regular", fontSize : 14 },
         headerRight: () => {
             return (
                 <Pressable onPress={() => setShowModal(true)}>

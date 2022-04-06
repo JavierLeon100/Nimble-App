@@ -1,6 +1,6 @@
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import RewardScreen from "../../screens/RewardScreen";
-import { Avatar, Pressable, Stack } from "native-base";
+import { Avatar, HStack, Pressable, Stack, Text } from "native-base";
 import { colors } from "../../utilis/colors";
 import SvgUri from "react-native-svg-uri-updated";
 import ChildTaskScreen from "../../screens/childScreens/ChildTaskScreen";
@@ -25,7 +25,7 @@ const ChildView = ({ navigation }) => {
             fontFamily: "Quicksand_600SemiBold",
             color: colors.white,
         },
-        tabBarLabelStyle: { fontFamily: "Quicksand_400Regular" },
+        tabBarLabelStyle: { fontFamily: "Quicksand_400Regular", fontSize : 14 },
         headerRight: () => {
             return (
                 <Pressable onPress={() => setShowModal(true)}>
@@ -34,6 +34,14 @@ const ChildView = ({ navigation }) => {
                 </Pressable>
             );
         },
+        headerLeft : ()=>{
+            return (
+                <HStack alignItems="center" space={0.1} ml={3}>
+                    <Text fontSize={20} color="white">6400</Text>
+                    <SvgUri source={require("../../../../assets/rewardIcons/Egg.svg")} fill={colors.eggYellow} width={30} height={30}/>
+                </HStack>
+            )
+        }
     };
 
     const optionsForNav = ({ route }) => ({
