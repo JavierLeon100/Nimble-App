@@ -208,14 +208,7 @@ export default function Index({ route, navigation }) {
                     setShowSuggested={setShowSuggested}
                     showSuggested={showSuggested}
                 />
-                <Select>
-                <Select.Item label="UX Research" value="ux" />
-                <Select.Item label="Web Development" value="web" />
-                <Select.Item label="Cross Platform Development" value="cross" />
-                <Select.Item label="UI Designing" value="ui" />
-                <Select.Item label="Backend Development" value="backend" />
-                </Select>
-
+               
                 <Date />
                 <Center>
                     {showSuggested ? (
