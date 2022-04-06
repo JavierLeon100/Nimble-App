@@ -30,7 +30,7 @@ export const takePhoto = async (
     const date = result.exif.DateTimeOriginal;
 
     setDateTaken(date);
-    setImage(result.uri);
+    setImage(result);
     const s = await Camera.requestCameraPermissionsAsync().status;
     setRecordVideoPermission(s === "granted");
     const audio = await Camera.requestMicrophonePermissionsAsync().status;

@@ -1,3 +1,4 @@
+import { useMutation } from "@apollo/client";
 import {
     Button,
     Center,
@@ -12,6 +13,7 @@ import {
 import React, { useContext } from "react";
 import { ImageBackground } from "react-native";
 import SvgUri from "react-native-svg-uri-updated";
+import { UPDATE_TASK } from "../../GraphQL/Mutations";
 import { TaskToEditContext } from "../screens/TaskScreen";
 import { colors } from "../utilis/colors";
 
@@ -19,6 +21,22 @@ const ModalApproveTask = (props) => {
     const { selectedTask } = useContext(TaskToEditContext);
     const { handleShowModal } = props;
     const { refetch } = props;
+
+    //approved task status
+    const [updateTask, { data }, error] = useMutation(UPDATE_TASK);
+    const handleApprove = () => {
+        updateTask({
+            variables: {
+                updateTaskId: selectedTask._id,
+                task: {
+                    status: "approved",
+                },
+            },
+        });
+
+        refetch();
+        handleShowModal(false);
+    };
 
     const buttonText = `Approve   +${selectedTask.rewardPoints}`;
 
@@ -82,7 +100,7 @@ const ModalApproveTask = (props) => {
                     borderRadius={40}
                     h="16"
                     p={0}
-                    onPress={() => console.log("Approve pressed")}
+                    onPress={handleApprove}
                 >
                     {buttonText}
                 </Button>

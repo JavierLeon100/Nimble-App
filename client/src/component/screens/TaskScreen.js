@@ -16,6 +16,7 @@ import {
     Modal as ModalN,
     Icon,
     Select,
+    Image,
 } from "native-base";
 import { SwipeListView } from "react-native-swipe-list-view";
 import { colors } from "../utilis/colors";
@@ -92,6 +93,8 @@ export default function Index({ route, navigation }) {
 
                 if (selectedTask.status === "completed") {
                     setIsCompleted(true);
+                } else {
+                    setIsCompleted(false);
                 }
             }
         }
@@ -208,7 +211,7 @@ export default function Index({ route, navigation }) {
                     setShowSuggested={setShowSuggested}
                     showSuggested={showSuggested}
                 />
-               
+
                 <Date />
                 <Center>
                     {showSuggested ? (
