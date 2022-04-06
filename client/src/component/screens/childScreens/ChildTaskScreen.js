@@ -3,12 +3,13 @@ import { SwipeListView } from "react-native-swipe-list-view";
 import EachTask from "../../listItems/tasks/EachTasks";
 import { Center, Pressable, HStack, Text } from "native-base";
 import ModalDetailForActivity from "../../modal/modalDetailForActivity";
-import { useState, createContext, useEffect } from "react";
+import { useState, createContext, useEffect, useCallback } from "react";
 import ChildDetailedTaskModal from "../../modal/childModal/ChildDetailedTaskModal";
-import { Modal, Dimensions } from "react-native";
+import { Modal, Dimensions, ActivityIndicator, RefreshControl} from "react-native";
 import { GET_TASKS_BY_CHILD } from "../../../GraphQL/Queries";
 import { useQuery } from "@apollo/client";
 import { find } from "lodash";
+import { colors } from "../../utilis/colors";
 
 export const ChildTaskToEditContext = createContext();
 
@@ -22,7 +23,16 @@ export default function () {
         setShowModal,
         setChildTasks,
     };
-
+    const wait = (timeout) => {
+        return new Promise(resolve => setTimeout(resolve, timeout));
+      }
+    const [showIndicator, setIndicator] = useState(false)
+    const [refreshing, setRefreshing] = useState(false);
+    const onRefresh = useCallback(() => {
+        setRefreshing(true);
+        wait(2000).then(() => setRefreshing(false));
+      }, []);
+    
     const onSwipeValueChange = (swipeData) => {
         // console.log(swipeData)
         // setSelectedTaskID(swipeData.key)
@@ -98,6 +108,14 @@ export default function () {
                     onRightAction={() => setShowModal(true)}
                     // onLeftAction={()=>setShowModal(true)}
                     onSwipeValueChange={onSwipeValueChange}
+                    refreshControl={
+                            <RefreshControl
+                            refreshing={refreshing}
+                            onRefresh={onRefresh}
+                            color={colors.secondary}
+                            tintColor ={colors.secondary}
+                            />
+                    }
                     style={{ marginBottom: 370, height: 800 }}
                 />
             </Center>

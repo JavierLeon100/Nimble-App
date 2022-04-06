@@ -20,7 +20,10 @@ import { ImageBackground } from "react-native";
 
 // Initialize Apollo Client
 const client = new ApolloClient({
+
     uri: `http://10.128.221.65:4000/graphql`,
+
+    
     cache: new InMemoryCache(),
 });
 
