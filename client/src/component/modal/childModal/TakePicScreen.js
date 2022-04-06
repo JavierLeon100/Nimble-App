@@ -17,7 +17,6 @@ import { ChildTaskToEditContext } from "../../screens/childScreens/ChildTaskScre
 import { useMutation } from "@apollo/client";
 import { UPDATE_TASK } from "../../../GraphQL/Mutations";
 
-
 export default function () {
     const [cameraPermission, setCameraPermission] = useState();
     const [recordVideoPermission, setRecordVideoPermission] = useState();
@@ -47,7 +46,7 @@ export default function () {
         //S3 bucket for img
         //CHANGE IP
 
-        const { url } = await fetch(`http://10.128.221.65:4000/s3Url`).then(
+        const { url } = await fetch(`http://10.128.246.28:4000/s3Url`).then(
             (res) => res.json()
         );
 

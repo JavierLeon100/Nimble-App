@@ -43,7 +43,7 @@ Notifications.setNotificationHandler({
 
 export const TaskToEditContext = createContext();
 
-export default function({ props, route, navigation }) {
+export default function ({ props, route, navigation }) {
     //   const {user} = route.params
     //   console.log("User from Google", user);
 
@@ -187,7 +187,7 @@ export default function({ props, route, navigation }) {
         // pollInterval: 500,
     });
 
-    refetch();
+    console.log(data);
 
     useEffect(() => {
         if (typeof data !== "undefined") {
@@ -201,14 +201,12 @@ export default function({ props, route, navigation }) {
 
     // const [activityTaskArray, setActivityTaskArray] = useState([]);
 
-
     return (
         <>
-      
-{/* 
+            {/* 
         {activityTaskArray ? ()=>navigation.navigate("Activity")
         : */}
-{/* <> */}
+            {/* <> */}
             <TaskToEditContext.Provider value={contextValue}>
                 <AllOrSuggested
                     setShowSuggested={setShowSuggested}
@@ -305,14 +303,11 @@ export default function({ props, route, navigation }) {
                 />
             </ModalN>
 
-    {/* </>
+            {/* </>
 } */}
         </>
-                    
     );
-                    
 }
-
 
 async function sendPushNotification(expoPushToken) {
     const message = {
