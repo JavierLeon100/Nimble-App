@@ -16,11 +16,11 @@ import Index from "./src/component/screens/TaskScreen";
 // import { createStackNavigator } from '@react-navigation/stack'
 import GoogleLoginScreen from "./src/component/screens/GoogleLoginScreen";
 import { ImageBackground } from "react-native";
-import { IP_ADDRESS } from "@env";
+
 
 // Initialize Apollo Client
 const client = new ApolloClient({
-    uri: `http://${IP_ADDRESS}:4000/graphql`,
+    uri: `http://10.128.221.65:4000/graphql`,
     cache: new InMemoryCache(),
 });
 
