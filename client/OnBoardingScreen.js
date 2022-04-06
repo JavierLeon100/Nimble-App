@@ -33,9 +33,7 @@ export default function ({ fontsLoaded }) {
     const lottieRef = useRef(null);
     // const [status, setStatus] = useState({});
 
-    // useEffect(()=>{
-    //     lottieRef.play()
-    // }, [lottieRef])
+    
 
     const slides = [
         {
@@ -67,16 +65,17 @@ export default function ({ fontsLoaded }) {
     const renderItem = ({ item }) => (
         <Center bg="primary.blue" h={900}>
             <VStack alignItems="center">
-                {/* <LottieView
-                    source={require("./test3.json")}
-                    autoPlay
-                    loop={true}
-                    style={{
-                        width: 300,
-                        height: 300,
-                        backgroundColor: "#f2f2f2",
-                    }}
-                /> */}
+            {/* <LottieView
+                source={require("./test3.json")}
+                loop={true}
+                style={{
+                    width: 300,
+                    height: 300,
+                    
+                }}
+                ref={lottieRef}
+            />
+            <Button onPress={()=>lottieRef.current.play()}>aaa</Button> */}
 
                 <SvgUri source={item.image} height={250} width={250}/>
                 <Heading color="white">{item.heading}</Heading>
@@ -105,6 +104,7 @@ export default function ({ fontsLoaded }) {
                 </Text> */}
             </VStack>
         </Center>
+    
     );
 
     return onSlide ? (

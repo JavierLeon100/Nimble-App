@@ -29,12 +29,8 @@ const ChildView = ({ navigation }) => {
         headerRight: () => {
             return (
                 <Pressable onPress={() => setShowModal(true)}>
-                    <Avatar
-                        source={{
-                            url: uriForImg,
-                        }}
-                        mr="8"
-                    />
+                   <SvgUri source={require("../../../../assets/slothFacesSvg/sloth10.svg")} width = {40} height={40} style={{marginRight : 20}}
+                   />
                 </Pressable>
             );
         },

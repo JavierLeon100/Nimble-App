@@ -42,7 +42,7 @@
     "firebase": "^9.6.8",
     "graphql": "^16.3.0",
     "lodash": "^4.17.21",
-    "lottie-ios": "3.2.3",
+    "lottie-ios": "^3.2.3",
     "lottie-react-native": "^5.0.1",
     "metro-config": "^0.69.1",
     "native-base": "^3.3.6",
