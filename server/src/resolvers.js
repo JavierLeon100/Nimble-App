@@ -1,5 +1,5 @@
 import { gql } from "apollo-server";
-import { Parent, Child, Task, Reward, Home } from "./models/model";
+import { Parent, Child, Task, Reward, Home, Activity } from "./models/model";
 
 const resolvers = {
     Query: {
@@ -52,6 +52,11 @@ const resolvers = {
         getReward: async (parent, args, context, info) => {
             const { id } = args;
             return await Reward.findById(id);
+        },
+
+        getActivity: async (parent, args, context, info) => {
+            const { homeId } = args;
+            return await Activity.find({ homeId });
         },
     },
 
@@ -257,6 +262,11 @@ const resolvers = {
                 new: true,
             });
             return reward;
+        },
+        createActivity: async (parent, args, context, info) => {
+            const activity = new Activity(args.activity);
+            await activity.save();
+            return activity;
         },
     },
 };
