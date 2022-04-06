@@ -39,8 +39,10 @@ export default function () {
     const [startGyro, setStartGyro] = useState(false)
 
     const startDoingTask = ()=>{
-        setTakePicScreen(true) 
-        handleGyro(setStartGyro, startGyro, setGyroValue)
+        if(selectedTask.focus){
+            handleGyro(setStartGyro, startGyro, setGyroValue)
+        }
+        setDoingTask(true)
     }
 
     const btnRightIcon = (textColor) => (
@@ -117,7 +119,7 @@ export default function () {
                     borderRadius={40}
                     h="16"
                     onPress={() =>
-                        doingTask ? startDoingTask() : setDoingTask(true)
+                        doingTask ? setTakePicScreen(true)  : startDoingTask()
                     }
                 >
                     {doingTask ? "Finish" : "Do It Right Now"}
