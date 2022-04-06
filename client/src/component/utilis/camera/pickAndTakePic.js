@@ -17,7 +17,8 @@ export const takePhoto = async (
     setAudioPermission,
     setCameraPermission,
     setImage,
-    setDateTaken
+    setDateTaken,
+    isParent
 ) => {
     const { status } = await Camera.requestCameraPermissionsAsync();
     setCameraPermission(status === "granted");
@@ -29,8 +30,8 @@ export const takePhoto = async (
 
     const date = result.exif.DateTimeOriginal;
 
-    setDateTaken(date);
-    setImage(result);
+    setDateTaken(date)
+    setImage(result)
     const s = await Camera.requestCameraPermissionsAsync().status;
     setRecordVideoPermission(s === "granted");
     const audio = await Camera.requestMicrophonePermissionsAsync().status;

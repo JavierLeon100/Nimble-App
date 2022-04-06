@@ -62,6 +62,7 @@ export default function ModalDetailForActivity({
     const [childArray, setChildArray] = useState([]);
     const [selectedChildArray, setselectedChildArray] = useState([]);
     const childRef = useRef(null);
+    const [dateTaken, setDateTaken] = useState();
 
     //Date Picker
     const [datePicker, setDatePicker] = useState(new Date());
@@ -111,7 +112,7 @@ export default function ModalDetailForActivity({
     //Add Task to BD
     const [createTask, { data }] = useMutation(CREATE_TASK);
 
-    const onSubmit = (data) => {
+    const onSubmit = async (data) => {
         const { title } = data;
         const { notes } = data;
 
@@ -126,6 +127,22 @@ export default function ModalDetailForActivity({
         task.rewardPoints = sliderValue;
         task.date = userDate + " | " + userTime;
         // alert(task.date)
+
+        const { url } = await fetch(`http://10.128.246.28:4000/s3Url`).then(
+            (res) => res.json()
+        );
+
+        fetch(url, {
+            method: "PUT",
+            headers: {
+                "Content-Type": "image/jpg",
+            },
+            body: image,
+        });
+
+        const imageUrl = url.split("?")[0];
+        console.log(image);
+        console.log(imageUrl);
         createTask({
             variables: { task },
         });
@@ -409,7 +426,7 @@ export default function ModalDetailForActivity({
                                 <Center>
                                     {image ? (
                                         <Image
-                                            source={{ uri: image }}
+                                            source={{ uri: image.uri }}
                                             style={{ width: 200, height: 200 }}
                                             alt="image"
                                             borderRadius="10"
@@ -451,7 +468,8 @@ export default function ModalDetailForActivity({
                                                     setAudioPermission,
                                                     setCameraPermission,
                                                     setRecordVideoPermission,
-                                                    setImage
+                                                    setImage,
+                                                    setDateTaken,
                                                 )
                                             }
                                         />

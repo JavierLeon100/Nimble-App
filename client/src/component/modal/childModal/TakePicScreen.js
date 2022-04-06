@@ -37,7 +37,7 @@ export default function () {
             setCameraPermission,
             setRecordVideoPermission,
             setImage,
-            setDateTaken
+            setDateTaken,
         );
     };
 

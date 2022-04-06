@@ -44,6 +44,7 @@ export default function ModalForAddRewards({ handleShowModal, setRewards }) {
     const [focus, setFocus] = useState(false);
     const [timer, setTimer] = useState(false);
     const [urgent, setUrgent] = useState(false);
+    const [dateTaken, setDateTaken] = useState();
 
     const {
         handleSubmit,
@@ -58,12 +59,28 @@ export default function ModalForAddRewards({ handleShowModal, setRewards }) {
 
     const { editReward, selectedReward } = useContext(childRewardContext);
 
-    const onSubmit = (data) => {
+    const onSubmit = async (data) => {
         data.cost = sliderValue;
         data.key = generateID();
 
         setRewards((prev) => [...prev, data]);
         handleShowModal(false);
+
+        const { url } = await fetch(`http://10.128.246.28:4000/s3Url`).then(
+            (res) => res.json()
+        );
+
+        fetch(url, {
+            method: "PUT",
+            headers: {
+                "Content-Type": "image/jpg",
+            },
+            body: image,
+        });
+
+        const imageUrl = url.split("?")[0];
+        console.log(image);
+        console.log(imageUrl);
     };
 
     const sliderOnChange = (v) => {
@@ -184,7 +201,7 @@ export default function ModalForAddRewards({ handleShowModal, setRewards }) {
                                         <Center>
                                             {image ? (
                                                 <Image
-                                                    source={{ uri: image }}
+                                                    source={{ uri: image.uri }}
                                                     style={{
                                                         width: 200,
                                                         height: 200,
@@ -234,7 +251,8 @@ export default function ModalForAddRewards({ handleShowModal, setRewards }) {
                                                             setAudioPermission,
                                                             setCameraPermission,
                                                             setRecordVideoPermission,
-                                                            setImage
+                                                            setImage,
+                                                            setDateTaken
                                                         )
                                                     }
                                                 />
