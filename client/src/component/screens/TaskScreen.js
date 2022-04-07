@@ -187,8 +187,6 @@ export default function ({ props, route, navigation }) {
         // pollInterval: 500,
     });
 
-    console.log(data);
-
     useEffect(() => {
         if (typeof data !== "undefined") {
             const newTasks = data.getAllTasks.filter(
