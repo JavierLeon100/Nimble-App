@@ -6,16 +6,17 @@ import { fontsContext } from "../../../App";
 
 export const CreateParentContext = createContext();
 
-export default function () {
+export default function ({user}) {
+
     const [isParent, setIsParent] = useState(true);
     const fontsLoaded = useContext(fontsContext);
 
     return (
         <CreateParentContext.Provider value={isParent}>
             {isParent ? (
-                <ParentView fontsLoaded={fontsLoaded} />
+                <ParentView user={user} fontsLoaded={fontsLoaded} />
             ) : (
-                <ChildView fontsLoaded={fontsLoaded} />
+                <ChildView user={user} fontsLoaded={fontsLoaded} />
             )}
         </CreateParentContext.Provider>
     );
