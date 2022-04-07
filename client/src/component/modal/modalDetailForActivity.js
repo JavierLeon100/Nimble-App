@@ -39,6 +39,7 @@ import { monthName } from "../utilis/dateFormat";
 import SelectBox from "react-native-multi-selectbox";
 import RNPickerSelect from "react-native-picker-select";
 import { IP_ADDRESS } from "@env";
+import moment from "moment";
 
 export default function ModalDetailForActivity({
     handleShowModal,
@@ -117,10 +118,8 @@ export default function ModalDetailForActivity({
         const { title } = data;
         const { notes } = data;
 
-        const taskDate = moment(
-            userDate + " " + userTime,
-            "DD/MM/YYYY HH:mm:ss"
-        );
+        const taskDate = moment(userDate).format("ddd MM YYYY ");
+        const taskTime = moment(userTime).format("HH:mm");
 
         const task = {};
         task.title = title;
@@ -131,7 +130,7 @@ export default function ModalDetailForActivity({
         task.focusMode = focus;
         task.urgent = urgent;
         task.rewardPoints = sliderValue;
-        task.date = taskDate.format("dd MM YYYY [|] HH:mm");
+        task.date = ` ${taskDate} | ${taskTime}`;
         // alert(task.date)
 
         const { url } = await fetch(`http://${IP_ADDRESS}:4000/s3Url`).then(
