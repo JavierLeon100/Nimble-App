@@ -30,8 +30,6 @@ import { useEffect, useState } from "react";
 export default function editParentProfile({ user, showModal, changeMode }) {
 
 
-
-
     const [children, setChildren] = useState([]);
     console.log(children);
     console.log(childData);
@@ -87,12 +85,43 @@ export default function editParentProfile({ user, showModal, changeMode }) {
                         Name
                     </Text>
                     <Text>{user.name}</Text>
+                    <Controller
+                        control={control}
+                        render={({ field: { onChange, onBlur, user, value } }) => (
+                            <Input
+                                p={4}
+                                placeholder="Kaustubh Kashyup"
+                                borderRadius="10"
+                                onChangeText={onChange}
+                                value={value}
+                                bg="white"
+                                type="name"
+                            />
+                        )}
+                        name="name"
+                    />
                     
                     <Text fontSize="16" opacity="0.7" mb={2} mt={2}>
                         Email
                     </Text>
 
                     <Text>{user.email}</Text>
+
+                    <Controller
+                        control={control}
+                        render={({ field: { onChange, onBlur, user, value } }) => (
+                            <Input
+                                p={4}
+                                placeholder="kashyup.kaustubh@gmail.com"
+                                borderRadius="10"
+                                onChangeText={onChange}
+                                value={value}
+                                bg="white"
+                                type="email"
+                            />
+                        )}
+                        name="email"
+                    />
                     
 
                     <Text fontSize="16" opacity="0.7" mb={2} mt={2}>
