@@ -39,6 +39,7 @@ export default function () {
         selectedReward,
         editReward,
     };
+    console.log(rewards)
 
     //Get Tasks from DB
     const { error, loading, data } = useQuery(GET_REWARDS, {
