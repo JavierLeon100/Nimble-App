@@ -12,9 +12,12 @@ import { useEffect, useState } from "react";
 import * as Google from "expo-google-app-auth";
 import { GoogleIdentity } from "expo-google-sign-in";
 import GoogleLoginScreen from "../GoogleLoginScreen";
+import EditChildProfile from "../../modal/editChildProfile";
 
 export default function () {
     const [loggedIn, setLoggedIn] = useState(false);
+
+    const [user, setUser] = useState("");
 
     useEffect(()=>{
         signInAsync();
@@ -33,6 +36,7 @@ export default function () {
             console.log("GoogleLoginScreen.js | log in success! navigating to home screen!");
             // navigation.navigate("TaskScreen", { user })
             setLoggedIn(true);
+            setUser(user);
           }
         } catch (error) {
           console.log("GoogleLoginScreen.js | error with login", error);
@@ -43,6 +47,12 @@ export default function () {
       
 
     return (
-        loggedIn ?  <MainScreen /> : null 
+        loggedIn ?  
+        <>
+        <MainScreen user={user}/>
+     
+        </>
+        : null 
+        
     )
 }

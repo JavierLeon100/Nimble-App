@@ -13,9 +13,9 @@ export default function () {
     return (
         <CreateParentContext.Provider value={isParent}>
             {isParent ? (
-                <ParentView fontsLoaded={fontsLoaded} />
+                <ParentView user={user} fontsLoaded={fontsLoaded} />
             ) : (
-                <ChildView fontsLoaded={fontsLoaded} />
+                <ChildView user={user} fontsLoaded={fontsLoaded} />
             )}
         </CreateParentContext.Provider>
     );
