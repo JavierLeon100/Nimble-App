@@ -38,6 +38,7 @@ import dayjs from "dayjs";
 import { monthName } from "../utilis/dateFormat";
 import SelectBox from "react-native-multi-selectbox";
 import RNPickerSelect from "react-native-picker-select";
+import { IP_ADDRESS } from "@env";
 
 export default function ModalDetailForActivity({
     handleShowModal,
@@ -128,7 +129,7 @@ export default function ModalDetailForActivity({
         task.date = userDate + " | " + userTime;
         // alert(task.date)
 
-        const { url } = await fetch(`http://10.128.246.28:4000/s3Url`).then(
+        const { url } = await fetch(`http://${IP_ADDRESS}:4000/s3Url`).then(
             (res) => res.json()
         );
 
@@ -469,7 +470,7 @@ export default function ModalDetailForActivity({
                                                     setCameraPermission,
                                                     setRecordVideoPermission,
                                                     setImage,
-                                                    setDateTaken,
+                                                    setDateTaken
                                                 )
                                             }
                                         />

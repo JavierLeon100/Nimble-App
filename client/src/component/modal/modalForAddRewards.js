@@ -29,6 +29,7 @@ import { useForm, Controller } from "react-hook-form";
 import { EvilIcons } from "@expo/vector-icons";
 import generateID from "../utilis/generate";
 import { childRewardContext } from "../screens/RewardScreen";
+import { IP_ADDRESS } from "@env";
 
 export default function ModalForAddRewards({ handleShowModal, setRewards }) {
     const [image, setImage] = useState();
@@ -62,10 +63,8 @@ export default function ModalForAddRewards({ handleShowModal, setRewards }) {
     const onSubmit = async (data) => {
         data.cost = sliderValue;
         data.key = generateID();
-        
 
-        
-        const { url } = await fetch(`http://10.128.246.28:4000/s3Url`).then(
+        const { url } = await fetch(`http://${IP_ADDRESS}:4000/s3Url`).then(
             (res) => res.json()
         );
 
@@ -80,7 +79,7 @@ export default function ModalForAddRewards({ handleShowModal, setRewards }) {
         const imageUrl = url.split("?")[0];
         console.log(image);
         console.log(imageUrl);
-        data.img = imageUrl
+        data.img = imageUrl;
         setRewards((prev) => [...prev, data]);
         handleShowModal(false);
     };
