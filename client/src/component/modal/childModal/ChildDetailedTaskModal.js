@@ -52,12 +52,14 @@ export default function () {
     };
 
     useEffect(()=>{
-        if(gyroValue.y * 100 < -70 ){
-            // setRenderWarning(true)
-            alert("You moved your phone!!")
-            // setIsOpen(true)
-        } else {
-            // setRenderWarning(false)
+        if(!takePicScreen){
+            if(gyroValue.y * 100 < -70 ){
+                // setRenderWarning(true)
+                alert("You moved your phone!!")
+                // setIsOpen(true)
+            } else {
+                // setRenderWarning(false)
+            }
         }
     },[gyroValue])
 
