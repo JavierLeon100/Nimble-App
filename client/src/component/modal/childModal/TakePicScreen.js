@@ -60,8 +60,6 @@ export default function () {
         });
 
         const imageUrl = url.split("?")[0];
-        console.log(image);
-        console.log(imageUrl);
 
         updateTask({
             variables: {

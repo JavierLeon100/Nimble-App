@@ -30,8 +30,14 @@ import { EvilIcons } from "@expo/vector-icons";
 import generateID from "../utilis/generate";
 import { childRewardContext } from "../screens/RewardScreen";
 import { IP_ADDRESS } from "@env";
+import { useMutation } from "@apollo/client";
+import { CREATE_REWARD } from "../../GraphQL/Mutations";
 
-export default function ModalForAddRewards({ handleShowModal, setRewards }) {
+export default function ModalForAddRewards({
+    handleShowModal,
+    setRewards,
+    refetch,
+}) {
     const [image, setImage] = useState();
     const [video, setVideo] = useState();
     const [onRecording, setOnRecording] = useState(false);
@@ -60,9 +66,19 @@ export default function ModalForAddRewards({ handleShowModal, setRewards }) {
 
     const { editReward, selectedReward } = useContext(childRewardContext);
 
+    const [createTask, { data }] = useMutation(CREATE_REWARD);
+
     const onSubmit = async (data) => {
-        data.cost = sliderValue;
-        data.key = generateID();
+        const { title } = data;
+        const rewardUrl = data.url;
+        const { notes } = data;
+
+        const reward = {};
+        reward.title = title;
+        reward.cost = sliderValue;
+        reward.url = rewardUrl;
+        reward.notes = notes;
+        reward.homeId = "622ab00bfe4e52d96b61a960";
 
         const { url } = await fetch(`http://${IP_ADDRESS}:4000/s3Url`).then(
             (res) => res.json()
@@ -77,10 +93,15 @@ export default function ModalForAddRewards({ handleShowModal, setRewards }) {
         });
 
         const imageUrl = url.split("?")[0];
-        console.log(image);
-        console.log(imageUrl);
-        data.img = imageUrl;
-        setRewards((prev) => [...prev, data]);
+
+        reward.img = imageUrl;
+
+        createTask({
+            variables: { reward },
+        });
+
+        refetch();
+
         handleShowModal(false);
     };
 
@@ -327,7 +348,7 @@ export default function ModalForAddRewards({ handleShowModal, setRewards }) {
                                             fontSize="11"
                                             mt="2"
                                         >
-                                            Add instruction, notes or aditional
+                                            Add instruction, notes or additional
                                             description
                                         </Text>
                                     </Stack>

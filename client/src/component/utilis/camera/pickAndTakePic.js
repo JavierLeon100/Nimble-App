@@ -9,7 +9,10 @@ export const pickImage = async (setImage) => {
         aspect: [4, 3],
         quality: 1,
     });
-    result ? setImage(result.uri) : null;
+
+    console.log("chosen:", result);
+
+    result ? setImage(result) : null;
 };
 
 export const takePhoto = async (
@@ -30,8 +33,8 @@ export const takePhoto = async (
 
     const date = result.exif.DateTimeOriginal;
 
-    setDateTaken(date)
-    setImage(result)
+    setDateTaken(date);
+    setImage(result);
     const s = await Camera.requestCameraPermissionsAsync().status;
     setRecordVideoPermission(s === "granted");
     const audio = await Camera.requestMicrophonePermissionsAsync().status;

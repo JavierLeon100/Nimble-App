@@ -4,7 +4,6 @@ import { AntDesign } from "@expo/vector-icons";
 import SvgUri from "react-native-svg-uri-updated";
 
 export default function ({ reward }) {
-    console.log("rewarfd" + reward.img)
     return (
         <VStack
             bg="white"
@@ -20,7 +19,7 @@ export default function ({ reward }) {
             <Center>
                 <Image
                     source={{
-                        uri: reward.img
+                        uri: reward.img,
                     }}
                     size="lg"
                     resizeMode="contain"

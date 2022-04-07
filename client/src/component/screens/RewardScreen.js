@@ -39,10 +39,9 @@ export default function () {
         selectedReward,
         editReward,
     };
-    console.log(rewards)
 
     //Get Tasks from DB
-    const { error, loading, data } = useQuery(GET_REWARDS, {
+    const { error, loading, data, refetch } = useQuery(GET_REWARDS, {
         variables: {
             //replace with homeIdVariable from auth
             homeId: "622ab00bfe4e52d96b61a960",
@@ -86,6 +85,7 @@ export default function () {
                     <ModalForAddRewards
                         handleShowModal={handleShowModal}
                         setRewards={setRewards}
+                        refetch={refetch}
                     />
                 ) : (
                     <ChildRewardModal />

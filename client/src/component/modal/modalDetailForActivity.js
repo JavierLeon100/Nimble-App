@@ -142,8 +142,7 @@ export default function ModalDetailForActivity({
         });
 
         const imageUrl = url.split("?")[0];
-        console.log(image);
-        console.log(imageUrl);
+        task.img = imageUrl;
         createTask({
             variables: { task },
         });
@@ -209,7 +208,7 @@ export default function ModalDetailForActivity({
         setUserDate(newDate);
         setDatePicker(date);
         setDateShow(false);
-        console.log(userDate);
+        // console.log(userDate);
     };
 
     const onTimeChange = (e, selectedTime) => {

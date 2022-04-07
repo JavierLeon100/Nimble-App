@@ -41,3 +41,18 @@ export const DELETE_TASK = gql`
         deleteTask(id: $deleteTaskId)
     }
 `;
+
+export const CREATE_REWARD = gql`
+    mutation CreateReward($reward: RewardInput) {
+        createReward(reward: $reward) {
+            _id
+            title
+            cost
+            img
+            url
+            notes
+            homeId
+            childId
+        }
+    }
+`;
