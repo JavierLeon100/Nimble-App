@@ -5,6 +5,7 @@
     "main": "server.js",
     "author": "Nimble",
     "license": "MIT",
+    "type": "module",
     "private": true,
     "scripts": {
         "start": "nodemon ./server.js --exec babel-node -e js",
