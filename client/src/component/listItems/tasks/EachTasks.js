@@ -11,26 +11,25 @@ import { Animated } from "react-native";
 import { AntDesign } from "@expo/vector-icons";
 import SvgUri from "react-native-svg-uri-updated";
 import { FlatGrid } from "react-native-super-grid";
+import { color } from "react-native-reanimated";
 
 export default function EachTask({ data, handleShowModal, i, row, noDate }) {
     // console.log(data)
     const { child } = data;
 
     const status = data.status;
+    const urgent = data.urgent;
     //conditional rendering of data.status
 
     // if urgent !!! red before
-    if (status == "urgent") {
+    // if (urgent) {
 
-        data.title = "!!!" + data.title;
-        data.title.style={color: 'red'}
+        // data.title = "!!!" + data.title;
+        // data.title.style={color: 'red'}
 
-
-    } else if (status == "completed") {
-        data.title.style={textDecorationLine: 'line-through',textDecorationStyle: 'solid'}
-
-    }
-
+    // } else if (status == "completed") {
+    //     data.title.style={textDecorationLine: 'line-through',textDecorationStyle: 'solid'}
+    // }
 
     // if completed text strike trough
 
@@ -53,7 +52,13 @@ export default function EachTask({ data, handleShowModal, i, row, noDate }) {
             alignItems="center"
         >
             <VStack>
-                <Text fontSize="19">{data.title}</Text>
+                <Text fontSize="19" 
+                 style=
+                     {status === "completed" ? {textDecorationLine:'line-through'} : {textDecoration: 'none'}}
+                     {...urgent? {color: 'red'} : {color:'black'}}>
+                     {urgent? `! ! ! ${data.title}`: data.title}
+                </Text>
+
                 <Text fontSize="11" mt="2">
                     {noDate
                         ? "Due: Fri 08 2022 | 12:00 PM"
