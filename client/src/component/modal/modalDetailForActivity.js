@@ -117,6 +117,11 @@ export default function ModalDetailForActivity({
         const { title } = data;
         const { notes } = data;
 
+        const taskDate = moment(
+            userDate + " " + userTime,
+            "DD/MM/YYYY HH:mm:ss"
+        );
+
         const task = {};
         task.title = title;
         task.notes = notes;
@@ -126,7 +131,7 @@ export default function ModalDetailForActivity({
         task.focusMode = focus;
         task.urgent = urgent;
         task.rewardPoints = sliderValue;
-        task.date = userDate + " | " + userTime;
+        task.date = taskDate.format("dd MM YYYY [|] HH:mm");
         // alert(task.date)
 
         const { url } = await fetch(`http://${IP_ADDRESS}:4000/s3Url`).then(

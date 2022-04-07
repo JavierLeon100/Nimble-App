@@ -16,6 +16,7 @@ import SvgUri from "react-native-svg-uri-updated";
 import { UPDATE_TASK } from "../../GraphQL/Mutations";
 import { TaskToEditContext } from "../screens/TaskScreen";
 import { colors } from "../utilis/colors";
+import moment from "moment";
 
 const ModalApproveTask = (props) => {
     const { selectedTask } = useContext(TaskToEditContext);
@@ -85,7 +86,11 @@ const ModalApproveTask = (props) => {
                 <Text fontSize={15} mb={2}>
                     Picture Taken at: {selectedTask.date}
                 </Text>
-                <Text fontSize={15}>Focus Mode: 15m</Text>
+                <Text fontSize={15}>
+                    {selectedTask.focusMode
+                        ? `Duration of Focus Mode Task: ${selectedTask.notes}`
+                        : null}
+                </Text>
             </VStack>
 
             <Center h={160} justifyContent="space-around" mt={5}>

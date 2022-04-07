@@ -66,7 +66,7 @@ export default function ModalForAddRewards({
 
     const { editReward, selectedReward } = useContext(childRewardContext);
 
-    const [createTask, { data }] = useMutation(CREATE_REWARD);
+    const [createReward, { data }] = useMutation(CREATE_REWARD);
 
     const onSubmit = async (data) => {
         const { title } = data;
@@ -96,7 +96,7 @@ export default function ModalForAddRewards({
 
         reward.img = imageUrl;
 
-        createTask({
+        createReward({
             variables: { reward },
         });
 

@@ -15,6 +15,7 @@ import { ChildTaskToEditContext } from "../../screens/childScreens/ChildTaskScre
 import { colors } from "../../utilis/colors";
 import { handleGyro } from "../../utilis/gyrocope/setGyroscope";
 import TakePicScreen from "./TakePicScreen";
+import moment from "moment";
 
 export default function () {
     const [doingTask, setDoingTask] = useState(false);
@@ -22,6 +23,9 @@ export default function () {
     const { setShowModal, selectedTask, setChildTasks } = useContext(
         ChildTaskToEditContext
     );
+
+    const [taskStartDate, setTaskStartDate] = useState();
+    const [taskEndDate, setTaskEndDate] = useState();
 
     const taskTitle = selectedTask.title;
     const taskDate = selectedTask.date;
@@ -44,6 +48,9 @@ export default function () {
         // if(taskFocus){
         //     handleGyro(setStartGyro, startGyro, setGyroValue)
         // }
+
+        setTaskStartDate(moment());
+
         setDoingTask(true);
     };
 
@@ -58,7 +65,12 @@ export default function () {
     );
 
     return takePicScreen ? (
-        <TakePicScreen selectedTask={selectedTask} taskId={taskId} />
+        <TakePicScreen
+            selectedTask={selectedTask}
+            taskId={taskId}
+            taskStartDate={taskStartDate}
+            taskEndDate={taskEndDate}
+        />
     ) : (
         <ScrollView>
             <ImageBackground
@@ -129,7 +141,9 @@ export default function () {
                     borderRadius={40}
                     h="16"
                     onPress={() =>
-                        doingTask ? setTakePicScreen(true) : startDoingTask()
+                        doingTask
+                            ? (setTakePicScreen(true), setTaskEndDate(moment()))
+                            : startDoingTask()
                     }
                 >
                     {doingTask ? "Finish" : "Do It Right Now"}
