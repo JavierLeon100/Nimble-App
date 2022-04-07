@@ -59,10 +59,14 @@ export default function EachTask({ data, handleShowModal, i, row, noDate }) {
                      {urgent? `! ! ! ${data.title}`: data.title}
                 </Text>
 
-                <Text fontSize="11" mt="2">
+                <Text fontSize="11" mt="2"
+                 style=
+                 {status === "completed" ? {textDecorationLine:'line-through'} : {textDecoration: 'none'}}>
                     {noDate
                         ? "Due: Fri 08 2022 | 12:00 PM"
                         : `Due:${data.date}`}
+
+
                 </Text>
             </VStack>
             {/* <HStack space={2}>{renderChild}</HStack> */}
