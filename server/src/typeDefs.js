@@ -51,6 +51,11 @@ const typeDefs = gql`
         rewards: [Reward]
     }
 
+    type Activity {
+        homeId: String
+        activity: String
+    }
+
     type Query {
         getAllHomes: [Home]
         getHome(id: String): Home
@@ -67,6 +72,8 @@ const typeDefs = gql`
         getAllRewards(homeId: String): [Reward]
         getRewardsByChild(childId: String): [Reward]
         getReward(id: String): Reward
+
+        getActivity(homeId: String): [Activity]
     }
 
     input HomeInput {
@@ -110,6 +117,11 @@ const typeDefs = gql`
         homeId: String
     }
 
+    input ActivityInput {
+        homeId: String
+        activity: String
+    }
+
     type Mutation {
         createHome(home: HomeInput): Home
         deleteHome(id: String): String
@@ -130,6 +142,8 @@ const typeDefs = gql`
         createReward(reward: RewardInput): Reward
         deleteReward(id: String): String
         updateReward(id: String, reward: RewardInput): Reward
+
+        createActivity(activity: ActivityInput): Activity
     }
 `;
 
