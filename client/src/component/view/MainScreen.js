@@ -7,7 +7,7 @@ import { fontsContext } from "../../../App";
 export const CreateParentContext = createContext();
 
 export default function (user) {
-    const [isParent, setIsParent] = useState(false);
+    const [isParent, setIsParent] = useState(true);
     const fontsLoaded = useContext(fontsContext);
 
     return (

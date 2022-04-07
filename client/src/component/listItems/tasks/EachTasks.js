@@ -24,8 +24,8 @@ export default function EachTask({ data, handleShowModal, i, row, noDate }) {
     // if urgent !!! red before
     // if (urgent) {
 
-        // data.title = "!!!" + data.title;
-        // data.title.style={color: 'red'}
+    // data.title = "!!!" + data.title;
+    // data.title.style={color: 'red'}
 
     // } else if (status == "completed") {
     //     data.title.style={textDecorationLine: 'line-through',textDecorationStyle: 'solid'}
@@ -52,21 +52,32 @@ export default function EachTask({ data, handleShowModal, i, row, noDate }) {
             alignItems="center"
         >
             <VStack>
-                <Text fontSize="19" 
-                 style=
-                     {status === "completed" ? {textDecorationLine:'line-through'} : {textDecoration: 'none'}}
-                     {...urgent? {color: 'red'} : {color:'black'}}>
-                     {urgent? `! ! ! ${data.title}`: data.title}
+                <Text
+                    fontSize="19"
+                    style={
+                        status === "completed"
+                            ? { textDecorationLine: "line-through" }
+                            : { textDecoration: "none" }
+                    }
+                    {...(urgent ? { color: "red" } : { color: "black" })}
+                >
+                    {urgent ? `! ! ! ${data.title}` : data.title}
                 </Text>
 
-                <Text fontSize="11" mt="2"
-                 style=
-                 {status === "completed" ? {textDecorationLine:'line-through'} : {textDecoration: 'none'}}>
+                <Text
+                    fontSize="11"
+                    mt="2"
+                    style={
+                        status === "completed"
+                            ? { textDecorationLine: "line-through" }
+                            : { textDecoration: "none" }
+                    }
+                >
                     {noDate
                         ? "Due: Fri 08 2022 | 12:00 PM"
+                        : status === "completed"
+                        ? `Completed at:${data.date}`
                         : `Due:${data.date}`}
-
-
                 </Text>
             </VStack>
             {/* <HStack space={2}>{renderChild}</HStack> */}

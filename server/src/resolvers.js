@@ -1,5 +1,5 @@
 import { gql } from "apollo-server";
-import { Parent, Child, Task, Reward, Home, Activity } from "./models/model";
+import { Parent, Child, Task, Reward, Home, Activity } from "./models/model.js";
 
 const resolvers = {
     Query: {

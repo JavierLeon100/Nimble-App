@@ -24,6 +24,7 @@ export default function ({ reward }) {
                     size="lg"
                     resizeMode="contain"
                     alt="reward icon"
+                    aspectRatio={1}
                 />
                 <HStack
                     justifyContent="center"
