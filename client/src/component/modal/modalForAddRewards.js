@@ -62,10 +62,9 @@ export default function ModalForAddRewards({ handleShowModal, setRewards }) {
     const onSubmit = async (data) => {
         data.cost = sliderValue;
         data.key = generateID();
+        
 
-        setRewards((prev) => [...prev, data]);
-        handleShowModal(false);
-
+        
         const { url } = await fetch(`http://10.128.246.28:4000/s3Url`).then(
             (res) => res.json()
         );
@@ -81,6 +80,9 @@ export default function ModalForAddRewards({ handleShowModal, setRewards }) {
         const imageUrl = url.split("?")[0];
         console.log(image);
         console.log(imageUrl);
+        data.img = imageUrl
+        setRewards((prev) => [...prev, data]);
+        handleShowModal(false);
     };
 
     const sliderOnChange = (v) => {

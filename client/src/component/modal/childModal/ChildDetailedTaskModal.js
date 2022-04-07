@@ -28,6 +28,8 @@ export default function () {
     const taskFocus = selectedTask.focus;
     const taskId = selectedTask._id;
     const taskNotes = selectedTask.notes;
+    const taskImgUrl = selectedTask.img
+   
 
     //gyro
     const [gyroValue, setGyroValue] = useState({
@@ -61,7 +63,7 @@ export default function () {
         <ScrollView>
             <ImageBackground
                 resizeMode="cover"
-                source={require("../../../../assets/imageForTasks/CleanUpRoom.png")}
+                source={{uri : taskImgUrl}}
                 style={{
                     flex: 1,
                     justifyContent: "center",
