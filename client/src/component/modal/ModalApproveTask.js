@@ -55,7 +55,11 @@ const ModalApproveTask = (props) => {
                 }}
             >
                 <View
-                    style={{ flex: 1, backgroundColor: colors.shades.tintBlue }}
+                    style={{
+                        flex: 1,
+                        backgroundColor: colors.shades.tintBlue,
+                        opacity: 0.7,
+                    }}
                 >
                     <VStack
                         margin={5}
@@ -77,11 +81,14 @@ const ModalApproveTask = (props) => {
                 />
             </HStack>
 
-            <VStack pl={5} space={1}>
-                <Text fontSize={15}>Img date: {selectedTask.date} </Text>
+            <VStack m={5} pl={6} space={1}>
+                <Text fontSize={15} mb={2}>
+                    Picture Taken at: {selectedTask.date}
+                </Text>
+                <Text fontSize={15}>Focus Mode: 15m</Text>
             </VStack>
 
-            <Center h={160} justifyContent="space-around" mt={20}>
+            <Center h={160} justifyContent="space-around" mt={5}>
                 <Button
                     _text={{
                         color: "white",
