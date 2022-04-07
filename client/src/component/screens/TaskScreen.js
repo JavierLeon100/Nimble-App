@@ -2,9 +2,9 @@ import PlusButton from "../buttons/PlusButton";
 import AllOrSuggested from "../layout/AllOrSuggested";
 import Date from "../layout/Date";
 import EachTask from "../listItems/tasks/EachTasks";
-import { Platform, Animated, Dimensions, Modal, View } from "react-native";
+import { Platform, Dimensions, Modal, View, RefreshControl } from "react-native";
 import ModalDetailForActivity from "../modal/modalDetailForActivity";
-import { useEffect, useState, useRef, createContext } from "react";
+import { useEffect, useState, useRef, createContext, useCallback } from "react";
 import {
     Button,
     FlatList,
@@ -33,13 +33,13 @@ import { DELETE_TASK } from "../../GraphQL/Mutations";
 import ModalApproveTask from "../modal/ModalApproveTask";
 import moment from "moment";
 
-Notifications.setNotificationHandler({
-    handleNotification: async () => ({
-        shouldShowAlert: true,
-        shouldPlaySound: false,
-        shouldSetBadge: false,
-    }),
-});
+// Notifications.setNotificationHandler({
+//     handleNotification: async () => ({
+//         shouldShowAlert: true,
+//         shouldPlaySound: false,
+//         shouldSetBadge: false,
+//     }),
+// });
 
 export const TaskToEditContext = createContext();
 
@@ -178,6 +178,12 @@ export default function ({ props, route, navigation }) {
     //     };
     // }, []);
 
+    const [refreshing, setRefreshing] = useState(false);
+    const onRefresh = useCallback(() => {
+        setRefreshing(true);
+        refetch().then(() => setRefreshing(false));
+      }, []);
+
     //Get Tasks from DB
     const { error, loading, data, refetch } = useQuery(GET_ALL_TASKS, {
         variables: {
@@ -235,6 +241,14 @@ export default function ({ props, route, navigation }) {
                             }}
                             onSwipeValueChange={onSwipeValueChange}
                             style={{ marginBottom: 240 }}
+                            refreshControl={
+                                <RefreshControl
+                                refreshing={refreshing}
+                                onRefresh={onRefresh}
+                                color={colors.primary.blue}
+                                tintColor ={colors.primary.blue}
+                                />
+                            }
                         />
                     ) : (
                         <SwipeListView
@@ -261,6 +275,14 @@ export default function ({ props, route, navigation }) {
                             // onLeftAction={()=>setShowModal(true)}
                             onSwipeValueChange={onSwipeValueChange}
                             style={{ marginBottom: 240 }}
+                            refreshControl={
+                                <RefreshControl
+                                refreshing={refreshing}
+                                onRefresh={onRefresh}
+                                color={colors.primary.blue}
+                                tintColor ={colors.primary.blue}
+                                />
+                            }
                         />
                     )}
                 </Center>

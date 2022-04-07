@@ -8,7 +8,7 @@ import {
     View,
     VStack,
 } from "native-base";
-import { useContext, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { ImageBackground } from "react-native";
 import SvgUri from "react-native-svg-uri-updated";
 import { ChildTaskToEditContext } from "../../screens/childScreens/ChildTaskScreen";
@@ -26,11 +26,12 @@ export default function () {
 
     const [taskStartDate, setTaskStartDate] = useState();
     const [taskEndDate, setTaskEndDate] = useState();
+    const [renderWarning, setRenderWarning] = useState(false);
 
     const taskTitle = selectedTask.title;
     const taskDate = selectedTask.date;
     const taskPoints = selectedTask.rewardPoints;
-    const taskFocus = selectedTask.focus;
+    const taskFocus = selectedTask.focusMode;
     const taskId = selectedTask._id;
     const taskNotes = selectedTask.notes;
     const taskImgUrl = selectedTask.img;
@@ -51,8 +52,21 @@ export default function () {
 
         setTaskStartDate(moment());
 
+        if (taskFocus) {
+            handleGyro(setStartGyro, startGyro, setGyroValue);
+        }
+
         setDoingTask(true);
     };
+
+    useEffect(() => {
+        if (gyroValue.y * 100 < -70) {
+            setRenderWarning(true);
+            // alert("a")
+        } else {
+            setRenderWarning(false);
+        }
+    }, [gyroValue]);
 
     const btnRightIcon = (textColor) => (
         <HStack alignItems="center" space={0.5}>
@@ -131,6 +145,14 @@ export default function () {
                 <Text fontSize={15}>{taskNotes}</Text>
             </VStack>
 
+            {renderWarning ? (
+                <Center mt={3}>
+                    <Text fontSize={30} color="red">
+                        You moved your phone!!
+                    </Text>
+                </Center>
+            ) : null}
+
             <Center h={160} justifyContent="space-around" mt={20}>
                 <Button
                     _text={{ color: "white", fontSize: 17 }}
@@ -148,9 +170,9 @@ export default function () {
                 >
                     {doingTask ? "Finish" : "Do It Right Now"}
                 </Button>
-                {/* <Text> x : {gyroValue.x}</Text>
-                <Text> y : {gyroValue.y}</Text>
-                <Text> z : {gyroValue.z}</Text> */}
+                <Text> x : {gyroValue.x * 100}</Text>
+                <Text> y : {gyroValue.y * 100}</Text>
+                <Text> z : {gyroValue.z * 100}</Text>
                 {doingTask ? null : (
                     <Button
                         _text={{ color: "secondary", fontSize: 17 }}

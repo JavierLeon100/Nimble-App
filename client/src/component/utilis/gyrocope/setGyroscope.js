@@ -1,4 +1,4 @@
-import { Gyroscope } from 'expo-sensors';
+import { Accelerometer } from 'expo-sensors';
 
 // template to use gyro in react component
 // const [gyroValue, setGyroValue] = useState({
@@ -10,13 +10,13 @@ import { Gyroscope } from 'expo-sensors';
 // const [startGyro, setStartGyro] = useState(false)
 
 export const handleGyro = async (setStartGyro, startGyro, setGyroValue)=>{
-    await Gyroscope.isAvailableAsync()
+    await Accelerometer.isAvailableAsync()
     if(!startGyro){
-        Gyroscope.addListener(data=>setGyroValue(data))
+        Accelerometer.addListener(data=>setGyroValue(data))
     } else {
-        Gyroscope.removeAllListeners()
+        Accelerometer.removeAllListeners()
     }
-    Gyroscope.setUpdateInterval(2000)
+    Accelerometer.setUpdateInterval(2000)
     setStartGyro(prev=>!prev)
 }
 

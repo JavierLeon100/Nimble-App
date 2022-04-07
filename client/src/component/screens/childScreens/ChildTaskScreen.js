@@ -23,10 +23,7 @@ export default function () {
         setShowModal,
         setChildTasks,
     };
-    const wait = (timeout) => {
-        return new Promise(resolve => setTimeout(resolve, timeout));
-      }
-    const [showIndicator, setIndicator] = useState(false)
+    
     const [refreshing, setRefreshing] = useState(false);
     const onRefresh = useCallback(() => {
         setRefreshing(true);
