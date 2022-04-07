@@ -5,7 +5,7 @@ import http from "http";
 import resolvers from "./src/resolvers.js";
 import typeDefs from "./src/typeDefs.js";
 import mongoose from "mongoose";
-import { generateUploadURL } from "./src/s3";
+import { generateUploadURL } from "./src/s3.js";
 
 const startApolloServer = async (typeDefs, resolvers) => {
     const app = express();
