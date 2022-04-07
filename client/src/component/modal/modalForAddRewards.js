@@ -29,8 +29,15 @@ import { useForm, Controller } from "react-hook-form";
 import { EvilIcons } from "@expo/vector-icons";
 import generateID from "../utilis/generate";
 import { childRewardContext } from "../screens/RewardScreen";
+import { IP_ADDRESS } from "@env";
+import { useMutation } from "@apollo/client";
+import { CREATE_REWARD } from "../../GraphQL/Mutations";
 
-export default function ModalForAddRewards({ handleShowModal, setRewards }) {
+export default function ModalForAddRewards({
+    handleShowModal,
+    setRewards,
+    refetch,
+}) {
     const [image, setImage] = useState();
     const [video, setVideo] = useState();
     const [onRecording, setOnRecording] = useState(false);
@@ -44,6 +51,7 @@ export default function ModalForAddRewards({ handleShowModal, setRewards }) {
     const [focus, setFocus] = useState(false);
     const [timer, setTimer] = useState(false);
     const [urgent, setUrgent] = useState(false);
+    const [dateTaken, setDateTaken] = useState();
 
     const {
         handleSubmit,
@@ -58,11 +66,42 @@ export default function ModalForAddRewards({ handleShowModal, setRewards }) {
 
     const { editReward, selectedReward } = useContext(childRewardContext);
 
-    const onSubmit = (data) => {
-        data.cost = sliderValue;
-        data.key = generateID();
+    const [createTask, { data }] = useMutation(CREATE_REWARD);
 
-        setRewards((prev) => [...prev, data]);
+    const onSubmit = async (data) => {
+        const { title } = data;
+        const rewardUrl = data.url;
+        const { notes } = data;
+
+        const reward = {};
+        reward.title = title;
+        reward.cost = sliderValue;
+        reward.url = rewardUrl;
+        reward.notes = notes;
+        reward.homeId = "622ab00bfe4e52d96b61a960";
+
+        const { url } = await fetch(`http://${IP_ADDRESS}:4000/s3Url`).then(
+            (res) => res.json()
+        );
+
+        fetch(url, {
+            method: "PUT",
+            headers: {
+                "Content-Type": "image/jpg",
+            },
+            body: image,
+        });
+
+        const imageUrl = url.split("?")[0];
+
+        reward.img = imageUrl;
+
+        createTask({
+            variables: { reward },
+        });
+
+        refetch();
+
         handleShowModal(false);
     };
 
@@ -184,7 +223,7 @@ export default function ModalForAddRewards({ handleShowModal, setRewards }) {
                                         <Center>
                                             {image ? (
                                                 <Image
-                                                    source={{ uri: image }}
+                                                    source={{ uri: image.uri }}
                                                     style={{
                                                         width: 200,
                                                         height: 200,
@@ -234,7 +273,8 @@ export default function ModalForAddRewards({ handleShowModal, setRewards }) {
                                                             setAudioPermission,
                                                             setCameraPermission,
                                                             setRecordVideoPermission,
-                                                            setImage
+                                                            setImage,
+                                                            setDateTaken
                                                         )
                                                     }
                                                 />
@@ -308,7 +348,7 @@ export default function ModalForAddRewards({ handleShowModal, setRewards }) {
                                             fontSize="11"
                                             mt="2"
                                         >
-                                            Add instruction, notes or aditional
+                                            Add instruction, notes or additional
                                             description
                                         </Text>
                                     </Stack>

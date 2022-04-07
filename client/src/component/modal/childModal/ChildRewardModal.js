@@ -9,7 +9,7 @@ import { colors } from "../../utilis/colors"
 export default function(){
 
     const {selectedReward} = useContext(childRewardContext)
-    const {title, desc, cost} = selectedReward
+    const {title, desc, cost, img} = selectedReward
 
     // const btnRightIcon = (textColor)=>(
     // <HStack alignItems="center" space={0.5} pl={textColor === "secondary" ? 30 : null}>
@@ -22,7 +22,7 @@ export default function(){
 
     return(
             <ScrollView>
-            <ImageBackground resizeMode="cover" source={require("../../../../assets/rewardIcons/PS5.png")} style={{
+            <ImageBackground resizeMode="cover" source={{uri : img}} style={{
                 flex: 1,
                 justifyContent: "center",
                 height : 400,

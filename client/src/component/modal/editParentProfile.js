@@ -27,8 +27,15 @@ import { useQuery } from "@apollo/client";
 import { GET_CHILDREN } from "../../GraphQL/Queries";
 import { useEffect, useState } from "react";
 
-export default function editParentProfile({ showModal, changeMode }) {
+export default function editParentProfile({ user, showModal, changeMode }) {
+
+
+
+
     const [children, setChildren] = useState([]);
+    console.log(children);
+    console.log(childData);
+    console.log(childError);
     const userIocn = (
         <SvgUri
             source={require("../../../assets/profileIcons/ProfileIcon.svg")}
@@ -79,38 +86,14 @@ export default function editParentProfile({ showModal, changeMode }) {
                     <Text fontSize="16" opacity="0.7" mb={2}>
                         Name
                     </Text>
-                    <Controller
-                        control={control}
-                        render={({ field: { onChange, onBlur, value } }) => (
-                            <Input
-                                p={4}
-                                placeholder="Name"
-                                borderRadius="10"
-                                onChangeText={onChange}
-                                value={value}
-                                bg="white"
-                            />
-                        )}
-                        name="name"
-                    />
-
+                    <Text>{user.name}</Text>
+                    
                     <Text fontSize="16" opacity="0.7" mb={2} mt={2}>
                         Email
                     </Text>
-                    <Controller
-                        control={control}
-                        render={({ field: { onChange, onBlur, value } }) => (
-                            <Input
-                                p={4}
-                                placeholder="email"
-                                borderRadius="10"
-                                onChangeText={onChange}
-                                value={value}
-                                bg="white"
-                            />
-                        )}
-                        name="email"
-                    />
+
+                    <Text>{user.email}</Text>
+                    
 
                     <Text fontSize="16" opacity="0.7" mb={2} mt={2}>
                         Password
@@ -120,7 +103,7 @@ export default function editParentProfile({ showModal, changeMode }) {
                         render={({ field: { onChange, onBlur, value } }) => (
                             <Input
                                 p={4}
-                                placeholder="password"
+                                placeholder="***********"
                                 borderRadius="10"
                                 onChangeText={onChange}
                                 value={value}
@@ -143,6 +126,7 @@ export default function editParentProfile({ showModal, changeMode }) {
                     <Text alignSelf="flex-start" fontSize="16" opacity="0.7">
                         Kids
                     </Text>
+                   
                 </VStack>
             </Center>
         </>
