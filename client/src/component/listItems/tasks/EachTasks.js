@@ -57,7 +57,7 @@ export default function EachTask({ data, handleShowModal, i, row, noDate }) {
                     style={
                         status === "completed"
                             ? { textDecorationLine: "line-through" }
-                            : { textDecoration: "none" }
+                            : null
                     }
                     {...(urgent ? { color: "red" } : { color: "black" })}
                 >
@@ -70,7 +70,7 @@ export default function EachTask({ data, handleShowModal, i, row, noDate }) {
                     style={
                         status === "completed"
                             ? { textDecorationLine: "line-through" }
-                            : { textDecoration: "none" }
+                            : null
                     }
                 >
                     {noDate

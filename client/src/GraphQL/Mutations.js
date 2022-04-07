@@ -56,3 +56,12 @@ export const CREATE_REWARD = gql`
         }
     }
 `;
+
+export const CREATE_ACTIVITY = gql`
+    mutation CreateActivity($activity: ActivityInput) {
+        createActivity(activity: $activity) {
+            homeId
+            activity
+        }
+    }
+`;

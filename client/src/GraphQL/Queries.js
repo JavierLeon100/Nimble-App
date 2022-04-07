@@ -59,3 +59,12 @@ export const GET_REWARDS = gql`
         }
     }
 `;
+
+export const GET_ACTIVITY = gql`
+    query GetActivity($homeId: String) {
+        getActivity(homeId: $homeId) {
+            activity
+            homeId
+        }
+    }
+`;
