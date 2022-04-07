@@ -2,7 +2,13 @@ import PlusButton from "../buttons/PlusButton";
 import AllOrSuggested from "../layout/AllOrSuggested";
 import Date from "../layout/Date";
 import EachTask from "../listItems/tasks/EachTasks";
-import { Platform, Dimensions, Modal, View, RefreshControl } from "react-native";
+import {
+    Platform,
+    Dimensions,
+    Modal,
+    View,
+    RefreshControl,
+} from "react-native";
 import ModalDetailForActivity from "../modal/modalDetailForActivity";
 import { useEffect, useState, useRef, createContext, useCallback } from "react";
 import {
@@ -182,7 +188,7 @@ export default function ({ props, route, navigation }) {
     const onRefresh = useCallback(() => {
         setRefreshing(true);
         refetch().then(() => setRefreshing(false));
-      }, []);
+    }, []);
 
     //Get Tasks from DB
     const { error, loading, data, refetch } = useQuery(GET_ALL_TASKS, {
@@ -243,10 +249,10 @@ export default function ({ props, route, navigation }) {
                             style={{ marginBottom: 240 }}
                             refreshControl={
                                 <RefreshControl
-                                refreshing={refreshing}
-                                onRefresh={onRefresh}
-                                color={colors.primary.blue}
-                                tintColor ={colors.primary.blue}
+                                    refreshing={refreshing}
+                                    onRefresh={onRefresh}
+                                    color={colors.primary.blue}
+                                    tintColor={colors.primary.blue}
                                 />
                             }
                         />
@@ -277,10 +283,10 @@ export default function ({ props, route, navigation }) {
                             style={{ marginBottom: 240 }}
                             refreshControl={
                                 <RefreshControl
-                                refreshing={refreshing}
-                                onRefresh={onRefresh}
-                                color={colors.primary.blue}
-                                tintColor ={colors.primary.blue}
+                                    refreshing={refreshing}
+                                    onRefresh={onRefresh}
+                                    color={colors.primary.blue}
+                                    tintColor={colors.primary.blue}
                                 />
                             }
                         />
@@ -310,6 +316,7 @@ export default function ({ props, route, navigation }) {
                             editTask={editTask}
                             updateTask={updateTask}
                             refetch={refetch}
+                            setIsCompleted={setIsCompleted}
                         />
                     )}
                 </Modal>
