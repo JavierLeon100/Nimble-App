@@ -22,6 +22,7 @@ const ModalApproveTask = (props) => {
     const { selectedTask } = useContext(TaskToEditContext);
     const { handleShowModal } = props;
     const { refetch } = props;
+    const { setIsCompleted } = props;
 
     //approved task status
     const [updateTask, { data }, error] = useMutation(UPDATE_TASK);
@@ -37,6 +38,7 @@ const ModalApproveTask = (props) => {
 
         refetch();
         handleShowModal(false);
+        setIsCompleted(false);
     };
 
     const buttonText = `Approve   +${selectedTask.rewardPoints}`;

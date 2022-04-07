@@ -47,7 +47,6 @@ export default function ModalDetailForActivity({
     editTask,
     updateTask,
     refetch,
-    setIsCompleted,
 }) {
     const [image, setImage] = useState();
     const [video, setVideo] = useState();
@@ -130,7 +129,7 @@ export default function ModalDetailForActivity({
         task.focusMode = focus;
         task.urgent = urgent;
         task.rewardPoints = sliderValue;
-        task.date = ` ${taskDate} | userTime`;
+        task.date = ` ${taskDate} | ${userTime}`;
         // alert(task.date)
 
         const { url } = await fetch(`http://${IP_ADDRESS}:4000/s3Url`).then(
@@ -164,7 +163,7 @@ export default function ModalDetailForActivity({
         // }
 
         refetch();
-        setIsCompleted(false);
+
         handleShowModal(false);
     };
 
