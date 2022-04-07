@@ -12,13 +12,6 @@ export default function ActivityScreen({navigation}) {
 
     //define state for empty/not empty
     const [activityTaskArray, setActivityTaskArray] = useState([]);
-    //create EachActivity component with the card
-
-
-    //if state empty show screen / if not show list of activity
-
-
-
 
 
     const child = [1];
