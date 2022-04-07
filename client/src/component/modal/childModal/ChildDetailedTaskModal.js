@@ -7,7 +7,7 @@ import {
     Text,
     View,
     VStack,
-    AlertDialog
+    AlertDialog,
 } from "native-base";
 import { useContext, useEffect, useState, useRef } from "react";
 import { ImageBackground } from "react-native";
@@ -16,6 +16,7 @@ import { ChildTaskToEditContext } from "../../screens/childScreens/ChildTaskScre
 import { colors } from "../../utilis/colors";
 import { handleGyro } from "../../utilis/gyrocope/setGyroscope";
 import TakePicScreen from "./TakePicScreen";
+import moment from "moment";
 
 export default function () {
     const [doingTask, setDoingTask] = useState(false);
@@ -24,7 +25,9 @@ export default function () {
         ChildTaskToEditContext
     );
 
-    const [renderWarning, setRenderWarning] = useState(false)
+    const [taskStartDate, setTaskStartDate] = useState();
+    const [taskEndDate, setTaskEndDate] = useState();
+    const [renderWarning, setRenderWarning] = useState(false);
 
     const taskTitle = selectedTask.title;
     const taskDate = selectedTask.date;
@@ -44,24 +47,30 @@ export default function () {
     const [startGyro, setStartGyro] = useState(false);
 
     const startDoingTask = () => {
-        if(taskFocus){
-            handleGyro(setStartGyro, startGyro, setGyroValue)
+        // if(taskFocus){
+        //     handleGyro(setStartGyro, startGyro, setGyroValue)
+        // }
+
+        setTaskStartDate(moment());
+
+        if (taskFocus) {
+            handleGyro(setStartGyro, startGyro, setGyroValue);
         }
-        
+
         setDoingTask(true);
     };
 
-    useEffect(()=>{
-        if(!takePicScreen){
-            if(gyroValue.y * 100 < -70 ){
+    useEffect(() => {
+        if (!takePicScreen) {
+            if (gyroValue.y * 100 < -70) {
                 // setRenderWarning(true)
-                alert("You moved your phone!!")
+                alert("You moved your phone!!");
                 // setIsOpen(true)
             } else {
                 // setRenderWarning(false)
             }
         }
-    },[gyroValue])
+    }, [gyroValue]);
 
     const btnRightIcon = (textColor) => (
         <HStack alignItems="center" space={0.5}>
@@ -73,111 +82,123 @@ export default function () {
         </HStack>
     );
 
-
     return takePicScreen ? (
-        <TakePicScreen selectedTask={selectedTask} taskId={taskId} />
+        <TakePicScreen
+            selectedTask={selectedTask}
+            taskId={taskId}
+            taskStartDate={taskStartDate}
+            taskEndDate={taskEndDate}
+        />
     ) : (
         <>
-
-        <ScrollView>
-            <ImageBackground
-                resizeMode="cover"
-                source={{ uri: taskImgUrl }}
-                style={{
-                    flex: 1,
-                    justifyContent: "center",
-                    height: 400,
-                    width: "100%",
-                }}
-            >
-                <View
+            <ScrollView>
+                <ImageBackground
+                    resizeMode="cover"
+                    source={{ uri: taskImgUrl }}
                     style={{
                         flex: 1,
-                        backgroundColor: colors.shades.tintBlue,
-                        opacity: 0.7,
+                        justifyContent: "center",
+                        height: 400,
+                        width: "100%",
                     }}
                 >
-                    <HStack
-                        alignItems="center"
-                        justifyContent="space-between"
-                        px={9}
-                        pt={330}
+                    <View
+                        style={{
+                            flex: 1,
+                            backgroundColor: colors.shades.tintBlue,
+                            opacity: 0.7,
+                        }}
                     >
-                        <HStack alignItems="center" space={2} flex={1}>
-                            <Heading color="white">{taskTitle}</Heading>
-                            {taskFocus ? (
-                                <SvgUri
-                                    source={require("../../../../assets/imageForTasks/FocusModeIcon.svg")}
-                                />
-                            ) : null}
+                        <HStack
+                            alignItems="center"
+                            justifyContent="space-between"
+                            px={9}
+                            pt={330}
+                        >
+                            <HStack alignItems="center" space={2} flex={1}>
+                                <Heading color="white">{taskTitle}</Heading>
+                                {taskFocus ? (
+                                    <SvgUri
+                                        source={require("../../../../assets/imageForTasks/FocusModeIcon.svg")}
+                                    />
+                                ) : null}
+                            </HStack>
+                            <Text color="white" fontSize="lg" ml={2}>
+                                {taskPoints}
+                            </Text>
+                            <SvgUri
+                                source={require("../../../../assets/rewardIcons/Egg.svg")}
+                                fill={colors.eggYellow}
+                            />
                         </HStack>
-                        <Text color="white" fontSize="lg" ml={2}>
-                            {taskPoints}
-                        </Text>
-                        <SvgUri
-                            source={require("../../../../assets/rewardIcons/Egg.svg")}
-                            fill={colors.eggYellow}
-                        />
-                    </HStack>
-                </View>
-            </ImageBackground>
+                    </View>
+                </ImageBackground>
 
-            <HStack justifyContent="space-between" alignItems="center" mt={2}>
-                <HStack alignItems="center" space={2} p={4}>
-                    <SvgUri
-                        source={require("../../../../assets/profileIcons/ProfileIcon.svg")}
-                    />
-                    <Text fontSize="20">Dad</Text>
-                </HStack>
-                <Text fontSize={17} color="black" opacity={0.5}>
-                    {taskDate}
-                </Text>
-            </HStack>
-
-            <VStack pl={5} space={1}>
-                <Text fontSize={15}>{taskNotes}</Text>
-            </VStack>
-
-            {renderWarning ?  
-            <Center mt={3}>
-                <Text fontSize={30} color="red">You moved your phone!!</Text> 
-            </Center>
-            : null}
-
-            <Center h={160} justifyContent="space-around" mt={20}>
-                <Button
-                    _text={{ color: "white", fontSize: 17 }}
-                    rightIcon={doingTask ? null : btnRightIcon("white")}
-                    bg="secondary"
-                    colorScheme="indigo"
-                    w="80%"
-                    borderRadius={40}
-                    h="16"
-                    onPress={() =>
-                        doingTask ? setTakePicScreen(true) : startDoingTask()
-                    }
+                <HStack
+                    justifyContent="space-between"
+                    alignItems="center"
+                    mt={2}
                 >
-                    {doingTask ? "Finish" : "Do It Right Now"}
-                </Button>
-                {/* <Text> x : {gyroValue.x * 100}</Text>
-                <Text> y : {gyroValue.y * 100}</Text>
-                <Text> z : {gyroValue.z * 100}</Text> */}
-                {doingTask ? null : (
+                    <HStack alignItems="center" space={2} p={4}>
+                        <SvgUri
+                            source={require("../../../../assets/profileIcons/ProfileIcon.svg")}
+                        />
+                        <Text fontSize="20">Dad</Text>
+                    </HStack>
+                    <Text fontSize={17} color="black" opacity={0.5}>
+                        {taskDate}
+                    </Text>
+                </HStack>
+
+                <VStack pl={5} space={1}>
+                    <Text fontSize={15}>{taskNotes}</Text>
+                </VStack>
+
+                {renderWarning ? (
+                    <Center mt={3}>
+                        <Text fontSize={30} color="red">
+                            You moved your phone!!
+                        </Text>
+                    </Center>
+                ) : null}
+
+                <Center h={160} justifyContent="space-around" mt={20}>
                     <Button
-                        _text={{ color: "secondary", fontSize: 17 }}
+                        _text={{ color: "white", fontSize: 17 }}
+                        rightIcon={doingTask ? null : btnRightIcon("white")}
+                        bg="secondary"
                         colorScheme="indigo"
                         w="80%"
                         borderRadius={40}
                         h="16"
-                        variant="outline"
-                        borderColor="secondary"
-                        onPress={() => setShowModal(false)}
+                        onPress={() =>
+                            doingTask
+                                ? (setTakePicScreen(true),
+                                  setTaskEndDate(moment()))
+                                : startDoingTask()
+                        }
                     >
-                        Later Today
+                        {doingTask ? "Finish" : "Do It Right Now"}
                     </Button>
-                )}
-            </Center>
-        </ScrollView>
+                    {/* <Text> x : {gyroValue.x * 100}</Text>
+                <Text> y : {gyroValue.y * 100}</Text>
+                <Text> z : {gyroValue.z * 100}</Text> */}
+                    {doingTask ? null : (
+                        <Button
+                            _text={{ color: "secondary", fontSize: 17 }}
+                            colorScheme="indigo"
+                            w="80%"
+                            borderRadius={40}
+                            h="16"
+                            variant="outline"
+                            borderColor="secondary"
+                            onPress={() => setShowModal(false)}
+                        >
+                            Later Today
+                        </Button>
+                    )}
+                </Center>
+            </ScrollView>
         </>
     );
 }

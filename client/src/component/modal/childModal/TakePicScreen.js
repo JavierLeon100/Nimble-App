@@ -17,8 +17,9 @@ import { ChildTaskToEditContext } from "../../screens/childScreens/ChildTaskScre
 import { useMutation } from "@apollo/client";
 import { CREATE_ACTIVITY, UPDATE_TASK } from "../../../GraphQL/Mutations";
 import { IP_ADDRESS } from "@env";
+import moment from "moment";
 
-export default function () {
+export default function ({ taskStartDate, taskEndDate }) {
     const [cameraPermission, setCameraPermission] = useState();
     const [recordVideoPermission, setRecordVideoPermission] = useState();
     const [audioPermission, setAudioPermission] = useState();
@@ -26,9 +27,9 @@ export default function () {
     const [photoUploadMode, setPhotoUploadMode] = useState(false);
     const [dateTaken, setDateTaken] = useState();
 
-    // useEffect(()=>{
-    //     setPhotoUploadMode(true)
-    // }, image)
+    const dateDif = taskEndDate.diff(taskStartDate);
+    const dateReport = moment.utc(dateDif).format("HH:mm:s");
+
     const { selectedTask, setShowModal } = useContext(ChildTaskToEditContext);
 
     const takePhotoFunction = () => {
@@ -69,6 +70,7 @@ export default function () {
                     date: dateTaken,
                     status: "completed",
                     img: imageUrl,
+                    notes: dateReport,
                 },
             },
         });

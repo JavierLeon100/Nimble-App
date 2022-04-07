@@ -28,10 +28,10 @@ import { GET_ALL_TASKS } from "../../GraphQL/Queries";
 import { SuggestedTasksData } from "../utilis/SuggestedTaskData";
 import EmptyActivityScreen from "./EmptyActivityScreen";
 import LottieView from "lottie-react-native";
-
 import { find } from "lodash";
 import { DELETE_TASK } from "../../GraphQL/Mutations";
 import ModalApproveTask from "../modal/ModalApproveTask";
+import moment from "moment";
 
 // Notifications.setNotificationHandler({
 //     handleNotification: async () => ({
@@ -143,40 +143,40 @@ export default function ({ props, route, navigation }) {
     // }
     //   }
 
-    //notification
-    const [expoPushToken, setExpoPushToken] = useState("");
-    const [notification, setNotification] = useState(false);
-    const notificationListener = useRef();
-    const responseListener = useRef();
+    // //notification
+    // const [expoPushToken, setExpoPushToken] = useState("");
+    // const [notification, setNotification] = useState(false);
+    // const notificationListener = useRef();
+    // const responseListener = useRef();
 
-    useEffect(() => {
-        registerForPushNotificationsAsync().then((token) =>
-            setExpoPushToken(token)
-        );
+    // useEffect(() => {
+    //     registerForPushNotificationsAsync().then((token) =>
+    //         setExpoPushToken(token)
+    //     );
 
-        // This listener is fired whenever a notification is received while the app is foregrounded
-        notificationListener.current =
-            Notifications.addNotificationReceivedListener((notification) => {
-                setNotification(notification);
-            });
+    //     // This listener is fired whenever a notification is received while the app is foregrounded
+    //     notificationListener.current =
+    //         Notifications.addNotificationReceivedListener((notification) => {
+    //             setNotification(notification);
+    //         });
 
-        // This listener is fired whenever a user taps on or interacts with a notification (works when app is foregrounded, backgrounded, or killed)
-        responseListener.current =
-            Notifications.addNotificationResponseReceivedListener(
-                (response) => {
-                    console.log(response);
-                }
-            );
+    //     // This listener is fired whenever a user taps on or interacts with a notification (works when app is foregrounded, backgrounded, or killed)
+    //     responseListener.current =
+    //         Notifications.addNotificationResponseReceivedListener(
+    //             (response) => {
+    //                 console.log(response);
+    //             }
+    //         );
 
-        return () => {
-            Notifications.removeNotificationSubscription(
-                notificationListener.current
-            );
-            Notifications.removeNotificationSubscription(
-                responseListener.current
-            );
-        };
-    }, []);
+    //     return () => {
+    //         Notifications.removeNotificationSubscription(
+    //             notificationListener.current
+    //         );
+    //         Notifications.removeNotificationSubscription(
+    //             responseListener.current
+    //         );
+    //     };
+    // }, []);
 
     const [refreshing, setRefreshing] = useState(false);
     const onRefresh = useCallback(() => {
