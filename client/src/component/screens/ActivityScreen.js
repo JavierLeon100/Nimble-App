@@ -7,7 +7,7 @@ import {
     Text,
     View,
 } from "native-base";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useCallback } from "react";
 import Date from "../layout/Date";
 import SvgUri from "react-native-svg-uri-updated";
 import { FlatGrid } from "react-native-super-grid";
@@ -17,6 +17,8 @@ import EmptyActivityScreen from "./EmptyActivityScreen";
 import { useQuery } from "@apollo/client";
 import { GET_ACTIVITY } from "../../GraphQL/Queries";
 import EachActivity from "../listItems/EachActivity";
+import { RefreshControl } from "react-native";
+import { colors } from "../utilis/colors";
 
 export default function ActivityScreen({ navigation }) {
     const [defaultScreen, setDefaultScreen] = useState(true);
@@ -31,6 +33,12 @@ export default function ActivityScreen({ navigation }) {
         },
         pollInterval: 500,
     });
+
+    const [refreshing, setRefreshing] = useState(false);
+    const onRefresh = useCallback(() => {
+        setRefreshing(true);
+        refetch().then(() => setRefreshing(false));
+      }, []);
 
     useEffect(() => {
         data ? setActivityTaskArray(data.getActivity) : null;
@@ -49,6 +57,14 @@ export default function ActivityScreen({ navigation }) {
                 data={activityTaskArray}
                 keyExtractor={(item) => item._id}
                 renderItem={({ item }) => <EachActivity activityObj={item} />}
+                refreshControl={
+                    <RefreshControl
+                    refreshing={refreshing}
+                    onRefresh={onRefresh}
+                    color={colors.primary.blue}
+                    tintColor ={colors.primary.blue}
+                    />
+                }
             />
         </View>
     );

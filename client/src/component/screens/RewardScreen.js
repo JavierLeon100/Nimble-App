@@ -3,13 +3,14 @@ import PlusButton from "../buttons/PlusButton";
 import AllOrSuggested from "../layout/AllOrSuggested";
 import EachReward from "../listItems/rewards/EachReward";
 import { FlatGrid } from "react-native-super-grid";
-import { Modal } from "react-native";
-import { createContext, useContext, useEffect, useState } from "react";
+import { Modal, RefreshControl } from "react-native";
+import { createContext, useContext, useEffect, useState, useCallback } from "react";
 import ModalForAddRewards from "../modal/modalForAddRewards";
 import { CreateParentContext } from "../view/MainScreen";
 import ChildRewardModal from "../modal/childModal/ChildRewardModal";
 import { useQuery } from "@apollo/client";
 import { GET_REWARDS } from "../../GraphQL/Queries";
+import { colors } from "../utilis/colors";
 
 export const childRewardContext = createContext();
 
@@ -39,6 +40,12 @@ export default function () {
         selectedReward,
         editReward,
     };
+
+    const [refreshing, setRefreshing] = useState(false);
+    const onRefresh = useCallback(() => {
+        setRefreshing(true);
+        refetch().then(() => setRefreshing(false));
+      }, []);
 
     //Get Tasks from DB
     const { error, loading, data, refetch } = useQuery(GET_REWARDS, {
@@ -70,6 +77,14 @@ export default function () {
                 )}
                 itemDimension={130}
                 spacing={19}
+                refreshControl={
+                    <RefreshControl
+                    refreshing={refreshing}
+                    onRefresh={onRefresh}
+                    color={isParentScreen? colors.primary.blue: colors.secondary}
+                    tintColor ={isParentScreen ? colors.primary.blue : colors.secondary}
+                    />
+            }
             />
 
             {isParentScreen ? (

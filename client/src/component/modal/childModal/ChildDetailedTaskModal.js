@@ -28,7 +28,7 @@ export default function () {
     const taskTitle = selectedTask.title;
     const taskDate = selectedTask.date;
     const taskPoints = selectedTask.rewardPoints;
-    const taskFocus = selectedTask.focus;
+    const taskFocus = selectedTask.focusMode;
     const taskId = selectedTask._id;
     const taskNotes = selectedTask.notes;
     const taskImgUrl = selectedTask.img;
@@ -43,15 +43,19 @@ export default function () {
     const [startGyro, setStartGyro] = useState(false);
 
     const startDoingTask = () => {
-        
+        if(taskFocus){
             handleGyro(setStartGyro, startGyro, setGyroValue)
+        }
         
         setDoingTask(true);
     };
 
     useEffect(()=>{
-        if(gyroValue.x> 1){
+        if(gyroValue.y * 100 < -70 ){
             setRenderWarning(true)
+            // alert("a")
+        } else {
+            setRenderWarning(false)
         }
     },[gyroValue])
 
@@ -127,7 +131,11 @@ export default function () {
                 <Text fontSize={15}>{taskNotes}</Text>
             </VStack>
 
-            {renderWarning ?  <Text>gyto warning</Text> : null}
+            {renderWarning ?  
+            <Center mt={3}>
+                <Text fontSize={30} color="red">You moved your phone!!</Text> 
+            </Center>
+            : null}
 
             <Center h={160} justifyContent="space-around" mt={20}>
                 <Button
@@ -144,9 +152,9 @@ export default function () {
                 >
                     {doingTask ? "Finish" : "Do It Right Now"}
                 </Button>
-                {/* <Text> x : {gyroValue.x}</Text>
-                <Text> y : {gyroValue.y}</Text>
-                <Text> z : {gyroValue.z}</Text> */}
+                <Text> x : {gyroValue.x * 100}</Text>
+                <Text> y : {gyroValue.y * 100}</Text>
+                <Text> z : {gyroValue.z * 100}</Text>
                 {doingTask ? null : (
                     <Button
                         _text={{ color: "secondary", fontSize: 17 }}
