@@ -8,7 +8,7 @@ import {
     View,
     VStack,
 } from "native-base";
-import { useContext, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { ImageBackground } from "react-native";
 import SvgUri from "react-native-svg-uri-updated";
 import { ChildTaskToEditContext } from "../../screens/childScreens/ChildTaskScreen";
@@ -22,6 +22,8 @@ export default function () {
     const { setShowModal, selectedTask, setChildTasks } = useContext(
         ChildTaskToEditContext
     );
+
+    const [renderWarning, setRenderWarning] = useState(false)
 
     const taskTitle = selectedTask.title;
     const taskDate = selectedTask.date;
@@ -41,11 +43,17 @@ export default function () {
     const [startGyro, setStartGyro] = useState(false);
 
     const startDoingTask = () => {
-        // if(taskFocus){
-        //     handleGyro(setStartGyro, startGyro, setGyroValue)
-        // }
+        
+            handleGyro(setStartGyro, startGyro, setGyroValue)
+        
         setDoingTask(true);
     };
+
+    useEffect(()=>{
+        if(gyroValue.x> 1){
+            setRenderWarning(true)
+        }
+    },[gyroValue])
 
     const btnRightIcon = (textColor) => (
         <HStack alignItems="center" space={0.5}>
@@ -118,6 +126,8 @@ export default function () {
             <VStack pl={5} space={1}>
                 <Text fontSize={15}>{taskNotes}</Text>
             </VStack>
+
+            {renderWarning ?  <Text>gyto warning</Text> : null}
 
             <Center h={160} justifyContent="space-around" mt={20}>
                 <Button
