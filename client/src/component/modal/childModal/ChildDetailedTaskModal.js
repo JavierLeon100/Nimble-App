@@ -7,8 +7,9 @@ import {
     Text,
     View,
     VStack,
+    AlertDialog
 } from "native-base";
-import { useContext, useEffect, useState } from "react";
+import { useContext, useEffect, useState, useRef } from "react";
 import { ImageBackground } from "react-native";
 import SvgUri from "react-native-svg-uri-updated";
 import { ChildTaskToEditContext } from "../../screens/childScreens/ChildTaskScreen";
@@ -52,10 +53,11 @@ export default function () {
 
     useEffect(()=>{
         if(gyroValue.y * 100 < -70 ){
-            setRenderWarning(true)
-            // alert("a")
+            // setRenderWarning(true)
+            alert("You moved your phone!!")
+            // setIsOpen(true)
         } else {
-            setRenderWarning(false)
+            // setRenderWarning(false)
         }
     },[gyroValue])
 
@@ -69,9 +71,12 @@ export default function () {
         </HStack>
     );
 
+
     return takePicScreen ? (
         <TakePicScreen selectedTask={selectedTask} taskId={taskId} />
     ) : (
+        <>
+
         <ScrollView>
             <ImageBackground
                 resizeMode="cover"
@@ -152,9 +157,9 @@ export default function () {
                 >
                     {doingTask ? "Finish" : "Do It Right Now"}
                 </Button>
-                <Text> x : {gyroValue.x * 100}</Text>
+                {/* <Text> x : {gyroValue.x * 100}</Text>
                 <Text> y : {gyroValue.y * 100}</Text>
-                <Text> z : {gyroValue.z * 100}</Text>
+                <Text> z : {gyroValue.z * 100}</Text> */}
                 {doingTask ? null : (
                     <Button
                         _text={{ color: "secondary", fontSize: 17 }}
@@ -171,5 +176,6 @@ export default function () {
                 )}
             </Center>
         </ScrollView>
+        </>
     );
 }
