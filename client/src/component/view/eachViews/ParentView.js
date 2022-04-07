@@ -24,7 +24,7 @@ const Tab = createBottomTabNavigator();
 const uriForImg =
     "https://images.unsplash.com/photo-1494790108377-be9c29b29330?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=687&q=80";
 
-export default function ({ font }) {
+export default function ({ user, font }) {
     const [editParent, setEditParent] = useState(true);
 
     const [showModal, setShowModal] = useState(false);
@@ -118,12 +118,12 @@ export default function ({ font }) {
                 animationType="slide"
             >
                 {editParent ? (
-                    <EditParentProfile
+                    <EditParentProfile user={user}
                         showModal={() => setShowModal(false)}
                         changeMode={() => setEditParent(false)}
                     />
                 ) : (
-                    <EditChildProfile
+                    <EditChildProfile user={user}
                         showModal={() => setShowModal(false)}
                         changeMode={() => setEditParent(true)}
                     />

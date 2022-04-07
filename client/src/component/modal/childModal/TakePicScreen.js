@@ -16,6 +16,7 @@ import { AntDesign } from "@expo/vector-icons";
 import { ChildTaskToEditContext } from "../../screens/childScreens/ChildTaskScreen";
 import { useMutation } from "@apollo/client";
 import { UPDATE_TASK } from "../../../GraphQL/Mutations";
+import { IP_ADDRESS } from "@env";
 
 export default function () {
     const [cameraPermission, setCameraPermission] = useState();
@@ -46,7 +47,7 @@ export default function () {
         //S3 bucket for img
         //CHANGE IP
 
-        const { url } = await fetch(`http://10.128.246.28:4000/s3Url`).then(
+        const { url } = await fetch(`http://${IP_ADDRESS}:4000/s3Url`).then(
             (res) => res.json()
         );
 
@@ -59,8 +60,6 @@ export default function () {
         });
 
         const imageUrl = url.split("?")[0];
-        console.log(image);
-        console.log(imageUrl);
 
         updateTask({
             variables: {

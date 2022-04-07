@@ -38,6 +38,7 @@ import dayjs from "dayjs";
 import { monthName } from "../utilis/dateFormat";
 import SelectBox from "react-native-multi-selectbox";
 import RNPickerSelect from "react-native-picker-select";
+import { IP_ADDRESS } from "@env";
 
 export default function ModalDetailForActivity({
     handleShowModal,
@@ -62,6 +63,7 @@ export default function ModalDetailForActivity({
     const [childArray, setChildArray] = useState([]);
     const [selectedChildArray, setselectedChildArray] = useState([]);
     const childRef = useRef(null);
+    const [dateTaken, setDateTaken] = useState();
 
     //Date Picker
     const [datePicker, setDatePicker] = useState(new Date());
@@ -111,7 +113,7 @@ export default function ModalDetailForActivity({
     //Add Task to BD
     const [createTask, { data }] = useMutation(CREATE_TASK);
 
-    const onSubmit = (data) => {
+    const onSubmit = async (data) => {
         const { title } = data;
         const { notes } = data;
 
@@ -126,6 +128,21 @@ export default function ModalDetailForActivity({
         task.rewardPoints = sliderValue;
         task.date = userDate + " | " + userTime;
         // alert(task.date)
+
+        const { url } = await fetch(`http://${IP_ADDRESS}:4000/s3Url`).then(
+            (res) => res.json()
+        );
+
+        fetch(url, {
+            method: "PUT",
+            headers: {
+                "Content-Type": "image/jpg",
+            },
+            body: image,
+        });
+
+        const imageUrl = url.split("?")[0];
+        task.img = imageUrl;
         createTask({
             variables: { task },
         });
@@ -191,7 +208,7 @@ export default function ModalDetailForActivity({
         setUserDate(newDate);
         setDatePicker(date);
         setDateShow(false);
-        console.log(userDate);
+        // console.log(userDate);
     };
 
     const onTimeChange = (e, selectedTime) => {
@@ -409,7 +426,7 @@ export default function ModalDetailForActivity({
                                 <Center>
                                     {image ? (
                                         <Image
-                                            source={{ uri: image }}
+                                            source={{ uri: image.uri }}
                                             style={{ width: 200, height: 200 }}
                                             alt="image"
                                             borderRadius="10"
@@ -451,7 +468,8 @@ export default function ModalDetailForActivity({
                                                     setAudioPermission,
                                                     setCameraPermission,
                                                     setRecordVideoPermission,
-                                                    setImage
+                                                    setImage,
+                                                    setDateTaken
                                                 )
                                             }
                                         />

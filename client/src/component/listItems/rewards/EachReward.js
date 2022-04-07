@@ -19,11 +19,12 @@ export default function ({ reward }) {
             <Center>
                 <Image
                     source={{
-                        uri: "https://www.toysrus.ca/dw/image/v2/BDFX_PRD/on/demandware.static/-/Sites-toys-master-catalog/default/dw0e25e897/images/4D800644_1.jpg?sw=767&sh=767&sm=fit",
+                        uri: reward.img,
                     }}
                     size="lg"
                     resizeMode="contain"
                     alt="reward icon"
+                    aspectRatio={1}
                 />
                 <HStack
                     justifyContent="center"

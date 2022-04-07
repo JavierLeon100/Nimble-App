@@ -10,7 +10,7 @@ import { useForm, Controller } from "react-hook-form";
 import SvgUri from 'react-native-svg-uri-updated';
 
 
-export default function EditChildProfile({showModal, changeMode}){
+export default function EditChildProfile({user, showModal, changeMode}){
 
     const { handleSubmit, watch, formState: { errors }, control } = useForm({
         defaultValues : {
@@ -45,20 +45,13 @@ export default function EditChildProfile({showModal, changeMode}){
                 <Center mb={2}>
                     <VStack w="80%">
                         <Text fontSize="16" opacity="0.7" mb={2}>Name</Text>
-                        <Controller 
-                            control={control}
-                            render={({ field: { onChange, onBlur, value } })=>(
-                                <Input p={4} placeholder="Name" borderRadius="10" 
-                                onChangeText={onChange} value={value} bg="white"/>
-                            )}
-                            name = "name"
-                            />
-
+                        <Text>{user}</Text>
+                       
                         <Text fontSize="16" opacity="0.7" mb={2} mt={2}>Birthday</Text>
                         <Controller 
                             control={control}
                             render={({ field: { onChange, onBlur, value } })=>(
-                                <Input p={4} placeholder="email" borderRadius="10" 
+                                <Input p={4} placeholder="April 9, 2009" borderRadius="10" 
                                 onChangeText={onChange} value={value} bg="white"/>
                             )}
                             name = "birthday"
