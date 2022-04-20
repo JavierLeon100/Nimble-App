@@ -119,7 +119,6 @@ export default function ModalDetailForActivity({
         const { notes } = data;
 
         const taskDate = moment(userDate).format("ddd MM YYYY ");
-        const taskTime = moment(userTime).format("HH:mm");
 
         const task = {};
         task.title = title;
@@ -130,7 +129,7 @@ export default function ModalDetailForActivity({
         task.focusMode = focus;
         task.urgent = urgent;
         task.rewardPoints = sliderValue;
-        task.date = ` ${taskDate} | ${taskTime}`;
+        task.date = ` ${taskDate} | ${userTime}`;
         // alert(task.date)
 
         const { url } = await fetch(`http://${IP_ADDRESS}:4000/s3Url`).then(
@@ -164,6 +163,7 @@ export default function ModalDetailForActivity({
         // }
 
         refetch();
+
         handleShowModal(false);
     };
 
@@ -186,7 +186,6 @@ export default function ModalDetailForActivity({
         data: childData,
     } = useQuery(GET_CHILDREN, {
         variables: {
-            //replace with homeIdVariable from auth
             homeId: "622ab00bfe4e52d96b61a960",
         },
     });

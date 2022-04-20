@@ -28,7 +28,6 @@ export default function ActivityScreen({ navigation }) {
 
     const { data, error, loading, refetch } = useQuery(GET_ACTIVITY, {
         variables: {
-            //replace with homeIdVariable from auth
             homeId: "622ab00bfe4e52d96b61a960",
         },
         pollInterval: 500,
@@ -38,7 +37,7 @@ export default function ActivityScreen({ navigation }) {
     const onRefresh = useCallback(() => {
         setRefreshing(true);
         refetch().then(() => setRefreshing(false));
-      }, []);
+    }, []);
 
     useEffect(() => {
         data ? setActivityTaskArray(data.getActivity) : null;
@@ -59,10 +58,10 @@ export default function ActivityScreen({ navigation }) {
                 renderItem={({ item }) => <EachActivity activityObj={item} />}
                 refreshControl={
                     <RefreshControl
-                    refreshing={refreshing}
-                    onRefresh={onRefresh}
-                    color={colors.primary.blue}
-                    tintColor ={colors.primary.blue}
+                        refreshing={refreshing}
+                        onRefresh={onRefresh}
+                        color={colors.primary.blue}
+                        tintColor={colors.primary.blue}
                     />
                 }
             />

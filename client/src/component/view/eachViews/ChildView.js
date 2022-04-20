@@ -12,7 +12,7 @@ const Tab = createBottomTabNavigator();
 const uriForImg =
     "https://images.unsplash.com/photo-1494790108377-be9c29b29330?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=687&q=80";
 
-const ChildView = ({  navigation }) => {
+const ChildView = ({ navigation }) => {
     const [showModal, setShowModal] = useState(false);
 
     const options = {
@@ -25,23 +25,34 @@ const ChildView = ({  navigation }) => {
             fontFamily: "Quicksand_600SemiBold",
             color: colors.white,
         },
-        tabBarLabelStyle: { fontFamily: "Quicksand_400Regular", fontSize : 14 },
+        tabBarLabelStyle: { fontFamily: "Quicksand_400Regular", fontSize: 14 },
         headerRight: () => {
             return (
                 <Pressable onPress={() => setShowModal(true)}>
-                   <SvgUri source={require("../../../../assets/slothFacesSvg/sloth10.svg")} width = {40} height={40} style={{marginRight : 20}}
-                   />
+                    <SvgUri
+                        source={require("../../../../assets/slothFacesSvg/sloth10.svg")}
+                        width={40}
+                        height={40}
+                        style={{ marginRight: 20 }}
+                    />
                 </Pressable>
             );
         },
-        headerLeft : ()=>{
+        headerLeft: () => {
             return (
                 <HStack alignItems="center" space={0.1} ml={3}>
-                    <Text fontSize={20} color="white">6400</Text>
-                    <SvgUri source={require("../../../../assets/rewardIcons/Egg.svg")} fill={colors.eggYellow} width={30} height={30}/>
+                    <Text fontSize={20} color="white">
+                        0
+                    </Text>
+                    <SvgUri
+                        source={require("../../../../assets/rewardIcons/Egg.svg")}
+                        fill={colors.eggYellow}
+                        width={30}
+                        height={30}
+                    />
                 </HStack>
-            )
-        }
+            );
+        },
     };
 
     const optionsForNav = ({ route }) => ({
