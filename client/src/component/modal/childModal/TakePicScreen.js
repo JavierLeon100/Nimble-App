@@ -17,6 +17,7 @@ import { ChildTaskToEditContext } from "../../screens/childScreens/ChildTaskScre
 import { useMutation } from "@apollo/client";
 import { CREATE_ACTIVITY, UPDATE_TASK } from "../../../GraphQL/Mutations";
 import { IP_ADDRESS } from "@env";
+
 import moment from "moment";
 
 export default function ({ taskStartDate, taskEndDate }) {
@@ -49,7 +50,7 @@ export default function ({ taskStartDate, taskEndDate }) {
         //S3 bucket for img
         //CHANGE IP
 
-        const { url } = await fetch(`http://34.229.169.165:4000/s3Url`).then(
+        const { url } = await fetch(`http://${IP_ADDRESS}:4000/s3Url`).then(
             (res) => res.json()
         );
 

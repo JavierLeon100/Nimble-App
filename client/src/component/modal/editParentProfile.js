@@ -28,8 +28,6 @@ import { GET_CHILDREN } from "../../GraphQL/Queries";
 import { useEffect, useState } from "react";
 
 export default function editParentProfile({ user, showModal, changeMode }) {
-
-
     const [children, setChildren] = useState([]);
     console.log(children);
     console.log(childData);
@@ -60,7 +58,6 @@ export default function editParentProfile({ user, showModal, changeMode }) {
         data: childData,
     } = useQuery(GET_CHILDREN, {
         variables: {
-            //replace with homeIdVariable from auth
             homeId: "622ab00bfe4e52d96b61a960",
         },
     });
@@ -87,7 +84,9 @@ export default function editParentProfile({ user, showModal, changeMode }) {
                     <Text>{user.name}</Text>
                     <Controller
                         control={control}
-                        render={({ field: { onChange, onBlur, user, value } }) => (
+                        render={({
+                            field: { onChange, onBlur, user, value },
+                        }) => (
                             <Input
                                 p={4}
                                 placeholder="Kaustubh Kashyup"
@@ -100,7 +99,7 @@ export default function editParentProfile({ user, showModal, changeMode }) {
                         )}
                         name="name"
                     />
-                    
+
                     <Text fontSize="16" opacity="0.7" mb={2} mt={2}>
                         Email
                     </Text>
@@ -109,7 +108,9 @@ export default function editParentProfile({ user, showModal, changeMode }) {
 
                     <Controller
                         control={control}
-                        render={({ field: { onChange, onBlur, user, value } }) => (
+                        render={({
+                            field: { onChange, onBlur, user, value },
+                        }) => (
                             <Input
                                 p={4}
                                 placeholder="kashyup.kaustubh@gmail.com"
@@ -122,7 +123,6 @@ export default function editParentProfile({ user, showModal, changeMode }) {
                         )}
                         name="email"
                     />
-                    
 
                     <Text fontSize="16" opacity="0.7" mb={2} mt={2}>
                         Password
@@ -155,7 +155,6 @@ export default function editParentProfile({ user, showModal, changeMode }) {
                     <Text alignSelf="flex-start" fontSize="16" opacity="0.7">
                         Kids
                     </Text>
-                   
                 </VStack>
             </Center>
         </>

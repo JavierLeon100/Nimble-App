@@ -193,7 +193,6 @@ export default function ({ props, route, navigation }) {
     //Get Tasks from DB
     const { error, loading, data, refetch } = useQuery(GET_ALL_TASKS, {
         variables: {
-            //replace with homeIdVariable from auth
             homeId: "622ab00bfe4e52d96b61a960",
         },
         // pollInterval: 500,
@@ -308,6 +307,7 @@ export default function ({ props, route, navigation }) {
                             handleShowModal={handleShowModal}
                             refetch={refetch}
                             setShowModal={setShowModal}
+                            setIsCompleted={setIsCompleted}
                         />
                     ) : (
                         <ModalDetailForActivity
@@ -316,7 +316,6 @@ export default function ({ props, route, navigation }) {
                             editTask={editTask}
                             updateTask={updateTask}
                             refetch={refetch}
-                            setIsCompleted={setIsCompleted}
                         />
                     )}
                 </Modal>

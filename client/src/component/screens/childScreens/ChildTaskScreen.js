@@ -5,7 +5,12 @@ import { Center, Pressable, HStack, Text } from "native-base";
 import ModalDetailForActivity from "../../modal/modalDetailForActivity";
 import { useState, createContext, useEffect, useCallback } from "react";
 import ChildDetailedTaskModal from "../../modal/childModal/ChildDetailedTaskModal";
-import { Modal, Dimensions, ActivityIndicator, RefreshControl} from "react-native";
+import {
+    Modal,
+    Dimensions,
+    ActivityIndicator,
+    RefreshControl,
+} from "react-native";
 import { GET_TASKS_BY_CHILD } from "../../../GraphQL/Queries";
 import { useQuery } from "@apollo/client";
 import { find } from "lodash";
@@ -23,13 +28,13 @@ export default function () {
         setShowModal,
         setChildTasks,
     };
-    
+
     const [refreshing, setRefreshing] = useState(false);
     const onRefresh = useCallback(() => {
         setRefreshing(true);
         refetch().then(() => setRefreshing(false));
-      }, []);
-    
+    }, []);
+
     const onSwipeValueChange = (swipeData) => {
         // console.log(swipeData)
         // setSelectedTaskID(swipeData.key)
@@ -69,7 +74,6 @@ export default function () {
     //Get Tasks from DB
     const { error, loading, data, refetch } = useQuery(GET_TASKS_BY_CHILD, {
         variables: {
-            //replace with childId from auth
             childId: "623c90382c2210ad1e6a360f",
         },
         // pollInterval: 500,
@@ -106,12 +110,12 @@ export default function () {
                     // onLeftAction={()=>setShowModal(true)}
                     onSwipeValueChange={onSwipeValueChange}
                     refreshControl={
-                            <RefreshControl
+                        <RefreshControl
                             refreshing={refreshing}
                             onRefresh={onRefresh}
                             color={colors.secondary}
-                            tintColor ={colors.secondary}
-                            />
+                            tintColor={colors.secondary}
+                        />
                     }
                     style={{ marginBottom: 370, height: 800 }}
                 />

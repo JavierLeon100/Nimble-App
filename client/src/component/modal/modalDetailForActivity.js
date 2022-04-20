@@ -186,7 +186,6 @@ export default function ModalDetailForActivity({
         data: childData,
     } = useQuery(GET_CHILDREN, {
         variables: {
-            //replace with homeIdVariable from auth
             homeId: "622ab00bfe4e52d96b61a960",
         },
     });
