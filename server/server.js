@@ -9,10 +9,6 @@ import { generateUploadURL } from "./src/s3.js";
 
 import validateJwt from './validateJwt'
 
-
-
-
-
 const startApolloServer = async (typeDefs, resolvers) => {
 
 
