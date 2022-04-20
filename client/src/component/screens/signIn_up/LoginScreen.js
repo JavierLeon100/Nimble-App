@@ -9,41 +9,62 @@ import {
 } from "native-base";
 import MainScreen from "../../view/MainScreen";
 import { useEffect, useState } from "react";
-import * as Google from "expo-google-app-auth";
+// import * as Google from "expo-google-app-auth";
 import { GoogleIdentity } from "expo-google-sign-in";
 import GoogleLoginScreen from "../GoogleLoginScreen";
 import EditChildProfile from "../../modal/editChildProfile";
+import * as Google from 'expo-auth-session/providers/google';
+import * as WebBrowser from 'expo-web-browser';
+
+
+WebBrowser.maybeCompleteAuthSession();
+
 
 export default function () {
     const [loggedIn, setLoggedIn] = useState(false);
 
-    const [user, setUser] = useState("");
+    const [userName, setUserName] = useState("");
+
+    const client_id='764958274720-1ujopa2nvpaqeop98buflf86avfjfipe.apps.googleusercontent.com';
+    const server = `http://${IP_ADDRESS}:4000/graphql`;
+
+    // let login_url=[`https://accounts.google.com/o/oauth2/v2/auth?`
+    // `client_id=${client_id}`,
+    // `redirect_uri=${server}`,
+    // `response_type=code`,
+    // `scope=https://www.googleapis.com/auth/userinfo.profile`].join('&');
 
     useEffect(()=>{
         signInAsync();
     }, []);
 
+
     const signInAsync = async() => {
         console.log("GoogleLoginScreen.js | logged in");
         try {
-          const {type, user, accessToken} = await Google.logInAsync({
+          const {request, response, promptAsync} = Google.useAuthRequest({
             iosClientId: "764958274720-1ujopa2nvpaqeop98buflf86avfjfipe.apps.googleusercontent.com",
             androidClientId: "764958274720-3606ifhd3e0vc0obvjnpadgqmer417jm.apps.googleusercontent.com",
           });
-    
-          if (type == "success") {
+
+         
+            if (response?.type === 'success') {
+              const { authentication } = response;
+         
             console.log("GoogleLoginScreen.js | log in success! navigating to home screen!");
             setLoggedIn(true);
-            setUser(user);
+            
 
-              fetch(`${IP_ADDRESS}/verify`)
+             fetch(`http://${IP_ADDRESS}:4000/graphql/verify`)
               .then((result)=>{
                 
                 if (result.data.status === 'SUCCESS') {
                   const jwtToken = result.data.userToken.split('.');
 
                   const userDetail = JSON.parse(atob(jwtToken[1]));
-                  
+
+                  setUserName(userDetail.username);
+
                   localStorage.setItem('token', result.data.userToken);
               }
             })

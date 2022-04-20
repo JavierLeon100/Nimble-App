@@ -21,6 +21,7 @@ export default async function validateJwt(token) {
     let kid = d.header['kid'];
 
     // Retreive the public keys from google
+
     data = await fetch('https://www.googleapis.com/oauth2/v3/certs');
     certs = await data.json();
 
