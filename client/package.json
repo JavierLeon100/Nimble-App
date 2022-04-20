@@ -42,11 +42,15 @@
     "expo-web-browser": "^10.1.1",
     "firebase": "^9.6.8",
     "graphql": "^16.3.0",
+    "jsonwebtoken": "^8.5.1",
+    "jwk-to-pem": "^2.0.5",
     "lodash": "^4.17.21",
     "lottie-ios": "^3.2.3",
     "lottie-react-native": "^5.0.1",
     "metro-config": "^0.69.1",
+    "moment": "^2.29.2",
     "native-base": "^3.3.6",
+    "node-fetch": "^3.2.3",
     "react": "17.0.1",
     "react-dom": "17.0.1",
     "react-file-base64": "^1.0.3",
@@ -75,7 +79,9 @@
     "react-native-vector-icons": "^9.1.0",
     "react-native-video": "^5.2.0",
     "react-native-video-player": "^0.12.0",
-    "react-native-web": "0.17.1"
+    "react-native-web": "0.17.1",
+    "react-router-dom": "^6.3.0",
+    "react-toastify": "^8.2.0"
   },
   "devDependencies": {
     "@babel/core": "^7.12.9"

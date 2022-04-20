@@ -7,7 +7,15 @@ import typeDefs from "./src/typeDefs.js";
 import mongoose from "mongoose";
 import { generateUploadURL } from "./src/s3.js";
 
+import validateJwt from './validateJwt'
+
+
+
+
+
 const startApolloServer = async (typeDefs, resolvers) => {
+
+
     const app = express();
 
     const httpServer = http.createServer(app);
@@ -22,6 +30,17 @@ const startApolloServer = async (typeDefs, resolvers) => {
         const url = await generateUploadURL();
         res.send({ url });
     });
+
+    app.get('/verify', async (req, res) => {    
+        // expects jwt in query param
+        let jwt = req.query['jwt']
+    
+        // here we are making this synchronous
+        result = await validateJwt(jwt);
+    
+        res.send(result);
+    });  
+    
 
     await server.start();
 

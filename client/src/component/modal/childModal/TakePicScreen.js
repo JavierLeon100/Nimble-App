@@ -15,10 +15,12 @@ import { takePhoto } from "../../utilis/camera/pickAndTakePic";
 import { AntDesign } from "@expo/vector-icons";
 import { ChildTaskToEditContext } from "../../screens/childScreens/ChildTaskScreen";
 import { useMutation } from "@apollo/client";
-import { UPDATE_TASK } from "../../../GraphQL/Mutations";
+import { CREATE_ACTIVITY, UPDATE_TASK } from "../../../GraphQL/Mutations";
 import { IP_ADDRESS } from "@env";
 
-export default function () {
+import moment from "moment";
+
+export default function ({ taskStartDate, taskEndDate }) {
     const [cameraPermission, setCameraPermission] = useState();
     const [recordVideoPermission, setRecordVideoPermission] = useState();
     const [audioPermission, setAudioPermission] = useState();
@@ -26,9 +28,9 @@ export default function () {
     const [photoUploadMode, setPhotoUploadMode] = useState(false);
     const [dateTaken, setDateTaken] = useState();
 
-    // useEffect(()=>{
-    //     setPhotoUploadMode(true)
-    // }, image)
+    const dateDif = taskEndDate.diff(taskStartDate);
+    const dateReport = moment.utc(dateDif).format("HH:mm:s");
+
     const { selectedTask, setShowModal } = useContext(ChildTaskToEditContext);
 
     const takePhotoFunction = () => {
@@ -42,6 +44,7 @@ export default function () {
     };
 
     const [updateTask, { data }, error] = useMutation(UPDATE_TASK);
+    const [createActivity] = useMutation(CREATE_ACTIVITY);
 
     const handleCompleteTask = async () => {
         //S3 bucket for img
@@ -68,6 +71,16 @@ export default function () {
                     date: dateTaken,
                     status: "completed",
                     img: imageUrl,
+                    notes: dateReport,
+                },
+            },
+        });
+
+        createActivity({
+            variables: {
+                activity: {
+                    activity: `Task '${selectedTask.title}' needs your Approval `,
+                    homeId: selectedTask.homeId,
                 },
             },
         });

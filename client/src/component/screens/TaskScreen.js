@@ -2,9 +2,15 @@ import PlusButton from "../buttons/PlusButton";
 import AllOrSuggested from "../layout/AllOrSuggested";
 import Date from "../layout/Date";
 import EachTask from "../listItems/tasks/EachTasks";
-import { Platform, Animated, Dimensions, Modal, View } from "react-native";
+import {
+    Platform,
+    Dimensions,
+    Modal,
+    View,
+    RefreshControl,
+} from "react-native";
 import ModalDetailForActivity from "../modal/modalDetailForActivity";
-import { useEffect, useState, useRef, createContext } from "react";
+import { useEffect, useState, useRef, createContext, useCallback } from "react";
 import {
     Button,
     FlatList,
@@ -28,18 +34,18 @@ import { GET_ALL_TASKS } from "../../GraphQL/Queries";
 import { SuggestedTasksData } from "../utilis/SuggestedTaskData";
 import EmptyActivityScreen from "./EmptyActivityScreen";
 import LottieView from "lottie-react-native";
-
 import { find } from "lodash";
 import { DELETE_TASK } from "../../GraphQL/Mutations";
 import ModalApproveTask from "../modal/ModalApproveTask";
+import moment from "moment";
 
-Notifications.setNotificationHandler({
-    handleNotification: async () => ({
-        shouldShowAlert: true,
-        shouldPlaySound: false,
-        shouldSetBadge: false,
-    }),
-});
+// Notifications.setNotificationHandler({
+//     handleNotification: async () => ({
+//         shouldShowAlert: true,
+//         shouldPlaySound: false,
+//         shouldSetBadge: false,
+//     }),
+// });
 
 export const TaskToEditContext = createContext();
 
@@ -143,51 +149,54 @@ export default function ({ props, route, navigation }) {
     // }
     //   }
 
-    //notification
-    const [expoPushToken, setExpoPushToken] = useState("");
-    const [notification, setNotification] = useState(false);
-    const notificationListener = useRef();
-    const responseListener = useRef();
+    // //notification
+    // const [expoPushToken, setExpoPushToken] = useState("");
+    // const [notification, setNotification] = useState(false);
+    // const notificationListener = useRef();
+    // const responseListener = useRef();
 
-    useEffect(() => {
-        registerForPushNotificationsAsync().then((token) =>
-            setExpoPushToken(token)
-        );
+    // useEffect(() => {
+    //     registerForPushNotificationsAsync().then((token) =>
+    //         setExpoPushToken(token)
+    //     );
 
-        // This listener is fired whenever a notification is received while the app is foregrounded
-        notificationListener.current =
-            Notifications.addNotificationReceivedListener((notification) => {
-                setNotification(notification);
-            });
+    //     // This listener is fired whenever a notification is received while the app is foregrounded
+    //     notificationListener.current =
+    //         Notifications.addNotificationReceivedListener((notification) => {
+    //             setNotification(notification);
+    //         });
 
-        // This listener is fired whenever a user taps on or interacts with a notification (works when app is foregrounded, backgrounded, or killed)
-        responseListener.current =
-            Notifications.addNotificationResponseReceivedListener(
-                (response) => {
-                    console.log(response);
-                }
-            );
+    //     // This listener is fired whenever a user taps on or interacts with a notification (works when app is foregrounded, backgrounded, or killed)
+    //     responseListener.current =
+    //         Notifications.addNotificationResponseReceivedListener(
+    //             (response) => {
+    //                 console.log(response);
+    //             }
+    //         );
 
-        return () => {
-            Notifications.removeNotificationSubscription(
-                notificationListener.current
-            );
-            Notifications.removeNotificationSubscription(
-                responseListener.current
-            );
-        };
+    //     return () => {
+    //         Notifications.removeNotificationSubscription(
+    //             notificationListener.current
+    //         );
+    //         Notifications.removeNotificationSubscription(
+    //             responseListener.current
+    //         );
+    //     };
+    // }, []);
+
+    const [refreshing, setRefreshing] = useState(false);
+    const onRefresh = useCallback(() => {
+        setRefreshing(true);
+        refetch().then(() => setRefreshing(false));
     }, []);
 
     //Get Tasks from DB
     const { error, loading, data, refetch } = useQuery(GET_ALL_TASKS, {
         variables: {
-            //replace with homeIdVariable from auth
             homeId: "622ab00bfe4e52d96b61a960",
         },
         // pollInterval: 500,
     });
-
-    console.log(data);
 
     useEffect(() => {
         if (typeof data !== "undefined") {
@@ -237,6 +246,14 @@ export default function ({ props, route, navigation }) {
                             }}
                             onSwipeValueChange={onSwipeValueChange}
                             style={{ marginBottom: 240 }}
+                            refreshControl={
+                                <RefreshControl
+                                    refreshing={refreshing}
+                                    onRefresh={onRefresh}
+                                    color={colors.primary.blue}
+                                    tintColor={colors.primary.blue}
+                                />
+                            }
                         />
                     ) : (
                         <SwipeListView
@@ -263,6 +280,14 @@ export default function ({ props, route, navigation }) {
                             // onLeftAction={()=>setShowModal(true)}
                             onSwipeValueChange={onSwipeValueChange}
                             style={{ marginBottom: 240 }}
+                            refreshControl={
+                                <RefreshControl
+                                    refreshing={refreshing}
+                                    onRefresh={onRefresh}
+                                    color={colors.primary.blue}
+                                    tintColor={colors.primary.blue}
+                                />
+                            }
                         />
                     )}
                 </Center>
@@ -282,6 +307,7 @@ export default function ({ props, route, navigation }) {
                             handleShowModal={handleShowModal}
                             refetch={refetch}
                             setShowModal={setShowModal}
+                            setIsCompleted={setIsCompleted}
                         />
                     ) : (
                         <ModalDetailForActivity

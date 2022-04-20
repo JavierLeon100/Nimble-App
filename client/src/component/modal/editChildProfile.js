@@ -45,7 +45,14 @@ export default function EditChildProfile({user, showModal, changeMode}){
                 <Center mb={2}>
                     <VStack w="80%">
                         <Text fontSize="16" opacity="0.7" mb={2}>Name</Text>
-                        <Text>{user}</Text>
+                        <Controller 
+                            control={control}
+                            render={({ field: { onChange, onBlur, value } })=>(
+                                <Input p={4} placeholder="Harry" borderRadius="10" 
+                                onChangeText={onChange} value={value} bg="white"/>
+                            )}
+                            name = "name"
+                            />
                        
                         <Text fontSize="16" opacity="0.7" mb={2} mt={2}>Birthday</Text>
                         <Controller 
