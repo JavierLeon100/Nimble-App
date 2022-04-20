@@ -33,8 +33,6 @@ export default function ({ fontsLoaded }) {
     const lottieRef = useRef(null);
     // const [status, setStatus] = useState({});
 
-    
-
     const slides = [
         {
             key: "one",

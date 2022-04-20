@@ -8,7 +8,7 @@ import {
 } from "@expo-google-fonts/quicksand";
 import AppLoading from "expo-app-loading";
 import OnBoardingScreen from "./OnBoardingScreen";
-import { createContext } from "react";
+import { createContext, useState } from "react";
 import { NavigationContainer } from "@react-navigation/native";
 import { ApolloClient, InMemoryCache, ApolloProvider } from "@apollo/client";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
@@ -31,6 +31,41 @@ const Stack = createNativeStackNavigator();
 export const fontsContext = createContext();
 
 export default function App() {
+
+    
+
+    // const [userName, setuserName] = useState('');
+    // const SERVER_LOCATION = 'http://34.229.169.165:4000/graphql';
+
+    // useEffect(() => {
+    //     if (localStorage.token) {
+    //         const jwtToken = localStorage.token.split('.');
+    //         const userDetail = JSON.parse(atob(jwtToken[1]));
+    //         console.log('userDetail', userDetail);
+    //         if (moment().isBefore(moment.unix(userDetail.exp))) {
+    //             setuserName(userDetail.username);
+    //             setIsLoggedIn(true);
+    //         } else {
+    //             toast.info('Your session has been expired.');
+    //             logout();
+    //         }
+    //     } else {
+    //         logout();
+    //     }
+    // }, []);
+
+    // const logout = () => {
+    //     setuserName('');
+    //     setIsLoggedIn(false);
+    //     localStorage.clear();
+    // };
+
+
+
+
+
+
+
     let [fontsLoaded] = useFonts({
         Quicksand_300Light,
         Quicksand_400Regular,
